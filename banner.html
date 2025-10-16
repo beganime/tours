@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>wemeet by weroad</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<style>
+		body {
+			font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+		}
+	</style>
+</head>
+
+<body class="bg-gray-900 text-white">
+
+	<!-- БАННЕР -->
+	<section class="relative w-full h-screen overflow-hidden">
+		<!-- Видео/фон -->
+		<video class="absolute inset-0 w-full h-full object-cover" autoplay muted loop playsinline>
+			<source src="https://videos.weroad.com/video-bg.mp4" type="video/mp4" />
+		</video>
+
+		<!-- Полупрозрачный слой -->
+		<div class="absolute inset-0 bg-black bg-opacity-30"></div>
+
+		<!-- Контент -->
+		<div class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
+			<h1 class="text-5xl md:text-6xl font-extrabold mb-2">
+				<span class="text-white">we</span><span class="text-gray-200">meet.</span>
+			</h1>
+			<span class="bg-[#E71D36] text-white font-bold px-3 py-1 rounded-md text-sm mb-6 inline-block">by WEROAD</span>
+
+			<p class="text-5xl font-extrabold leading-tight">Your free time</p>
+			<p class="text-5xl font-extrabold mb-4">Your new friends</p>
+
+			<p class="text-2xl text-white mb-6">Local events to connect with new people in real life</p>
+
+			<a href="#"
+				class="bg-[#E71D36] hover:bg-[#c9142d] transition text-white font-semibold w-[16rem] py-5 rounded-lg shadow-lg">
+				Get the app
+			</a>
+		</div>
+	</section>
+
+</body>
+
+</html>

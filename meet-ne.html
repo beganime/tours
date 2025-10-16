@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>WeMeet by WeRoad</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+	<!-- Heroicons for SVG icons -->
+	<script src="https://unpkg.com/feather-icons"></script>
+
+	<style>
+		body {
+			font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+			background-color: #fff;
+			color: #1f2937;
+		}
+	</style>
+</head>
+
+<body class="flex flex-col items-center justify-center px-6 py-12 md:px-16 lg:px-24">
+
+	<div class="max-w-7xl w-full grid lg:grid-cols-2 gap-10 items-center">
+		<!-- LEFT TEXT SECTION -->
+		<div>
+			<nav class="text-sm text-gray-500 mb-3 flex items-center space-x-1">
+				<i data-feather="home" class="w-4 h-4 text-gray-500"></i>
+				<span>Events & Community /</span>
+				<span class="text-gray-800 font-medium">Wemeet by WeRoad</span>
+			</nav>
+
+			<h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">
+				Meet new people while doing what you love
+			</h1>
+
+			<p class="text-gray-600 mb-6 leading-relaxed">
+				From drinks to running clubs, every event is a chance to meet like-minded people and have fun.
+			</p>
+
+			<ul class="space-y-4 text-gray-700">
+				<li class="flex items-start space-x-3">
+					<i data-feather="download" class="w-5 h-5 mt-1 text-gray-800"></i>
+					<div>
+						<span class="font-semibold">Download the app</span><br>
+						<span class="text-gray-500 text-sm">Sign up and dive in – it’s easy, free, and fun.</span>
+					</div>
+				</li>
+				<li class="flex items-start space-x-3">
+					<i data-feather="search" class="w-5 h-5 mt-1 text-gray-800"></i>
+					<div>
+						<span class="font-semibold">Find your event</span><br>
+						<span class="text-gray-500 text-sm">Find social events by city, date, or interest. One tap and you’re
+							in.</span>
+					</div>
+				</li>
+				<li class="flex items-start space-x-3">
+					<i data-feather="users" class="w-5 h-5 mt-1 text-gray-800"></i>
+					<div>
+						<span class="font-semibold">Meet your new friends</span><br>
+						<span class="text-gray-500 text-sm">Join, have fun, and meet people like you – ready to connect.</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<!-- RIGHT IMAGE SECTION -->
+		<div class="relative flex justify-center">
+			<img src="https://strapi-imaginary.weroad.it/resource/original/232907/" alt="WeMeet App Preview"
+				class="w-[280px] md:w-[340px] lg:w-[380px] rounded-[2rem] shadow-xl">
+
+			<!-- QR CODE -->
+			<div class="absolute -right-12 top-1/2 transform -translate-y-1/2 text-center">
+				<p class="text-gray-700 text-sm mb-2 rotate-[10deg] leading-tight">
+					Download<br>the app
+				</p>
+				<img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://weroad.com" alt="QR Code"
+					class="mx-auto w-20 h-20 border rounded-md shadow-sm">
+			</div>
+		</div>
+	</div>
+
+	<script>
+		feather.replace();
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>wemeet by weroad</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<script src="https://unpkg.com/feather-icons"></script>
+	<style>
+		body {
+			font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+		}
+
+		.card {
+			border-radius: 1rem;
+			background: #fff;
+			box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+			overflow: hidden;
+			transition: transform 0.3s ease;
+		}
+	</style>
+</head>
+
+<body class="bg-gray-900 text-white">
+
+	<!-- БАННЕР -->
+	<section class="relative w-full h-screen overflow-hidden">
+		<!-- Видео/фон -->
+		<video class="absolute inset-0 w-full h-full object-cover" autoplay muted loop playsinline>
+			<source src="https://videos.weroad.com/video-bg.mp4" type="video/mp4" />
+		</video>
+
+		<!-- Полупрозрачный слой -->
+		<div class="absolute inset-0 bg-black bg-opacity-30"></div>
+
+		<!-- Контент -->
+		<div class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
+			<h1 class="text-5xl md:text-6xl font-extrabold mb-2">
+				<span class="text-white">we</span><span class="text-gray-200">meet.</span>
+			</h1>
+			<span class="bg-[#E71D36] text-white font-bold px-3 py-1 rounded-md text-sm mb-6 inline-block">by WEROAD</span>
+
+			<p class="text-5xl font-extrabold leading-tight">Your free time</p>
+			<p class="text-5xl font-extrabold mb-4">Your new friends</p>
+
+			<p class="text-2xl text-white mb-6">Local events to connect with new people in real life</p>
+
+			<a href="#"
+				class="bg-[#E71D36] hover:bg-[#c9142d] transition text-white font-semibold w-[16rem] py-5 rounded-lg shadow-lg">
+				Get the app
+			</a>
+		</div>
+	</section>
+	<section class='flex flex-col items-center justify-center px-6 py-12 md:px-16 lg:px-24 bg-white'>
+		<div class="max-w-7xl w-full grid lg:grid-cols-2 gap-10 items-center">
+			<!-- LEFT TEXT SECTION -->
+			<div>
+				<nav class="text-sm text-gray-500 mb-3 flex items-center space-x-1">
+					<i data-feather="home" class="w-4 h-4 text-gray-500"></i>
+					<span>Events & Community /</span>
+					<span class="text-gray-800 font-medium">Wemeet by WeRoad</span>
+				</nav>
+
+				<h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">
+					Meet new people while doing what you love
+				</h1>
+
+				<p class="text-gray-600 mb-6 leading-relaxed">
+					From drinks to running clubs, every event is a chance to meet like-minded people and have fun.
+				</p>
+
+				<ul class="space-y-4 text-gray-700">
+					<li class="flex items-start space-x-3">
+						<i data-feather="download" class="w-5 h-5 mt-1 text-gray-800"></i>
+						<div>
+							<span class="font-semibold">Download the app</span><br>
+							<span class="text-gray-500 text-sm">Sign up and dive in – it’s easy, free, and fun.</span>
+						</div>
+					</li>
+					<li class="flex items-start space-x-3">
+						<i data-feather="search" class="w-5 h-5 mt-1 text-gray-800"></i>
+						<div>
+							<span class="font-semibold">Find your event</span><br>
+							<span class="text-gray-500 text-sm">Find social events by city, date, or interest. One tap and you’re
+								in.</span>
+						</div>
+					</li>
+					<li class="flex items-start space-x-3">
+						<i data-feather="users" class="w-5 h-5 mt-1 text-gray-800"></i>
+						<div>
+							<span class="font-semibold">Meet your new friends</span><br>
+							<span class="text-gray-500 text-sm">Join, have fun, and meet people like you – ready to connect.</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+
+			<!-- RIGHT IMAGE SECTION -->
+			<div class="relative flex justify-center">
+				<img src="https://strapi-imaginary.weroad.it/resource/original/232907/" alt="WeMeet App Preview"
+					class="w-[280px] md:w-[340px] lg:w-[380px] rounded-[2rem] shadow-xl">
+
+				<!-- QR CODE -->
+				<div class="absolute -right-2 top-1/2 transform -translate-y-1/2 text-center">
+					<p class="text-gray-700 text-sm mb-2 rotate-[10deg] leading-tight">
+						Download<br>the app
+					</p>
+					<img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://weroad.com" alt="QR Code"
+						class="mx-auto w-20 h-20 border rounded-md shadow-sm">
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- CARDSSSSSS BEGENCH -->
+
+	<section class='flex flex-col items-center p-8 space-y-20 bg-white'>
+		<!-- HEADER -->
+		<section class="text-center max-w-3xl">
+			<h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 mb-2">Events people can't stop talking about</h1>
+			<p class="text-gray-600">
+				From unforgettable nights to life-changing adventures — these are the experiences our community loves the most.
+			</p>
+		</section>
+
+		<!-- 1️⃣ Running Club -->
+		<section class="flex flex-col md:flex-row items-start gap-8 max-w-6xl w-full">
+			<!-- Left Text -->
+			<div class="flex-1">
+				<button
+					class="flex items-center gap-1 px-2 py-1 border border-gray-300 rounded-full text-xs font-medium text-gray-700 mb-3">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-gray-500" fill="none" viewBox="0 0 24 24"
+						stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+					</svg>
+					Sport
+				</button>
+				<h2 class="text-2xl font-bold mb-2">Running Club</h2>
+				<p class="font-semibold mb-3">Discover the city, one run at a time!</p>
+				<p class="text-gray-600 leading-relaxed mb-4">
+					Join our Running Club and train with new friends. Whether you’re a newbie, a seasoned runner who loves
+					company,
+					or just done with lonely jogs — we got you. Check them out in Dublin, and more cities coming soon!
+				</p>
+				<a href="#" class="text-[#1b7a72] font-medium underline">Download WeMeet app</a>
+				<span class="text-gray-700">and train with new friends.</span>
+			</div>
+			<!-- Right Images -->
+			<div class="flex-1 grid grid-cols-2 gap-2">
+				<img src="https://strapi-imaginary.weroad.it/resource/original/232907/" alt="Running 1"
+					class="w-full h-full object-cover rounded-lg col-span-2 md:col-span-1 md:row-span-2 md:h-[350px]">
+				<img src="https://images.unsplash.com/photo-1520975918311-39e34c0b49e9?auto=format&fit=crop&w=400&q=80"
+					alt="Running 2" class="rounded-lg object-cover h-44 w-full">
+				<img src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=400&q=80"
+					alt="Running 3" class="rounded-lg object-cover h-44 w-full">
+			</div>
+		</section>
+
+		<!-- 2️⃣ WeRoad Afterwork -->
+		<section class="flex flex-col md:flex-row-reverse items-start gap-8 max-w-6xl w-full">
+			<!-- Text -->
+			<div class="flex-1">
+				<button
+					class="flex items-center gap-1 px-2 py-1 border border-gray-300 rounded-full text-xs font-medium text-gray-700 mb-3">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-gray-500" fill="none" viewBox="0 0 24 24"
+						stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+					</svg>
+					Community & Reunion
+				</button>
+				<h2 class="text-2xl font-bold mb-2">WeRoad Afterwork</h2>
+				<p class="font-semibold mb-3">Because every trip deserves a toast!</p>
+				<p class="text-gray-600 leading-relaxed mb-4">
+					Ready to taste something new and raise a glass with fresh faces? Our events are the perfect excuse to meet
+					like-minded (and not-so-like-minded) people and chat about your next trip!
+				</p>
+				<p class="text-gray-600 mb-4">
+					Check them out in <span class="underline">London</span>, <span class="underline">Manchester</span>, <span
+						class="underline">Dublin</span>, <span class="underline">Liverpool</span>, <span
+						class="underline">Leeds</span>.
+				</p>
+				<a href="#" class="text-[#1b7a72] font-medium underline">Download WeMeet app</a>
+				<span class="text-gray-700">and just bring your good vibes… we’ll handle the rest!</span>
+			</div>
+			<!-- Images -->
+			<div class="flex-1 grid grid-cols-2 gap-2">
+				<img src="https://images.unsplash.com/photo-1527769929977-c341ee9f2033?auto=format&fit=crop&w=800&q=80"
+					alt="Afterwork 1"
+					class="w-full h-full object-cover rounded-lg col-span-2 md:col-span-1 md:row-span-2 md:h-[350px]">
+				<img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=400&q=80"
+					alt="Afterwork 2" class="rounded-lg object-cover h-44 w-full">
+				<img src="https://images.unsplash.com/photo-1589923188900-35a6b9a3d49a?auto=format&fit=crop&w=400&q=80"
+					alt="Afterwork 3" class="rounded-lg object-cover h-44 w-full">
+			</div>
+		</section>
+
+		<!-- 3️⃣ Dinner & New Friends -->
+		<section class="flex flex-col md:flex-row items-start gap-8 max-w-6xl w-full">
+			<!-- Text -->
+			<div class="flex-1">
+				<button
+					class="flex items-center gap-1 px-2 py-1 border border-gray-300 rounded-full text-xs font-medium text-gray-700 mb-3">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-gray-500" fill="none" viewBox="0 0 24 24"
+						stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+							d="M4 21v-8a9 9 0 0118 0v8M9 21v-8a3 3 0 016 0v8" />
+					</svg>
+					Food, Wine & Drinks
+				</button>
+				<h2 class="text-2xl font-bold mb-2">Dinner & new friends</h2>
+				<p class="font-semibold mb-3">Looking to spice up your Thursday nights?</p>
+				<p class="text-gray-600 leading-relaxed mb-4">
+					Join us for Dinner & New Friends — a weekly culinary journey where you’ll savor mouthwatering food, explore
+					hidden gems, and forge new connections.
+				</p>
+				<a href="#" class="text-[#1b7a72] font-medium underline">Download WeMeet app</a>
+				<span class="text-gray-700">No pretenses, just good vibes and amazing company.</span>
+			</div>
+			<!-- Images -->
+			<div class="flex-1 grid grid-cols-2 gap-2">
+				<img src="https://images.unsplash.com/photo-1564758566841-ccb6caa9b9e6?auto=format&fit=crop&w=800&q=80"
+					alt="Dinner 1"
+					class="w-full h-full object-cover rounded-lg col-span-2 md:col-span-1 md:row-span-2 md:h-[350px]">
+				<img src="https://images.unsplash.com/photo-1579880651718-3b5e0e2d6a48?auto=format&fit=crop&w=400&q=80"
+					alt="Dinner 2" class="rounded-lg object-cover h-44 w-full">
+				<img src="https://images.unsplash.com/photo-1590080875838-62d0b9df00b3?auto=format&fit=crop&w=400&q=80"
+					alt="Dinner 3" class="rounded-lg object-cover h-44 w-full">
+			</div>
+		</section>
+	</section>
+	<section
+		class="relative flex flex-col  md:flex-row items-center justify-center py-24 px-6 md:px-20 bg-gradient-to-r from-[#dff1ff] to-[#f4f2ff]">
+
+		<!-- Left overlapping cards -->
+		<div class="relative flex items-center max-w-3xl justify-center md:w-1/2 mb-10 md:mb-0">
+
+			<!-- Back card -->
+			<div class="card w-72 md:w-80 transform translate-x-10 translate-y-8 z-0">
+				<img src="https://strapi-imaginary.weroad.it/resource/medium/231556/"
+					alt="Tennis Social: Make Friends & Stay Active" class="w-full h-48 object-cover">
+				<div class="p-4">
+					<div class="flex items-center text-gray-500 text-sm mb-1">
+						<span class="flex items-center mr-2">🕒 19:00</span>
+						<span class="flex items-center">📍 London</span>
+					</div>
+					<h3 class="text-gray-900 font-semibold text-sm leading-snug mb-2">
+						Tennis Social: Make Friends & Stay Active
+					</h3>
+					<div class="flex items-center justify-between text-xs text-gray-500 mb-3">
+						<span>21 AUG</span>
+						<span>London</span>
+					</div>
+					<div class="flex items-center gap-2 text-xs">
+						<span class="bg-gray-100 px-2 py-0.5 rounded">Sport</span>
+						<span class="bg-gray-100 px-2 py-0.5 rounded">Free entry</span>
+					</div>
+					<div class="flex items-center mt-3">
+						<img src="https://randomuser.me/api/portraits/men/77.jpg"
+							class="w-6 h-6 rounded-full -ml-1 border border-white" alt="">
+						<img src="https://randomuser.me/api/portraits/women/30.jpg"
+							class="w-6 h-6 rounded-full -ml-1 border border-white" alt="">
+						<img src="https://randomuser.me/api/portraits/men/24.jpg"
+							class="w-6 h-6 rounded-full -ml-1 border border-white" alt="">
+						<span class="text-xs text-gray-500 ml-2">13 going</span>
+					</div>
+				</div>
+			</div>
+
+			<!-- Front card -->
+			<div class="absolute top-0 left-0 card w-72 md:w-80 transform -rotate-1 -translate-x-8 -translate-y-6 z-10">
+				<img src="https://strapi-imaginary.weroad.it/resource/medium/231555/" alt="Board Games & New Friends"
+					class="w-full h-48 object-cover">
+				<div class="p-4">
+					<div class="flex items-center text-gray-500 text-sm mb-1">
+						<span class="flex items-center mr-2">🕒 18:30</span>
+						<span class="flex items-center">📍 London</span>
+					</div>
+					<h3 class="text-gray-900 font-semibold text-sm leading-snug mb-2">
+						Board Games & New Friends
+					</h3>
+					<div class="flex items-center justify-between text-xs text-gray-500 mb-3">
+						<span>19 AUG</span>
+						<span>London</span>
+					</div>
+					<div class="flex items-center gap-2 text-xs">
+						<span class="bg-gray-100 px-2 py-0.5 rounded">Free entry</span>
+						<span class="bg-gray-100 px-2 py-0.5 rounded">Entertainment & Free Time</span>
+					</div>
+					<div class="flex items-center mt-3">
+						<img src="https://randomuser.me/api/portraits/women/68.jpg"
+							class="w-6 h-6 rounded-full -ml-1 border border-white" alt="">
+						<img src="https://randomuser.me/api/portraits/men/32.jpg"
+							class="w-6 h-6 rounded-full -ml-1 border border-white" alt="">
+						<img src="https://randomuser.me/api/portraits/women/12.jpg"
+							class="w-6 h-6 rounded-full -ml-1 border border-white" alt="">
+						<span class="text-xs text-gray-500 ml-2">10 going</span>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<!-- Right side text -->
+		<div class="md:w-1/2 text-center md:text-left md:pl-16">
+			<h2 class="text-3xl md:text-4xl font-extrabold text-gray-800 mb-3 leading-snug">
+				And if doesn't exist yet…
+			</h2>
+			<p class="text-gray-600 mb-6 leading-relaxed max-w-md mx-auto md:mx-0">
+				We like the proactivity. You bring your ideas and passions, we give you tools and visibility — it’s a double
+				win!
+			</p>
+			<button class="bg-rose-500 hover:bg-rose-600 text-white font-semibold px-8 py-3 rounded-md shadow">
+				Create your event!
+			</button>
+		</div>
+
+	</section>
+
+	<section class='flex flex-col items-center justify-center min-h-screen px-4 py-12 bg-white'>
+		<section class="w-full max-w-6xl text-center">
+			<h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-3">
+				Good vibes, confirmed!
+			</h2>
+			<p class="text-gray-500 text-sm md:text-base mb-12">
+				You can read the reviews here, but next time we suggest you ask them in real life – you just need to join the
+				next
+				event.
+			</p>
+
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-6">
+
+				<!-- Card 1 -->
+				<div class="text-center">
+					<span class="text-2xl text-gray-400 block mb-3">❝</span>
+					<p class="text-sm text-gray-700 mb-4 leading-relaxed">
+						I really loved the chill and cozy atmosphere.<br>
+						Amazing food and made some new friend.
+					</p> <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Amy"
+						class="w-10 h-10 rounded-full mx-auto mb-2">
+					<p class="font-medium text-sm">Amy</p>
+					<p class="text-xs text-gray-500">32, Designer</p>
+				</div>
+
+				<!-- Card 2 -->
+				<div class="text-center">
+					<span class="text-2xl text-gray-400 block mb-3">❝</span>
+					<p class="text-sm text-gray-700 mb-4 leading-relaxed">
+						WeMeet is my happy place. I’ve been waiting<br>
+						for a community like this.
+					</p>
+					<img src="https://randomuser.me/api/portraits/men/54.jpg" alt="Carlos"
+						class="w-10 h-10 rounded-full mx-auto mb-2">
+					<p class="font-medium text-sm">Carlos</p>
+					<p class="text-xs text-gray-500">29, Hairdresser</p>
+				</div>
+
+				<!-- Card 3 -->
+				<div class="text-center">
+					<span class="text-2xl text-gray-400 block mb-3">❝</span>
+					<p class="text-sm text-gray-700 mb-4 leading-relaxed">
+						I felt like I was back in uni. People were very<br>
+						relaxed and everyone was just so nice.
+					</p>
+					<img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Francesca"
+						class="w-10 h-10 rounded-full mx-auto mb-2">
+					<p class="font-medium text-sm">Francesca</p>
+					<p class="text-xs text-gray-500">31, Engineer</p>
+				</div>
+
+			</div>
+		</section>
+	</section>
+	<section class="relative w-full overflow-hidden bg-white">
+		<!-- Текст сверху -->
+		<div class="text-center mt-16 mb-8">
+			<h2 class="text-xl sm:text-2xl font-extrabold mb-1 text-gray-900">Ready to make new friends?</h2>
+			<p class="text-sm text-gray-500">
+				Then download the app, ’cause it’s the easiest way to join the community and find events near you.
+			</p>
+		</div>
+
+		<!-- Фоновое изображение -->
+		<div class="relative w-full ">
+			<img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=1920&q=80"
+				alt="Running people" class="w-full h-[500px] object-cover" />
+
+			<!-- QR код по центру фона -->
+			<div class="absolute inset-0 flex top-5 justify-center">
+				<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://weroad.it" alt="QR Code"
+					class="w-32 h-32 bg-white p-2 rounded-lg shadow-lg" />
+			</div>
+		</div>
+	</section>
+
+
+	<script>
+
+
+		feather.replace();
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>City Slider — Tailwind</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+	<style>
+		body {
+			font-family: 'Inter', system-ui, sans-serif;
+			background-color: #fdfaf2;
+			color: #111827;
+			overflow-x: hidden;
+		}
+
+		.slide {
+			transition: transform 0.6s ease-in-out;
+		}
+
+		.dot {
+			transition: background-color 0.3s;
+		}
+
+		.dot.active {
+			background-color: #1b7a72;
+		}
+
+		img {
+			user-select: none;
+			pointer-events: none;
+		}
+	</style>
+</head>
+
+<body class="flex flex-col items-center justify-center min-h-screen">
+
+	<!-- Section -->
+	<section class="w-full max-w-7xl text-center py-12 px-4 md:px-8">
+		<h2 class="text-2xl md:text-3xl font-extrabold mb-2">Wherever you are, something’s happening</h2>
+		<p class="text-gray-900 text-sm md:text-base mb-6 max-w-3xl mx-auto leading-relaxed">
+			Whether you're chasing sunsets, street food, or new friendships, there's a city with your name on it.
+			<a href="#" class="text-[#1b7a72] underline font-bold">Download the app</a>, choose a city and start planning
+			your next adventure.
+		</p>
+
+		<!-- Slider Container -->
+		<div class="relative overflow-hidden">
+			<div id="slider" class="flex transition-transform duration-700 ease-in-out">
+
+				<!-- Slides (5 total, 6 cards each) -->
+				<!-- Slide 1 -->
+				<div class="slide min-w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-center px-2 md:px-4">
+					<template id="slide-template-1"></template>
+				</div>
+
+				<!-- Slide 2 -->
+				<div class="slide min-w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-center px-2 md:px-4">
+					<template id="slide-template-2"></template>
+				</div>
+
+				<!-- Slide 3 -->
+				<div class="slide min-w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-center px-2 md:px-4">
+					<template id="slide-template-3"></template>
+				</div>
+
+				<!-- Slide 4 -->
+				<div class="slide min-w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-center px-2 md:px-4">
+					<template id="slide-template-4"></template>
+				</div>
+
+				<!-- Slide 5 -->
+				<div class="slide min-w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-center px-2 md:px-4">
+					<template id="slide-template-5"></template>
+				</div>
+
+			</div>
+
+			<!-- Dots -->
+			<div class="flex justify-center mt-6 space-x-2">
+				<div class="dot w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-gray-300 cursor-pointer" onclick="moveToSlide(0)">
+				</div>
+				<div class="dot w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-gray-300 cursor-pointer" onclick="moveToSlide(1)">
+				</div>
+				<div class="dot w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-gray-300 cursor-pointer" onclick="moveToSlide(2)">
+				</div>
+				<div class="dot w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-gray-300 cursor-pointer" onclick="moveToSlide(3)">
+				</div>
+				<div class="dot w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-gray-300 cursor-pointer" onclick="moveToSlide(4)">
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<script>
+		const slider = document.getElementById('slider')
+		const dots = document.querySelectorAll('.dot')
+		let index = 0
+		const totalSlides = 5
+
+		const cities = [
+			{ country: 'Spain', city: 'Barcelona' },
+			{ country: 'Italy', city: 'Milan' },
+			{ country: 'Spain', city: 'Madrid' },
+			{ country: 'Italy', city: 'Rome' },
+			{ country: 'France', city: 'Marseille' },
+			{ country: 'Germany', city: 'Munich' },
+			{ country: 'Netherlands', city: 'Amsterdam' },
+			{ country: 'Portugal', city: 'Lisbon' },
+			{ country: 'Greece', city: 'Athens' },
+			{ country: 'Turkey', city: 'Istanbul' },
+			{ country: 'Czech Republic', city: 'Prague' },
+			{ country: 'Poland', city: 'Warsaw' },
+			{ country: 'Hungary', city: 'Budapest' },
+			{ country: 'Austria', city: 'Vienna' },
+			{ country: 'Switzerland', city: 'Zurich' },
+			{ country: 'Croatia', city: 'Dubrovnik' },
+			{ country: 'Norway', city: 'Oslo' },
+			{ country: 'Sweden', city: 'Stockholm' },
+			{ country: 'Denmark', city: 'Copenhagen' },
+			{ country: 'Finland', city: 'Helsinki' },
+			{ country: 'Iceland', city: 'Reykjavik' },
+			{ country: 'UK', city: 'London' },
+			{ country: 'Ireland', city: 'Dublin' },
+			{ country: 'Belgium', city: 'Brussels' },
+			{ country: 'Luxembourg', city: 'Luxembourg' },
+			{ country: 'Slovenia', city: 'Ljubljana' },
+			{ country: 'Estonia', city: 'Tallinn' },
+			{ country: 'Latvia', city: 'Riga' },
+			{ country: 'Lithuania', city: 'Vilnius' },
+			{ country: 'Malta', city: 'Valletta' },
+		]
+
+		function createCard(country, city) {
+			return `
+        <div class="relative w-full h-52 sm:h-56 md:h-60 lg:h-64 rounded-xl overflow-hidden shadow-md">
+          <img src="https://via.placeholder.com/400x300?text=${city}" class="absolute inset-0 w-full h-full object-cover" alt="${city}">
+          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3 text-left">
+            <p class="text-white text-sm md:text-base font-medium">${country}</p>
+            <h3 class="text-white text-lg md:text-xl font-semibold">${city}</h3>
+          </div>
+        </div>`
+		}
+
+		function populateSlides() {
+			const slides = document.querySelectorAll('.slide')
+			let cityIndex = 0
+			slides.forEach(slide => {
+				for (let i = 0; i < 6; i++) {
+					if (cityIndex < cities.length) {
+						slide.innerHTML += createCard(cities[cityIndex].country, cities[cityIndex].city)
+						cityIndex++
+					}
+				}
+			})
+		}
+
+		populateSlides()
+
+		function updateSlider() {
+			slider.style.transform = `translateX(-${index * 100}%)`
+			dots.forEach((dot, i) => dot.classList.toggle('active', i === index))
+		}
+
+		function moveToSlide(i) {
+			index = i
+			updateSlider()
+		}
+
+		setInterval(() => {
+			index = (index + 1) % totalSlides
+			updateSlider()
+		}, 4500)
+
+		updateSlider();
+	</script>
+
+</body>
+
+</html>
