@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hero — Come on board!</title>
+    <!-- Tailwind Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+    html,
+    body {
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", "Noto Sans", sans-serif
+    }
+    </style>
+</head>
+
+<body class="bg-black">
+    <!-- HERO -->
+    <section class="relative w-full h-[430px] md:h-[70vh] overflow-hidden">
+        <!-- BG image (замени src при необходимости) -->
+        <img src="https://images.unsplash.com/photo-1518684079-3c830dcef090?q=80&w=1920&auto=format&fit=crop" alt="" class="absolute inset-0 w-full h-full object-cover scale-105" />
+        <!-- Виньетка/градиент -->
+        <div class="absolute inset-0 bg-black/35"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/55 via-black/25 to-transparent"></div>
+        <!-- Контейнер -->
+        <div class="relative z-10 h-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- MOBILE (< md): как на скрине -->
+            <div class="md:hidden h-full flex items-center justify-center">
+                <div class="w-full max-w-[320px] text-center">
+                    <div class="mb-3 leading-tight drop-shadow">
+                        <div class="text-white font-extrabold text-[18px]">Come on board!</div>
+                        <div class="text-white/90 text-[11.5px] -mt-0.5">Make a life, not a living.</div>
+                    </div>
+                    <div class="flex flex-col items-center gap-3">
+                        <a href="#" class="w-[280px] inline-flex items-center justify-center px-6 py-3 rounded-xl bg-[#ff4058] hover:bg-[#e93a51] text-white text-[18px] font-extrabold shadow-md transition">
+                            See jobs &amp; apply
+                        </a>
+                        <a href="#" class="w-[280px] inline-flex items-center justify-center px-6 py-3 rounded-xl border border-white/90 text-white text-[16px] font-semibold bg-black/45 hover:bg-black/55 backdrop-blur-[2px] shadow-sm transition">
+                            Become a Travel<br class="sm:hidden" /> Coordinator
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- DESKTOP (>= md): исходный левый блок -->
+            <div class="hidden md:flex h-full items-end">
+                <div class="pb-10 sm:pb-14">
+                    <h1 class="text-white font-extrabold leading-tight tracking-tight text-4xl sm:text-5xl md:text-6xl">
+                        Come on board!
+                    </h1>
+                    <p class="mt-2 text-white/90 text-lg sm:text-xl">
+                        Make a life, not a living.
+                    </p>
+                    <div class="mt-5 flex flex-wrap gap-3">
+                        <a href="#" class="inline-flex items-center justify-center px-5 py-3 rounded-md bg-red-600 hover:bg-red-700 text-white font-semibold shadow-md transition">
+                            See jobs &amp; apply
+                        </a>
+                        <a href="#" class="inline-flex items-center justify-center px-5 py-3 rounded-md border border-white/30 bg-white/10 hover:bg-white/20 text-white font-semibold backdrop-blur-sm transition">
+                            Become a Travel Coordinator
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- /DESKTOP -->
+        </div>
+    </section>
+</body>
+
+</html>

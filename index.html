@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hero — Come on board!</title>
+    <!-- Tailwind Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+    :root {
+        --wr-red: #ed1c24;
+        /* фирменный красный как на скрине */
+        --ink: #1f2937;
+        --line: #e5e7eb;
+    }
+
+    .menu-btn {
+        background: var(--wr-red);
+        color: #fff;
+        height: 38px;
+        line-height: 38px;
+        border-radius: 6px;
+        padding: 0 36px 0 12px;
+        font-weight: 700;
+        font-size: 14px;
+        letter-spacing: .1px;
+        position: relative;
+        box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .08);
+    }
+
+    .menu-btn svg {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none
+    }
+
+    .menu {
+        background: var(--wr-red);
+        color: #fff;
+        border-radius: 6px;
+        padding: 6px 0;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, .18);
+        width: 220px;
+    }
+
+    .menu a {
+        display: block;
+        padding: 8px 12px;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .menu a:hover {
+        background: rgba(255, 255, 255, .1)
+    }
+
+    .job a {
+        display: block;
+        padding: 14px 0
+    }
+
+    .job+.job {
+        border-top: 1px solid var(--line)
+    }
+
+    .job h3 {
+        font-weight: 800;
+        font-size: 18px;
+        letter-spacing: .1px
+    }
+
+    .job p {
+        font-size: 12px;
+        color: #6b7280;
+        margin-top: 2px
+    }
+
+    @media (min-width:1024px) {
+        .job h3 {
+            font-size: 19px
+        }
+    }
+    </style>
+</head>
+
+<body>
+    <section class="bg-black">
+        <!-- HERO -->
+        <section class="relative w-full h-[430px] md:h-[70vh] overflow-hidden">
+            <!-- BG image (замени src при необходимости) -->
+            <img src="https://images.unsplash.com/photo-1518684079-3c830dcef090?q=80&w=1920&auto=format&fit=crop" alt="" class="absolute inset-0 w-full h-full object-cover scale-105" />
+            <!-- Виньетка/градиент -->
+            <div class="absolute inset-0 bg-black/35"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/55 via-black/25 to-transparent"></div>
+            <!-- Контейнер -->
+            <div class="relative z-10 h-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- MOBILE (< md): как на скрине -->
+                <div class="md:hidden h-full flex items-center justify-center">
+                    <div class="w-full max-w-[320px] text-left md:text-center">
+                        <div class="mb-3 leading-tight drop-shadow ">
+                            <div class="text-white font-extrabold text-[18px] pl-5 md:pl-0">Come on board!</div>
+                            <div class="text-white/90 text-[11.5px] -mt-0.5 pl-5 md:pl-0">Make a life, not a living.</div>
+                        </div>
+                        <div class="flex flex-col items-center gap-3">
+                            <a href="#" class="w-[280px] inline-flex items-center justify-center px-6 py-3 rounded-xl bg-[#ff4058] hover:bg-[#e93a51] text-white text-[18px] font-extrabold shadow-md transition">
+                                See jobs &amp; apply
+                            </a>
+                            <a href="#" class="w-[280px] inline-flex items-center justify-center px-6 py-3 rounded-xl border border-white/90 text-white text-[16px] font-semibold bg-black/45 hover:bg-black/55 backdrop-blur-[2px] shadow-sm transition">
+                                Become a Travel Coordinator
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- DESKTOP (>= md): исходный левый блок -->
+                <div class="hidden md:flex h-full items-end">
+                    <div class="pb-10 sm:pb-14">
+                        <h1 class="text-white font-extrabold leading-tight tracking-tight text-4xl sm:text-5xl md:text-6xl">
+                            Come on board!
+                        </h1>
+                        <p class="mt-2 text-white/90 text-lg sm:text-xl">
+                            Make a life, not a living.
+                        </p>
+                        <div class="mt-5 flex flex-wrap gap-3">
+                            <a href="#" class="inline-flex items-center justify-center px-5 py-3 rounded-md bg-red-600 hover:bg-red-700 text-white font-semibold shadow-md transition">
+                                See jobs &amp; apply
+                            </a>
+                            <a href="#" class="inline-flex items-center justify-center px-5 py-3 rounded-md border border-white/30 bg-white/10 hover:bg-white/20 text-white font-semibold backdrop-blur-sm transition">
+                                Become a Travel Coordinator
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- /DESKTOP -->
+            </div>
+        </section>
+    </section>
+    <section class="bg-[#151515] text-white">
+        <section class="py-10 md:py-20">
+            <div class="mx-auto px-4 md:px-8 max-w-[1120px]">
+                <!-- Small intro text -->
+                <p class="text-[15px] md:text-[16px] leading-relaxed text-[#cfcfcf] md:max-w-[980px]">
+                    We are a team of over 200 talented individuals from diverse backgrounds all united by our passion for
+                    travel, cultures and connecting people! And guess what – we’re just getting started!
+                </p>
+                <!-- Big headline -->
+                <h1 class="mt-5 md:mt-8 font-extrabold tracking-[-0.015em] leading-[1.1]
+                 text-[28px] md:text-[44px] md:max-w-[1000px]">
+                    We are building an incredible team that is
+                    revolutionising the way millennials discover the
+                    world.<br class="block" />
+                    Come and join the adventure!
+                </h1>
+                <!-- Bottom paragraph -->
+                <p class="mt-6 md:mt-8 text-[15px] md:text-[16px] leading-relaxed text-[#b8b8b8] md:max-w-[980px]">
+                    Not enough experience? No problem! Here at WeRoad we value potential, talent, and culture fit over
+                    what’s on your CV. So if you love to travel and are ready for the job of a lifetime, apply now and
+                    join our team in Milan, Madrid, London, Paris or Berlin!
+                </p>
+            </div>
+        </section>
+    </section>
+    <!-- Mobile spacing tuning (keeps desktop unchanged) -->
+    <style>
+    @media (max-width: 767px) {
+
+        /* match tight mobile look from screenshots */
+        h1 {
+            word-spacing: 1px;
+        }
+
+        p {
+            word-spacing: 0.2px;
+        }
+    }
+    </style>
+    <section class="bg-white">
+        <main class="max-w-4xl mx-auto px-5 md:px-6 lg:px-8 py-8 md:py-12">
+            <!-- Header row -->
+            <div class="flex flex-col md:flex-row  items-start md:items-center justify-between gap-4">
+                <h1 class="text-[28px] md:text-[34px] lg:text-[38px] font-extrabold leading-tight">Job Openings</h1>
+                <!-- Filters -->
+                <!-- Mobile: две кнопки рядом (как на 3-м скрине). Десктоп: справа от заголовка -->
+                <div class="w-full sm:w-auto grid grid-cols-2 gap-2 sm:grid-cols-2 sm:gap-2 md:grid-cols-2 md:gap-2 lg:grid-cols-2 ">
+                    <!-- Teams -->
+                    <div class="relative" data-dropdown="teams">
+                        <button class="menu-btn w-full sm:w-[180px]" data-btn="teams">
+                            <span>All Teams</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9" /></svg>
+                        </button>
+                        <div class="menu absolute -right-10 mt-2 hidden z-20" data-menu="teams">
+                            <a href="#" data-value="all">All Teams</a>
+                            <a href="#" data-value="ABC (Company)">ABC (Company)</a>
+                            <a href="#" data-value="Ambassador & Community">Ambassador & Community</a>
+                            <a href="#" data-value="Commercial">Commercial</a>
+                            <a href="#" data-value="Finance">Finance</a>
+                            <a href="#" data-value="Growth">Growth</a>
+                            <a href="#" data-value="Marketing">Marketing</a>
+                            <a href="#" data-value="People">People</a>
+                            <a href="#" data-value="Tech&Product (aka Monkeys)">Tech&Product (aka Monkeys)</a>
+                            <a href="#" data-value="Tour Operator">Tour Operator</a>
+                            <a href="#" data-value="WeRoad X">WeRoad X</a>
+                        </div>
+                    </div>
+                    <!-- Locations -->
+                    <div class="relative" data-dropdown="locations">
+                        <button class="menu-btn w-full sm:w-[180px]" data-btn="locations">
+                            <span>All locations</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9" /></svg>
+                        </button>
+                        <div class="menu absolute right-0 mt-2 hidden z-20" data-menu="locations">
+                            <a href="#" data-value="all">All locations</a>
+                            <a href="#" data-value="Amsterdam">Amsterdam</a>
+                            <a href="#" data-value="Around the World">Around the World</a>
+                            <a href="#" data-value="Barcelona">Barcelona</a>
+                            <a href="#" data-value="Berlin">Berlin</a>
+                            <a href="#" data-value="Chiasso">Chiasso</a>
+                            <a href="#" data-value="Full Remote">Full Remote</a>
+                            <a href="#" data-value="London">London</a>
+                            <a href="#" data-value="Madrid">Madrid</a>
+                            <a href="#" data-value="Manchester">Manchester</a>
+                            <a href="#" data-value="Milan">Milan</a>
+                            <a href="#" data-value="Munich">Munich</a>
+                            <a href="#" data-value="Paris">Paris</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- List -->
+            <section id="jobs" class="mt-4 md:mt-6">
+                <!-- каждая строка = вакансия -->
+                <div class="job" data-team="Commercial" data-location="Milan">
+                    <a href="#">
+                        <h3>Customer Care Assistant</h3>
+                        <p>Commercial · Milan</p>
+                    </a>
+                </div>
+                <div class="job" data-team="Commercial" data-location="London">
+                    <a href="#">
+                        <h3>Sales &amp; Customer Care Manager</h3>
+                        <p>Commercial · London</p>
+                    </a>
+                </div>
+                <div class="job" data-team="Finance" data-location="Milan">
+                    <a href="#">
+                        <h3>Senior Accountant</h3>
+                        <p>Finance · Milan</p>
+                    </a>
+                </div>
+                <div class="job" data-team="Tech&Product (aka Monkeys)" data-location="Full Remote">
+                    <a href="#">
+                        <h3>Senior Full Stack Engineer</h3>
+                        <p>Tech&amp;Product (aka Monkeys) · Full Remote</p>
+                    </a>
+                </div>
+                <div class="job" data-team="Commercial" data-location="Paris">
+                    <a href="#">
+                        <h3>Customer Care Assistant (Alternance)</h3>
+                        <p>Commercial · Paris</p>
+                    </a>
+                </div>
+                <div class="job" data-team="Tech&Product (aka Monkeys)" data-location="Milan">
+                    <a href="#">
+                        <h3>Staff Full Stack Engineer</h3>
+                        <p>Tech&amp;Product (aka Monkeys) · Milan</p>
+                    </a>
+                </div>
+                <div class="job" data-team="People" data-location="Milan">
+                    <a href="#">
+                        <h3>AI Native Builder (People)</h3>
+                        <p>People · Milan</p>
+                    </a>
+                </div>
+                <div class="job" data-team="Commercial" data-location="Milan">
+                    <a href="#">
+                        <h3>Sales Specialist</h3>
+                        <p>Commercial · Milan</p>
+                    </a>
+                </div>
+                <div class="job" data-team="Commercial" data-location="Paris">
+                    <a href="#">
+                        <h3>Business Development Manager – FRANCE area</h3>
+                        <p>Commercial · Paris</p>
+                    </a>
+                </div>
+                <div class="job" data-team="Commercial" data-location="Berlin">
+                    <a href="#">
+                        <h3>Business Development Manager – DACH area</h3>
+                        <p>Commercial · Berlin</p>
+                    </a>
+                </div>
+                <div class="job" data-team="Finance" data-location="Milan">
+                    <a href="#">
+                        <h3>Treasury Manager</h3>
+                        <p>Finance · Milan</p>
+                    </a>
+                </div>
+                <div class="job" data-team="Marketing" data-location="Berlin">
+                    <a href="#">
+                        <h3>Intern / Working Student Marketing &amp; Event</h3>
+                        <p>Marketing · Berlin</p>
+                    </a>
+                </div>
+                <div class="job" data-team="Ambassador & Community" data-location="Around the World">
+                    <a href="#">
+                        <h3>Travel Coordinator – DACH Community</h3>
+                        <p>Ambassador &amp; Community · Around the World</p>
+                    </a>
+                </div>
+                <div class="job" data-team="Ambassador & Community" data-location="Around the World">
+                    <a href="#">
+                        <h3>Travel Coordinator – French Community</h3>
+                        <p>Ambassador &amp; Community · Around the World</p>
+                    </a>
+                </div>
+                <div class="job" data-team="Ambassador & Community" data-location="Around the World">
+                    <a href="#">
+                        <h3>Travel Coordinator – World English Community</h3>
+                        <p>Ambassador &amp; Community · Around the World</p>
+                    </a>
+                </div>
+                <div class="job" data-team="Ambassador & Community" data-location="Around the World">
+                    <a href="#">
+                        <h3>Travel Coordinator | Italian Community</h3>
+                        <p>Ambassador &amp; Community · Around the World</p>
+                    </a>
+                </div>
+            </section>
+        </main>
+    </section>
+    <script>
+    // Простая утилита для выпадающих меню и фильтрации
+    (function() {
+        const state = {
+            team: 'all',
+            location: 'all'
+        };
+
+        // Открытие/закрытие
+        document.querySelectorAll('[data-dropdown]').forEach(box => {
+            const key = box.getAttribute('data-dropdown');
+            const btn = box.querySelector(`[data-btn="${key}"]`);
+            const menu = box.querySelector(`[data-menu="${key}"]`);
+
+            btn.addEventListener('click', e => {
+                e.stopPropagation();
+                closeAll();
+                menu.classList.toggle('hidden');
+            });
+
+            // выбор значения
+            menu.querySelectorAll('a').forEach(a => {
+                a.addEventListener('click', e => {
+                    e.preventDefault();
+                    const val = a.getAttribute('data-value');
+                    btn.querySelector('span').textContent = val === 'all' ?
+                        (key === 'teams' ? 'All Teams' : 'All locations') :
+                        val;
+                    state[key === 'teams' ? 'team' : 'location'] = val;
+                    menu.classList.add('hidden');
+                    applyFilters();
+                });
+            });
+        });
+
+        function closeAll() {
+            document.querySelectorAll('.menu').forEach(m => m.classList.add('hidden'));
+        }
+        window.addEventListener('click', closeAll);
+        window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAll(); });
+
+        function applyFilters() {
+            const rows = document.querySelectorAll('#jobs .job');
+            rows.forEach(r => {
+                const t = r.getAttribute('data-team');
+                const l = r.getAttribute('data-location');
+                const okTeam = state.team === 'all' || state.team === t;
+                const okLoc = state.location === 'all' || state.location === l;
+                r.style.display = (okTeam && okLoc) ? '' : 'none';
+            });
+        }
+    })();
+    </script>
+</body>
+<html>
