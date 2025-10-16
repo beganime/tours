@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The old continent</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial;background:#fff;color:#1f2937}
+    .overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.38) 0%,rgba(0,0,0,.18) 45%,rgba(0,0,0,.42) 100%)}
+    .heart{filter:drop-shadow(0 2px 4px rgba(0,0,0,.3));}
+    .heart svg{width:28px;height:28px;fill:#fff}
+
+    /* Slider helpers (из твоего кода) */
+    .dot{width:6px;height:6px;border-radius:9999px;background:#d1d5db;display:inline-block}
+    .dot-active{background:#ef4444}
+    .navbtn{width:42px;height:42px;border-radius:9999px;background:#fff;box-shadow:0 6px 16px rgba(0,0,0,.12);display:grid;place-items:center}
+    .navbtn svg{width:18px;height:18px}
+
+    /* Карточки слайдера */
+    .card-grad{position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,.78) 0%, rgba(0,0,0,.38) 48%, rgba(0,0,0,.08) 100%)}
+    .chip{background:rgba(0,0,0,.72);color:#fff;font-size:12px;font-weight:700;padding:2px 8px;border-radius:8px}
+    .price-pill{background:rgba(255,255,255,.2);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);color:#fff;font-size:12px;padding:2px 8px;border-radius:8px}
+
+    /* Модалка */
+    .backdrop{background:rgba(17,24,39,.45);backdrop-filter:blur(2px)}
+    .modal-enter{animation:pop .18s ease-out}
+    @keyframes pop{from{transform:translate(-50%,-8px);opacity:0}to{transform:translate(-50%,0);opacity:1}}
+
+    /* Звезды рейтинга */
+    .rating-stars { display: flex; gap: 1px; }
+    .star { width: 14px; height: 14px; background-color: #16A34A; display: flex; align-items: center; justify-content: center; border-radius: 2px; }
+    .star svg { width: 8px; height: 8px; fill: white; }
+
+  
+  </style>
+</head>
+
+<body class="m-0 p-0">
+    <section class="relative w-full h-[100vh] bg-center bg-cover flex items-center justify-center mb-5" style="background-image: url('https://strapi-imaginary.weroad.it/resource/webp-cover/2578/.webp');">
+        <!-- Overlay -->
+        <div class="absolute inset-0 bg-black/30"></div>
+        <!-- Title -->
+        <h1 class="relative text-white text-4xl md:text-6xl font-extrabold text-center drop-shadow-lg">
+            Top Sellers
+        </h1>
+    </section>
+    <section class='text-gray-900'>
+        <header class="w-full mx-auto center mb-20">
+            <nav class="mx-auto max-w-6xl px-4 py-4 center">
+                <ol class="flex items-center gap-2 text-sm text-gray-500 justify-center">
+                    <!-- home -->
+                    <li class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m3 10.5 9-7.5 9 7.5M4.5 9.75V21h6v-6h3v6h6V9.75" />
+                        </svg>
+                        <span>Travel styles
+                        </span>
+                    </li>
+                    <li class="text-gray-400">></li>
+                    <li class="text-gray-600">Our top seller
+                    </li>
+                </ol>
+            </nav>
+        </header>
+        <!-- Hero / Title block -->
+        <main class="mx-auto max-w-4xl px-4 pt-6 pb-12 text-center">
+            <h1 class="text-3xl font-extrabold tracking-tight mb-4">
+                Our Most Popular Adventures
+            </h1>
+            <p class="text-gray-600 leading-relaxed mb-8">
+                Ready to embark on an unforgettable journey? Join us on one of our top-selling itineraries and experience the most popular destinations and routes travelled by WeRoaders.
+            </p>
+        </main>
+    </section>
+    <!-- ===== CARDS SLIDER (замена старой сетки) ===== -->
+    <section class="max-w-7xl mx-auto px-4 pb-6">
+        <div class="relative">
+            <!-- arrows -->
+            <button id="prev" aria-label="Previous" class="navbtn absolute -left-2 top-1/2 -translate-y-1/2 z-20">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M15.7 5.7a1 1 0 0 1 0 1.4L10.8 12l4.9 4.9a1 1 0 1 1-1.4 1.4l-5.6-5.6a1 1 0 0 1 0-1.4l5.6-5.6a1 1 0 0 1 1.4 0z" /></svg>
+            </button>
+            <button id="next" aria-label="Next" class="navbtn absolute -right-2 top-1/2 -translate-y-1/2 z-20">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8.3 18.3a1 1 0 0 1 0-1.4L13.2 12 8.3 7.1a1 1 0 1 1 1.4-1.4l5.6 5.6a1 1 0 0 1 0 1.4l-5.6 5.6a1 1 0 0 1-1.4 0z" /></svg>
+            </button>
+            <!-- viewport -->
+            <div class="overflow-hidden">
+                <ul id="track" class="flex gap-6 will-change-transform transition-transform duration-400 ease-out touch-pan-y">
+                    <!-- Slide 1 -->
+                    <li class="shrink-0 w-[calc(100vw-2rem)] sm:w-[330px] lg:w-[340px]">
+                        <article class="relative rounded-2xl overflow-hidden">
+                            <img src="    https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=1200&auto=format&fit=crop" class="w-full h-[370px] object-cover" alt="New York 360" />
+                            <div class="card-grad"></div>
+                            <button class="absolute top-3 right-3 heart cursor-pointer" aria-label="Save to wishlist" data-trip="New York 360°: discovering Manhattan, Brooklyn and Harlem" data-days="8 days • 7 nights">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12.1 20.3 12 20.4l-.1-.1C7.14 16.24 4 13.39 4 10.25 4 8.1 5.6 6.5 7.75 6.5c1.3 0 2.56.6 3.25 1.54A4.16 4.16 0 0 1 14.25 6.5C16.4 6.5 18 8.1 18 10.25c0 3.14-3.14 5.99-5.9 10.05Z" /></svg>
+                            </button>
+                            <span class="absolute left-3 top-3 chip">Top seller</span>
+                            <div class="absolute left-3 right-3 bottom-3 text-white">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="rating-stars">
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                    </div>
+                                    <span class="text-xs font-bold">4.7</span>
+                                </div>
+                                <h3 class="text-[21px] font-extrabold leading-tight">
+                                    New York 360°:<br> discovering Manhattan, Brooklyn and Harlem
+                                </h3>
+                                <div class="mt-2 flex items-center gap-3 text-[13px]">
+                                    <span class="opacity-90">From <span class="font-bold">$ 1,033</span> <span class="line-through opacity-70">$ 1,160</span></span>
+                                    <span class="price-pill">-11%</span>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+                    <!-- Slide 2 -->
+                    <li class="shrink-0 w-[calc(100vw-2rem)] sm:w-[330px] lg:w-[340px]">
+                        <article class="relative rounded-2xl overflow-hidden">
+                            <img src="    https://images.unsplash.com/photo-1505764706515-aa95265c5abc?q=80&w=1200&auto=format&fit=crop" class="w-full h-[370px] object-cover" alt="Cuba 360" />
+                            <div class="card-grad"></div>
+                            <button class="absolute top-3 right-3 heart cursor-pointer" aria-label="Save to wishlist" data-trip="Cuba 360°: from Havana to Trinidad" data-days="9 days • 8 nights">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12.1 20.3 12 20.4l-.1-.1C7.14 16.24 4 13.39 4 10.25 4 8.1 5.6 6.5 7.75 6.5c1.3 0 2.56.6 3.25 1.54A4.16 4.16 0 0 1 14.25 6.5C16.4 6.5 18 8.1 18 10.25c0 3.14-3.14 5.99-5.9 10.05Z" /></svg>
+                            </button>
+                            <span class="absolute left-3 top-3 chip">Top seller</span>
+                            <div class="absolute left-3 right-3 bottom-3 text-white">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="rating-stars">
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                    </div>
+                                    <span class="text-xs font-bold">4.7</span>
+                                </div>
+                                <h3 class="text-[21px] font-extrabold leading-tight">
+                                    Cuba 360°: from<br> Havana to Trinidad
+                                </h3>
+                                <div class="mt-2 flex items-center gap-3 text-[13px]">
+                                    <span class="opacity-90">From <span class="font-bold">$ 1,335</span></span>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+                    <!-- Slide 3 -->
+                    <li class="shrink-0 w-[calc(100vw-2rem)] sm:w-[330px] lg:w-[340px]">
+                        <article class="relative rounded-2xl overflow-hidden">
+                            <img src="    https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1200&auto=format&fit=crop" class="w-full h-[370px] object-cover" alt="Sweden" />
+                            <div class="card-grad"></div>
+                            <button class="absolute top-3 right-3 heart cursor-pointer" aria-label="Save to wishlist" data-trip="Sweden: Northern Lights and Lapland" data-days="7 days • 6 nights">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12.1 20.3 12 20.4l-.1-.1C7.14 16.24 4 13.39 4 10.25 4 8.1 5.6 6.5 7.75 6.5c1.3 0 2.56.6 3.25 1.54A4.16 4.16 0 0 1 14.25 6.5C16.4 6.5 18 8.1 18 10.25c0 3.14-3.14 5.99-5.9 10.05Z" /></svg>
+                            </button>
+                            <div class="absolute left-3 right-3 bottom-3 text-white">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="rating-stars">
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                    </div>
+                                    <span class="text-xs font-bold">4.8</span>
+                                </div>
+                                <h3 class="text-[21px] font-extrabold leading-tight">
+                                    Sweden: Northern<br> Lights and Lapland
+                                </h3>
+                                <div class="mt-2 flex items-center gap-3 text-[13px]">
+                                    <span class="opacity-90">From <span class="font-bold">$ 1,532</span> <span class="line-through opacity-70">$ 1,800</span></span>
+                                    <span class="price-pill">-14%</span>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+                    <!-- Slide 4 -->
+                    <li class="shrink-0 w-[calc(100vw-2rem)] sm:w-[330px] lg:w-[340px]">
+                        <article class="relative rounded-2xl overflow-hidden">
+                            <img src="    https://images.unsplash.com/photo-1521295121783-8a321d551ad2?q=80&w=1200&auto=format&fit=crop" class="w-full h-[370px] object-cover" alt="Nepal 360" />
+                            <div class="card-grad"></div>
+                            <button class="absolute top-3 right-3 heart cursor-pointer" aria-label="Save to wishlist" data-trip="Nepal 360°: the temples of Kathmandu and the peaks of Annapurna" data-days="8 days • 7 nights">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12.1 20.3 12 20.4l-.1-.1C7.14 16.24 4 13.39 4 10.25 4 8.1 5.6 6.5 7.75 6.5c1.3 0 2.56.6 3.25 1.54A4.16 4.16 0 0 1 14.25 6.5C16.4 6.5 18 8.1 18 10.25c0 3.14-3.14 5.99-5.9 10.05Z" /></svg>
+                            </button>
+                            <div class="absolute left-3 right-3 bottom-3 text-white">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="rating-stars">
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                    </div>
+                                    <span class="text-xs font-bold">4.8</span>
+                                </div>
+                                <h3 class="text-[21px] font-extrabold leading-tight">
+                                    Nepal 360°: the temples of Kathmandu and the peaks of Annapurna
+                                </h3>
+                                <div class="mt-2 flex items-center gap-3 text-[13px]">
+                                    <span class="opacity-90">From <span class="font-bold">$ 893</span> <span class="line-through opacity-70">$ 986</span></span>
+                                    <span class="price-pill">-9%</span>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+                    <!-- Slide 5 -->
+                    <li class="shrink-0 w-[calc(100vw-2rem)] sm:w-[330px] lg:w-[340px]">
+                        <article class="relative rounded-2xl overflow-hidden">
+                            <img src="    https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop" class="w-full h-[370px] object-cover" alt="Iceland" />
+                            <div class="card-grad"></div>
+                            <button class="absolute top-3 right-3 heart cursor-pointer" aria-label="Save to wishlist" data-trip="Iceland: Hunting the Northern Lights" data-days="8 days • 7 nights">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12.1 20.3 12 20.4l-.1-.1C7.14 16.24 4 13.39 4 10.25 4 8.1 5.6 6.5 7.75 6.5c1.3 0 2.56.6 3.25 1.54A4.16 4.16 0 0 1 14.25 6.5C16.4 6.5 18 8.1 18 10.25c0 3.14-3.14 5.99-5.9 10.05Z" /></svg>
+                            </button>
+                            <span class="absolute left-3 top-3 chip">Top seller</span>
+                            <div class="absolute left-3 right-3 bottom-3 text-white">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="rating-stars">
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                    </div>
+                                    <span class="text-xs font-bold">4.8</span>
+                                </div>
+                                <h3 class="text-[21px] font-extrabold leading-tight">
+                                    Iceland: Hunting the<br> Northern Lights
+                                </h3>
+                                <div class="mt-2 flex items-center gap-3 text-[13px]">
+                                    <span class="opacity-90">From <span class="font-bold">$ 1,532</span> <span class="line-through opacity-70">$ 1,800</span></span>
+                                    <span class="price-pill">-14%</span>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+                    <!-- Slide 6 -->
+                    <li class="shrink-0 w-[calc(100vw-2rem)] sm:w-[330px] lg:w-[340px]">
+                        <article class="relative rounded-2xl overflow-hidden">
+                            <img src="    https://images.unsplash.com/photo-1549890762-0a3f8933bcf7?q=80&w=1200&auto=format&fit=crop" class="w-full h-[370px] object-cover" alt="Cuba street" />
+                            <div class="card-grad"></div>
+                            <button class="absolute top-3 right-3 heart cursor-pointer" aria-label="Save to wishlist" data-trip="Havana streets photo walk" data-days="5 days • 4 nights">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12.1 20.3 12 20.4l-.1-.1C7.14 16.24 4 13.39 4 10.25 4 8.1 5.6 6.5 7.75 6.5c1.3 0 2.56.6 3.25 1.54A4.16 4.16 0 0 1 14.25 6.5C16.4 6.5 18 8.1 18 10.25c0 3.14-3.14 5.99-5.9 10.05Z" /></svg>
+                            </button>
+                            <div class="absolute left-3 right-3 bottom-3 text-white">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="rating-stars">
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                    </div>
+                                    <span class="text-xs font-bold">4.8</span>
+                                </div>
+                                <h3 class="text-[21px] font-extrabold leading-tight">Havana streets photo walk</h3>
+                                <div class="mt-2 text-[13px] opacity-90">From <span class="font-bold">$ 980</span></div>
+                            </div>
+                        </article>
+                    </li>
+                    <!-- Slide 7 -->
+                    <li class="shrink-0 w-[calc(100vw-2rem)] sm:w-[330px] lg:w-[340px]">
+                        <article class="relative rounded-2xl overflow-hidden">
+                            <img src="    https://images.unsplash.com/photo-1526481280698-8fcc13fd0f3b?q=80&w=1200&auto=format&fit=crop" class="w-full h-[370px] object-cover" alt="Peru" />
+                            <div class="card-grad"></div>
+                            <button class="absolute top-3 right-3 heart cursor-pointer" aria-label="Save to wishlist" data-trip="Peru on the road" data-days="10 days • 9 nights">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12.1 20.3 12 20.4l-.1-.1C7.14 16.24 4 13.39 4 10.25 4 8.1 5.6 6.5 7.75 6.5c1.3 0 2.56.6 3.25 1.54A4.16 4.16 0 0 1 14.25 6.5C16.4 6.5 18 8.1 18 10.25c0 3.14-3.14 5.99-5.9 10.05Z" /></svg>
+                            </button>
+                            <div class="absolute left-3 right-3 bottom-3 text-white">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="rating-stars">
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                    </div>
+                                    <span class="text-xs font-bold">4.8</span>
+                                </div>
+                                <h3 class="text-[21px] font-extrabold leading-tight">Peru on the road</h3>
+                                <div class="mt-2 text-[13px] opacity-90">From <span class="font-bold">$ 1,890</span></div>
+                            </div>
+                        </article>
+                    </li>
+                    <!-- Slide 8 -->
+                    <li class="shrink-0 w-[calc(100vw-2rem)] sm:w-[330px] lg:w-[340px]">
+                        <article class="relative rounded-2xl overflow-hidden">
+                            <img src="    https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=1600&auto=format&fit=crop" class="w-full h-[370px] object-contain bg-gray-100" alt="Morocco" />
+                            <div class="card-grad"></div>
+                            <button class="absolute top-3 right-3 heart cursor-pointer" aria-label="Save to wishlist" data-trip="Morocco Desert & Atlas" data-days="8 days • 7 nights">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12.1 20.3 12 20.4l-.1-.1C7.14 16.24 4 13.39 4 10.25 4 8.1 5.6 6.5 7.75 6.5c1.3 0 2.56.6 3.25 1.54A4.16 4.16 0 0 1 14.25 6.5C16.4 6.5 18 8.1 18 10.25c0 3.14-3.14 5.99-5.9 10.05Z" /></svg>
+                            </button>
+                            <div class="absolute left-3 right-3 bottom-3 text-white">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="rating-stars">
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                        <div class="star"><svg viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
+                                    </div>
+                                    <span class="text-xs font-bold">4.8</span>
+                                </div>
+                                <h3 class="text-[21px] font-extrabold leading-tight">Morocco Desert &amp; Atlas</h3>
+                                <div class="mt-2 text-[13px] opacity-90">From <span class="font-bold">$ 1,290</span></div>
+                            </div>
+                        </article>
+                    </li>
+                </ul>
+            </div>
+            <!-- dots -->
+            <div id="dots" class="flex items-center justify-center gap-2 mt-4"></div>
+        </div>
+    </section>
+    <!-- ===== Modal (wishlist) ===== -->
+    <div id="modal" class="fixed inset-0 hidden z-40">
+        <div class="absolute inset-0 backdrop"></div>
+        <div id="dialog" role="dialog" aria-modal="true" class="modal-enter absolute left-1/2 top-[18vh] -translate-x-1/2 w-[90%] max-w-[520px] rounded-2xl bg-white shadow-2xl p-5">
+            <div class="flex items-center justify-between">
+                <h4 class="text-[18px] font-semibold">Save trip in your wishlist</h4>
+                <button id="closeModal" aria-label="Close" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6.2 5.2 5.2 6.2 10.99 12 5.2 17.8l1 1 5.8-5.8 5.8 5.8 1-1-5.79-5.8 5.8-5.8-1-1-5.8 5.8L6.2 5.2Z" /></svg>
+                </button>
+            </div>
+            <div id="tripBox" class="mt-4 flex items-center gap-3 rounded-xl border border-gray-200 p-3">
+                <div class="w-8 h-8 rounded-full bg-gray-100 grid place-items-center">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.8" class="w-4 h-4">
+                        <path d="M12.1 20.3 12 20.4l-.1-.1C7.14 16.24 4 13.39 4 10.25 4 8.1 5.6 6.5 7.75 6.5c1.3 0 2.56.6 3.25 1.54A4.16 4.16 0 0 1 14.25 6.5C16.4 6.5 18 8.1 18 10.25c0 3.14-3.14 5.99-5.9 10.05Z" />
+                    </svg>
+                </div>
+                <div class="text-sm">
+                    <div id="tripName" class="font-semibold">Sweden: Northern Lights and Lapland</div>
+                    <div id="tripDays" class="text-gray-600">7 days • 6 nights</div>
+                </div>
+            </div>
+            <label class="block mt-5 text-sm font-medium">Your email</label>
+            <div class="mt-2 flex items-center gap-2">
+                <input id="email" type="email" placeholder="Your email" class="flex-1 rounded-lg border border-gray-300 px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-gray-300" />
+                <button id="submitWish" class="w-10 h-10 rounded-lg bg-gray-800 text-white grid place-items-center hover:bg-black" aria-label="Save">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" class="w-5 h-5">
+                        <path d="M20 6 9 17l-5-5" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+    </div>
+    <main class="mx-auto max-w-4xl px-4 pt-6 pb-12 text-center">
+        <h1 class="text-3xl font-extrabold tracking-tight mb-4">
+            Ready to travel? Choose your departure:
+        </h1>
+        <p class="text-gray-600 leading-relaxed mb-8">
+            Remember, you only need to pay an €100 deposit to secure your spot!
+        </p>
+    </main>
+    <!-- ===== Slider script (после разметки!) ===== -->
+    <script>
+    const track = document.getElementById('track');
+    const prev = document.getElementById('prev');
+    const next = document.getElementById('next');
+    const dotsWrap = document.getElementById('dots');
+
+    /* ---------- ДАННЫЕ СЛАЙДОВ (редактируй тут) ---------- */
+    const slides = [{
+            img: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=1200&auto=format&fit=crop",
+            alt: "New York 360",
+            title: "New York 360°:<br> discovering Manhattan, Brooklyn and Harlem",
+            rating: "4.7",
+            from: "$ 1,033",
+            old: "$ 1,160",
+            discount: "-11%",
+            chip: "Top seller",
+            trip: "New York 360°: discovering Manhattan, Brooklyn and Harlem",
+            days: "8 days • 7 nights"
+        },
+        {
+            img: "    https://images.unsplash.com/photo-1505764706515-aa95265c5abc?q=80&w=1200&auto=format&fit=crop",
+            alt: "Cuba 360",
+            title: "Cuba 360°: from<br> Havana to Trinidad",
+            rating: "4.7",
+            from: "$ 1,335",
+            chip: "Top seller",
+            trip: "Cuba 360°: from Havana to Trinidad",
+            days: "9 days • 8 nights"
+        },
+        {
+            img: "    https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1200&auto=format&fit=crop",
+            alt: "Sweden",
+            title: "Sweden: Northern<br> Lights and Lapland",
+            rating: "4.8",
+            from: "$ 1,532",
+            old: "$ 1,800",
+            discount: "-14%",
+            trip: "Sweden: Northern Lights and Lapland",
+            days: "7 days • 6 nights"
+        },
+        {
+            img: "    https://images.unsplash.com/photo-1521295121783-8a321d551ad2?q=80&w=1200&auto=format&fit=crop",
+            alt: "Nepal 360",
+            title: "Nepal 360°: the temples of Kathmandu and the peaks of Annapurna",
+            rating: "4.8",
+            from: "$ 893",
+            old: "$ 986",
+            discount: "-9%",
+            trip: "Nepal 360°: the temples of Kathmandu and the peaks of Annapurna",
+            days: "8 days • 7 nights"
+        },
+        {
+            img: "    https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop",
+            alt: "Iceland",
+            title: "Iceland: Hunting the<br> Northern Lights",
+            rating: "4.8",
+            from: "$ 1,532",
+            old: "$ 1,800",
+            discount: "-14%",
+            chip: "Top seller",
+            trip: "Iceland: Hunting the Northern Lights",
+            days: "8 days • 7 nights"
+        },
+        {
+            img: "    https://images.unsplash.com/photo-1549890762-0a3f8933bcf7?q=80&w=1200&auto=format&fit=crop",
+            alt: "Cuba street",
+            title: "Havana streets photo walk",
+            rating: "4.8",
+            from: "$ 980",
+            chip: "Top seller",
+            trip: "Havana streets photo walk",
+            days: "5 days • 4 nights"
+        },
+        {
+            img: "    https://images.unsplash.com/photo-1526481280698-8fcc13fd0f3b?q=80&w=1200&auto=format&fit=crop",
+            alt: "Peru",
+            title: "Peru on the road",
+            rating: "4.8",
+            from: "$ 1,890",
+            trip: "Peru on the road",
+            days: "10 days • 9 nights"
+        },
+        {
+            img: "    https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=1600&auto=format&fit=crop",
+            alt: "Morocco",
+            title: "Morocco Desert &amp; Atlas",
+            rating: "4.8",
+            from: "$ 1,290",
+            contain: true,
+            chip: "Top seller",
+            trip: "Morocco Desert & Atlas",
+            days: "8 days • 7 nights"
+        }
+    ];
+
+    /* ---------- РЕНДЕР МАРКУПА ИЗ ДАННЫХ ---------- */
+    const esc = s => String(s)
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+
+    function slideItem(s) {
+        const imgClass = s.contain ? 'object-contain bg-gray-100' : 'object-cover';
+        const rating = s.rating ?
+            `<div class="flex items-center gap-2 mb-2">
+           <div class="rating-stars">
+             <div class="star"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z"/></svg></div>
+             <div class="star"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z"/></svg></div>
+             <div class="star"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z"/></svg></div>
+             <div class="star"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z"/></svg></div>
+             <div class="star"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z"/></svg></div>
+           </div>
+           <span class="text-xs font-bold">${esc(s.rating)}</span>
+         </div>` : '';
+        const chip = s.chip ? `<span class="absolute left-3 top-3 chip">${esc(s.chip)}</span>` : '';
+        const price = (s.old && s.discount) ?
+            `<span class="opacity-90">From <span class="font-bold">${esc(s.from)}</span> <span class="line-through opacity-70">${esc(s.old)}</span></span>
+         <span class="price-pill">${esc(s.discount)}</span>` :
+            `<span class="opacity-90">From <span class="font-bold">${esc(s.from)}</span>${s.old?` <span class="line-through opacity-70">${esc(s.old)}</span>`:''}</span>`;
+
+        return `
+      <li class="shrink-0 w-[calc(100vw-2rem)] sm:w-[330px] lg:w-[340px]">
+        <article class="relative rounded-2xl overflow-hidden">
+          <img src="${esc(s.img)}" alt="${esc(s.alt||'')}" class="w-full h-[370px] ${imgClass}" />
+          <div class="card-grad"></div>
+          <button class="absolute top-3 right-3 heart cursor-pointer"
+                  aria-label="Save to wishlist"
+                  data-trip="${esc(s.trip || s.title)}"
+                  data-days="${esc(s.days || '')}">
+            <svg viewBox="0 0 24 24"><path d="M12.1 20.3 12 20.4l-.1-.1C7.14 16.24 4 13.39 4 10.25 4 8.1 5.6 6.5 7.75 6.5c1.3 0 2.56.6 3.25 1.54A4.16 4.16 0 0 1 14.25 6.5C16.4 6.5 18 8.1 18 10.25c0 3.14-3.14 5.99-5.9 10.05Z"/></svg>
+          </button>
+          ${chip}
+          <div class="absolute left-3 right-3 bottom-3 text-white">
+            ${rating}
+            <h3 class="text-[21px] font-extrabold leading-tight">${s.title}</h3>
+            <div class="mt-2 flex items-center gap-3 text-[13px]">${price}</div>
+          </div>
+        </article>
+      </li>`;
+    }
+
+    function renderSlidesFromData() {
+        track.innerHTML = slides.map(slideItem).join('');
+    }
+
+    /* ---------- СЛАЙДЕР-ЛОГИКА (как было у тебя) ---------- */
+    let page = 0,
+        pages = 1,
+        gap = 24;
+
+    function cardW() {
+        const first = track.children[0];
+        if (!first) return 0;
+        return first.getBoundingClientRect().width;
+    }
+
+    function viewportW() { return track.parentElement.getBoundingClientRect().width; }
+
+    function compute() {
+        const cW = cardW();
+        const vW = viewportW();
+        const perView = Math.max(1, Math.floor((vW + gap) / (cW + gap)));
+        const total = track.children.length;
+        pages = Math.max(1, total - perView + 1);
+        page = ((page % pages) + pages) % pages;
+        renderDots();
+        move(false);
+    }
+
+    function offsetForPage(p) { return -((cardW() + gap) * p); }
+
+    function move(animate = true) {
+        track.style.transition = animate ? 'transform 380ms ease' : 'none';
+        track.style.transform = `translateX(${offsetForPage(page)}px)`;
+        highlightDot();
+    }
+
+    function nextPage() {
+        page = (page + 1) % pages;
+        move();
+    }
+
+    function prevPage() {
+        page = (page - 1 + pages) % pages;
+        move();
+    }
+
+    function renderDots() {
+        dotsWrap.innerHTML = '';
+        for (let i = 0; i < pages; i++) {
+            const b = document.createElement('button');
+            b.className = 'dot' + (i === page ? ' dot-active' : '');
+            b.setAttribute('aria-label', `Go to page ${i + 1}`);
+            b.addEventListener('click', () => {
+                page = i;
+                move();
+            });
+            dotsWrap.appendChild(b);
+        }
+    }
+
+    function highlightDot() {
+        [...dotsWrap.children].forEach((d, i) => d.classList.toggle('dot-active', i === page));
+    }
+
+    prev.addEventListener('click', prevPage);
+    next.addEventListener('click', nextPage);
+    window.addEventListener('resize', compute);
+
+    /* ---------- РЕНДЕР СЛАЙДОВ И СТАРТ ---------- */
+    renderSlidesFromData();
+    compute();
+
+    /* ---------- Связываем сердечки с модалкой ---------- */
+    const modal = document.getElementById('modal');
+    const closeModal = document.getElementById('closeModal');
+    const tripName = document.getElementById('tripName');
+    const tripDays = document.getElementById('tripDays');
+    const email = document.getElementById('email');
+
+    function bindHeartHandlers() {
+        document.querySelectorAll('.heart').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                tripName.textContent = btn.dataset.trip || 'Trip';
+                tripDays.textContent = btn.dataset.days || '';
+                modal.classList.remove('hidden');
+                setTimeout(() => email && email.focus(), 50);
+            });
+        });
+    }
+    bindHeartHandlers();
+
+    closeModal.addEventListener('click', () => modal.classList.add('hidden'));
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.add('hidden'); });
+    document.getElementById('submitWish').addEventListener('click', () => {
+        modal.classList.add('hidden');
+    });
+
+    /* ---------- Swipe ---------- */
+    let startX = 0,
+        deltaX = 0,
+        isTouching = false;
+    const threshold = 50;
+    track.addEventListener('touchstart', (e) => {
+        isTouching = true;
+        startX = e.touches[0].clientX;
+        deltaX = 0;
+        track.style.transition = 'none';
+    }, { passive: true });
+    track.addEventListener('touchmove', (e) => {
+        if (!isTouching) return;
+        deltaX = e.touches[0].clientX - startX;
+        track.style.transform = `translateX(${offsetForPage(page) + deltaX}px)`;
+    }, { passive: true });
+    track.addEventListener('touchend', () => {
+        if (!isTouching) return;
+        isTouching = false;
+        if (Math.abs(deltaX) > threshold) {
+            if (deltaX < 0) nextPage();
+            else prevPage();
+        } else move();
+    });
+    </script>
+</body>
+
+</html>
