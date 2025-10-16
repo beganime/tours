@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hero — Replica (mobile adapted)</title>
+    <!-- Tailwind Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+    html,
+    body {
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", "Noto Sans", sans-serif
+    }
+    </style>
+</head>
+
+<body class="bg-white">
+    <!-- HERO -->
+    <section class="w-full mx-auto mb-6 relative h-[520px] md:h-[460px] overflow-hidden">
+        <!-- Background image (focus right so the person stays visible on mobile) -->
+        <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1600&auto=format&fit=crop" alt="Desert background" class="absolute inset-0 w-full h-full object-cover object-[70%_50%] md:object-center" />
+        <!-- Readability overlays -->
+        <!-- global light vignette -->
+        <div class="absolute inset-0 bg-black/20"></div>
+        <!-- stronger left-to-right fade for mobile text block -->
+        <div class="absolute inset-y-0 left-0 w-4/5 sm:w-2/3 md:w-1/2 bg-gradient-to-r from-black/70 via-black/30 to-transparent"></div>
+        <!-- top fade like original -->
+        <div class="pointer-events-none absolute top-0 inset-x-0 h-28 bg-gradient-to-b from-black/60 to-transparent"></div>
+        <!-- Logo: left on mobile, centered on desktop -->
+        <div class="absolute top-5 left-4 md:left-1/2 md:-translate-x-1/2 flex items-baseline gap-1 select-none z-10">
+            <span class="text-[#e31b23] font-extrabold tracking-tight text-[28px] leading-none">WE</span>
+            <span class="text-white font-extrabold tracking-tight text-[28px] leading-none">ROAD</span>
+        </div>
+        <!-- Headline: left & stacked on mobile, centered on desktop -->
+        <div class="absolute inset-0 flex items-center md:items-center justify-start md:justify-center px-4 sm:px-6">
+            <h1 class="text-white font-extrabold tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,.45)]
+               text-left md:text-center leading-[1.06]
+               text-[34px] sm:text-[40px] md:text-[28px] lg:text-[30px] max-w-[15ch] md:max-w-none">
+                Connecting people, Cultures and Stories.
+            </h1>
+        </div>
+    </section>
+</body>
+
+</html>
