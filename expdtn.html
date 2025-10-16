@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The old continent</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+    font-family: 'Inter', sans-serif;
+}
+
+.star-fill {
+    fill: #ffffff;
+    opacity: .95
+}
+
+/* --- do NOT change desktop; only improve mobile --- */
+
+.cards {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+}
+
+@media (max-width: 640px) {
+
+    .cards {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.25rem
+    }
+
+}
+
+@media (max-width: 420px) {
+
+    .cards {
+        flex-direction: row;
+        align-items: center
+    }
+
+}
+
+/* make the existing heart wrappers look clickable without changing markup */
+
+.wishlist-heart {
+    cursor: pointer;
+    outline: none;
+}
+
+.wishlist-heart:focus-visible {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, .7)
+}
+
+/* modal */
+
+.backdrop {
+    background: rgba(23, 27, 31, .55)
+}
+</style>
+</head>
+
+<body class="m-0 p-0">
+    <!-- Background section -->
+    <section class="relative w-full h-[100vh] bg-center bg-cover flex items-center justify-center flex-col mb-5" style="background-image: url('https://strapi-imaginary.weroad.it/resource/webp-cover/27220/viaggio-di-gruppo-weroad-thailandia-Parco-nazionale-Mu-Ko-Ang-Thong-mare-agosto-estate.webp');">
+        <!-- Overlay -->
+        <div class="absolute inset-0 bg-black/30"></div>
+        <!-- Title -->
+        <h1 class="relative text-white text-4xl md:text-6xl font-extrabold text-center drop-shadow-lg">
+            WeRoad Expedition
+        </h1>
+        <p class='block text-white text-md mt-5 md:text-xl font-bold text-center drop-shadow-lg'>Group trips for the
+            explorer in you</p>
+    </section>
+    <section class='text-gray-900'>
+        <header class="w-full mx-auto center mb-1">
+            <nav class="mx-auto max-w-6xl px-4 py-4 center">
+                <ol class="flex items-center gap-2 text-sm text-gray-500 justify-center">
+                    <span>GET OFF THE BEATEN TRACK...
+                    </span>
+                    </li>
+                    </li>
+                </ol>
+            </nav>
+        </header>
+        <!-- Hero / Title block -->
+        <main class="mx-auto max-w-4xl px-4 pt-6 pb-12 text-center">
+            <h1 class="text-3xl font-extrabold tracking-tight mb-4">
+                A real adventure for groups, not just a holiday
+            </h1>
+            <p class="text-gray-600 leading-relaxed mb-8">
+                You’re looking for a
+                <em>
+                    no-frills trip
+                </em>
+                : hostels, public transport, street food, epic views, and real chats with
+                locals,
+                right? But also, you want
+                <em>
+                    something different from the typical tourist trail and all those overdone places on
+                    social
+                    media.
+                </em>
+                You’re after the
+                <em>
+                    real soul of a country
+                </em>
+                —even if it means pushing your limits to reach places barely
+                anyone’s
+                heard of. And of course, you want to
+                <em>
+                    share the ride with other travellers your age
+                </em>
+                . These are our wildest trips,
+                made
+                for those hungry to explore the world big time. If you’ve got an adventurous soul and can go with the flow,
+                you’re in
+                the right place. On this page, you’ll find all our
+                <em>
+                    best group adventures off the beaten track.
+                </em>
+            </p>
+        </main>
+    </section>
+    <section class='flex flex-col items-center justify-center pb-12'>
+        <h2 class='mb-20 text-3xl font-extrabold text-gray-900'>Group Expedition Trips around the World</h2>
+        <section class="grid place-items-center bg-white p-8">
+            <!-- просто сделали соседями -->
+            <div class="cards">
+                <!-- Card 1 -->
+                <div class="w-[180px]">
+                    <div class="relative w-[180px] h-[174px] rounded-2xl overflow-hidden select-none">
+                        <img src="https://images.unsplash.com/photo-1549880338-65ddcdfd017b?q=80&w=1200&auto=format&fit=crop" alt="Iceland waterfall" class="absolute inset-0 w-full h-full object-cover" />
+                        <div class="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/65 via-black/20 to-transparent pointer-events-none"></div>
+                        <div class="absolute right-2 top-2 grid place-items-center w-7 h-7 rounded-full bg-black/15">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-[20px] h-[20px] wishlist-heart" tabindex="0" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.034-4.5-4.543-4.5-1.59 0-2.99.83-3.75 2.078A4.327 4.327 0 0 0 9 3.75C6.49 3.75 4.5 5.765 4.5 8.25c0 7.125 7.5 10.5 7.5 10.5s9-3.375 9-10.5Z" />
+                            </svg>
+                        </div>
+                        <!-- badge -->
+                        <span class="absolute left-2.5 top-28 text-[11px] font-extrabold text-white bg-black rounded px-2 py-[3px] shadow">
+                            Top seller
+                        </span>
+                        <div class="absolute inset-x-0 bottom-2 flex items-center justify-between px-2.5 text-white">
+                            <span class="text-[14px] font-extrabold">5 days</span>
+                            <span class="flex items-center gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px]" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path class="star-fill" d="M12 .9l3.2 6.5 7.2 1.1-5.2 5.1 1.2 7L12 17.7l-6.4 3.9 1.2-7-5.2-5.1 7.2-1.1L12 .9z" />
+                                </svg>
+                                <span class="text-[14px] font-extrabold">4.8</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div style="
+
+        margin-top:10px;
+
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+
+        color:#2b2f36;
+
+        -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+
+      ">
+                        <div style="font-weight:600; font-size:14px; line-height:20px; letter-spacing:-0.01em;">
+                            Iceland Express:<br>
+                            Reykjavik and the Golden<br>
+                            Circle
+                        </div>
+                        <div style="margin-top:6px; font-size:13px; color:#8b919a;">
+                            From $ 928
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="w-[180px]">
+                    <div class="relative w-[180px] h-[174px] rounded-2xl overflow-hidden select-none">
+                        <img src="https://images.unsplash.com/photo-1549880338-65ddcdfd017b?q=80&w=1200&auto=format&fit=crop" alt="Iceland waterfall" class="absolute inset-0 w-full h-full object-cover" />
+                        <div class="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/65 via-black/20 to-transparent pointer-events-none"></div>
+                        <div class="absolute right-2 top-2 grid place-items-center w-7 h-7 rounded-full bg-black/15">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-[20px] h-[20px] wishlist-heart" tabindex="0" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.034-4.5-4.543-4.5-1.59 0-2.99.83-3.75 2.078A4.327 4.327 0 0 0 9 3.75C6.49 3.75 4.5 5.765 4.5 8.25c0 7.125 7.5 10.5 7.5 10.5s9-3.375 9-10.5Z" />
+                            </svg>
+                        </div>
+                        <!-- badge -->
+                        <span class="absolute left-2.5 top-28 text-[11px] font-extrabold text-white bg-black rounded px-2 py-[3px] shadow">
+                            Top seller
+                        </span>
+                        <div class="absolute inset-x-0 bottom-2 flex items-center justify-between px-2.5 text-white">
+                            <span class="text-[14px] font-extrabold">5 days</span>
+                            <span class="flex items-center gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px]" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path class="star-fill" d="M12 .9l3.2 6.5 7.2 1.1-5.2 5.1 1.2 7L12 17.7l-6.4 3.9 1.2-7-5.2-5.1 7.2-1.1L12 .9z" />
+                                </svg>
+                                <span class="text-[14px] font-extrabold">4.8</span>
+                            </span>
+                        </div>
+                    </div>
+                    <!-- Morocco text + discount -->
+                    <div style="
+
+        margin-top:10px;
+
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+
+        color:#2b2f36;
+
+        -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+
+      ">
+                        <div style="font-weight:600; font-size:14px; line-height:20px; letter-spacing:-0.01em;">
+                            Morocco Express:<br>
+                            Marrakech, Essaouira<br>
+                            and the Desert
+                        </div>
+                        <div style="
+
+          margin-top:8px; font-size:13px; color:#8b919a;
+
+          display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+
+        ">
+                            <span>From</span>
+                            <span style="color:#0d9488; font-weight:600;">$ 603</span>
+                            <span style="text-decoration:line-through;">$ 696</span>
+                            <span style="
+
+            color:#0d9488; background:#e6f6f3;
+
+            font-weight:700; border-radius:10px; padding:2px 8px; font-size:12px;
+
+          ">-13%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- wishlist modal (added without touching cards) -->
+            <div id="wlOverlay" class="hidden fixed inset-0 z-40 backdrop"></div>
+            <section id="wlModal" class="hidden fixed inset-0 z-50 grid place-items-center px-4">
+                <div class="bg-white w-full max-w-[560px] md:max-w-[620px] rounded-2xl shadow-xl">
+                    <div class="flex items-start justify-between px-6 pt-6">
+                        <h3 class="text-[20px] md:text-[22px] font-semibold">Save trip in your wishlist</h3>
+                        <button id="wlClose" class="p-2 text-[#6b7280] hover:text-[#111]" aria-label="Close">✕</button>
+                    </div>
+                    <div class="mx-6 mt-4 rounded-lg border border-[#e8eaee] bg-[#f6f7f9]">
+                        <div class="flex gap-3 items-start p-4">
+                            <div class="mt-[2px]">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="#8b919a" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.034-4.5-4.543-4.5-1.59 0-2.99.83-3.75 2.078A4.327 4.327 0 0 0 9 3.75C6.49 3.75 4.5 5.765 4.5 8.25c0 7.125 7.5 10.5 7.5 10.5s9-3.375 9-10.5Z" />
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <div id="wlTitle" class="font-semibold text-[14px] leading-5"></div>
+                                <div id="wlMeta" class="mt-1 text-[13px] text-[#6b7280]"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="px-6 mt-5 text-[14px]">Your email</div>
+                    <form id="wlForm" class="flex items-center gap-3 px-6 pb-6 pt-2">
+                        <input id="wlEmail" type="email" required placeholder="Your email" class="flex-1 h-11 px-3 rounded-lg border border-[#dfe3e8] focus:border-[#aab2bd] outline-none" />
+                        <button class="grid place-items-center w-12 h-11 rounded-lg bg-[#2b2f36] text-white hover:brightness-95" aria-label="Confirm">✓</button>
+                    </form>
+                </div>
+            </section>
+        </section>
+    </section>
+    <section class='flex items-center justify-center min-h-screen p-4'>
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden max-w-6xl w-full flex flex-col md:flex-row">
+            <!-- Left: Image -->
+            <div class="md:w-1/2">
+                <img src="https://strapi-imaginary.weroad.it/resource/webp-medium/27983/viaggi-gruppo-peru-amazzonia-zaino-in-spalla-weroad.webp" alt="Adventure in Nepal" class="w-full h-full object-cover" />
+            </div>
+            <!-- Right: Text -->
+            <div class="md:w-1/2 p-8 flex flex-col justify-center">
+                <p class="text-xs uppercase tracking-widest text-gray-500 font-semibold mb-2">
+                    GROUP EXPEDITION TRIPS
+                </p>
+                <h2 class="text-2xl font-extrabold text-gray-900 mb-4 leading-snug">
+                    These trips are perfect for you if...
+                </h2>
+                <p class="text-gray-700 leading-relaxed text-sm md:text-base">
+                    ...you’re the kind of traveller who doesn’t care if the hotel sheets are soft – as long as there’s a bed and a
+                    roof,
+                    you’re good.
+                    <em>
+                        Bonus points if it’s somewhere you can meet other travellers or locals: think hostels, guest
+                        houses, and
+                        starry skies for days
+                    </em>
+                    . You’re the one who’ll always pick the local bus over a flight – because windows are for
+                    admiring
+                    the landscapes, not sleeping. Walking six hours a day? You call that free fitness and sightseeing combined.
+                    <em>
+                        You’re up
+                        for pushing your limits, taking a few risks, and ditching the tourist playbook in the name of unforgettable
+                        moments.
+                    </em>
+                    That’s the spirit of WeRoad Expedition:
+                    <em>
+                        living the journey
+                        fully
+                    </em>
+                    , skipping comfort for connection,
+                    and
+                    <em>
+                        diving
+                        deep into
+                        local life far from the usual routes. On this page you'll find all of our group expedition trips.
+                    </em>
+                </p>
+            </div>
+        </div>
+    </section>
+    <script>
+    const overlay = document.getElementById('wlOverlay');
+
+    const modal = document.getElementById('wlModal');
+
+    const tEl = document.getElementById('wlTitle');
+
+    const mEl = document.getElementById('wlMeta');
+
+    const cBtn = document.getElementById('wlClose');
+
+    const email = document.getElementById('wlEmail');
+
+
+
+    function openModal(title, meta) {
+
+        tEl.textContent = title;
+
+        mEl.textContent = meta;
+
+        overlay.classList.remove('hidden');
+
+        modal.classList.remove('hidden');
+
+        document.body.style.overflow = 'hidden';
+
+        setTimeout(() => email.focus(), 50);
+
+    }
+
+    function closeModal() {
+
+        overlay.classList.add('hidden');
+
+        modal.classList.add('hidden');
+
+        document.body.style.overflow = '';
+
+    }
+
+    overlay.addEventListener('click', closeModal);
+
+    cBtn.addEventListener('click', closeModal);
+
+    window.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+
+
+    // Attach to existing hearts (no markup changes)
+
+    document.querySelectorAll('.wishlist-heart').forEach(svg => {
+
+        svg.closest('div').classList.add('wishlist-heart'); // for cursor/focus style
+
+        svg.addEventListener('click', () => {
+
+            const card = svg.closest('.w-\\[180px\\]');
+
+            // title from the text block under the image
+
+            const titleDiv = card.parentElement.querySelector('div[style*="font-weight:600"]');
+
+            const title = titleDiv ? titleDiv.innerText.replace(/\s+\n/g, ' ').trim() : 'Selected trip';
+
+            // meta from “X days” -> nights = days-1
+
+            const daysSpan = card.querySelector('.absolute.inset-x-0 span.text-\\[14px\\]');
+
+            let meta = '5 days • 4 nights';
+
+            if (daysSpan) {
+
+                const d = parseInt(daysSpan.textContent) || 5;
+
+                meta = `${d} days • ${Math.max(d-1,1)} nights`;
+
+            }
+
+            openModal(title, meta);
+
+        });
+
+        svg.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                svg.click();
+            }
+        });
+
+    });
+
+
+
+    document.getElementById('wlForm').addEventListener('submit', e => {
+
+        e.preventDefault();
+
+        closeModal();
+
+        alert('Saved to wishlist!');
+
+    });
+    </script>
+</body>
+
+</html>
