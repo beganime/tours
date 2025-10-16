@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Your first WeRoad trip — replica</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{ --ink:#111827; --muted:#6b7280; --border:#e5e7eb; --cta:#ff4b57; --green:#16a34a; }
+    html{scroll-behavior:smooth}
+    body{font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; color:var(--ink)}
+    .hero-grad{background:linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,.15))}
+    .chip{box-shadow: 0 2px 8px rgba(0,0,0,.08)}
+    .card-shadow{box-shadow:0 8px 28px rgba(20,28,38,.16)}
+    .btn-soft{box-shadow:0 1px 0 rgba(17,24,39,.05), inset 0 0 0 1px rgba(17,24,39,.06)}
+    .dot{width:6px;height:6px;border-radius:9999px;background:#d1d5db;display:inline-block}
+    .dot-active{background:#ef4444}
+    .navbtn{width:42px;height:42px;border-radius:9999px;background:#fff;box-shadow:0 6px 16px rgba(0,0,0,.12);display:grid;place-items:center}
+    .navbtn svg{width:18px;height:18px}
+    .card-grad{position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,.78) 0%, rgba(0,0,0,.38) 48%, rgba(0,0,0,.08) 100%)}
+    .chip{background:rgba(0,0,0,.72);color:#fff;font-size:12px;font-weight:700;padding:2px 8px;border-radius:8px}
+    .price-pill{background:rgba(255,255,255,.2);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);color:#fff;font-size:12px;padding:2px 8px;border-radius:8px}
+    .rating-stars{display:flex;gap:2px}
+    .star{width:14px;height:14px;background:#16A34A;border-radius:2px;display:flex;align-items:center;justify-content:center}
+    .star svg{width:8px;height:8px;fill:#fff}
+    .heart{filter:drop-shadow(0 2px 4px rgba(0,0,0,.3));}
+    .heart svg{width:28px;height:28px;fill:#fff}
+    .no-scrollbar::-webkit-scrollbar{display:none}
+    .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+
+.faq-chevron{display:inline-block;transition:transform .2s;transform:rotate(90deg);} /* вниз */
+details[open] .faq-chevron{transform:rotate(-90deg);}                               /* вверх при открытии */
+
+
+  </style>
+</head>
+<body class="bg-white overflow-x-hidden">
+<!-- HERO -->
+<section class="relative w-full h-[56vh] min-h-[360px] sm:h-[58vh] sm:min-h-[420px]">
+  <img class="absolute inset-0 w-full h-full object-cover"
+       src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=2000&auto=format&fit=crop"
+       alt="Hero crowd sunset"/>
+  <div class="absolute inset-0 hero-grad"></div>
+
+  <!-- текст стал компактнее на мобиле -->
+  <div class="absolute inset-0 mx-auto max-w-[1200px] px-4 flex flex-col justify-center items-center text-center">
+    <h1 class="text-white text-[28px] leading-[1.12] sm:text-5xl md:text-6xl font-extrabold tracking-tight drop-shadow-[0_1px_2px_rgba(0,0,0,.45)] max-w-[20ch] px-2">
+      Are you looking for your first WeRoad?
+    </h1>
+    <p class="mt-2 text-white/95 text-sm sm:text-lg md:text-xl leading-snug drop-shadow-[0_1px_2px_rgba(0,0,0,.45)] max-w-[28ch] px-2">
+      Here are some travel ideas perfect for a first group trip
+    </p>
+  </div>
+</section>
+
+  <!-- BREADCRUMBS -->
+  <div class="mx-auto max-w-[1200px] px-4 mt-6">
+    <nav class="flex flex-wrap items-center justify-center gap-2 text-sm sm:text-[15px] text-gray-500 py-3" aria-label="Breadcrumb">
+      <a class="hover:text-gray-700 inline-flex items-center gap-1.5" href="#">
+        <svg class="w-[14px] h-[14px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 11l9-7 9 7"/><path d="M9 22V12h6v10"/>
+        </svg>
+        <span>Home</span>
+      </a>
+      <span class="text-gray-400">›</span>
+      <a class="hover:text-gray-700" href="#">Travel styles</a>
+      <span class="text-gray-400">›</span>
+      <span class="text-gray-800 font-medium">First WeRoad</span>
+    </nav>
+  </div>
+
+  <!-- INTRO -->
+  <section class="mx-auto max-w-[1100px] px-4 pt-2 pb-10">
+<h2 class="text-center text-2xl leading-tight sm:text-4xl md:text-5xl font-extrabold tracking-tight">
+  You've heard of us but aren't entirely sure how it works?
+</h2>    <p class="mt-4 text-center text-[15px] sm:text-base leading-7 text-gray-600 max-w-[880px] mx-auto">
+      On this page, we outline how to join a WeRoad trip. Next, we present the most popular itineraries chosen by WeRoaders who have already asked themselves:
+      <span class="font-semibold">"It's my first WeRoad trip... which group experience is right for me?"</span><br/><br/>
+      If you’d like to get to know us better before choosing your adventure, let’s connect! Keep scrolling to find tips on how to engage with the community (yes, even in person!), answers to common questions, and a guide to help you navigate countless travel ideas, so you can discover the perfect trip for you.
+    </p>
+  </section>
+
+  <!-- 4 STEPS -->
+  <section class="mx-auto max-w-[1100px] px-4 pb-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+      <div class="flex gap-5">
+        <div class="shrink-0 grid place-items-center w-[88px] h-[88px] sm:w-[100px] sm:h-[100px] rounded-2xl bg-white">
+          <img src="https://strapi-imaginary.weroad.it/resource/small/17797/icon-book-trip.svg" alt="" class="w-[60px] h-[60px] sm:w-[72px] sm:h-[72px]" loading="lazy"/>
+        </div>
+        <div>
+          <h3 class="text-[18px] font-semibold">Find your trip</h3>
+          <p class="mt-1 text-[15px] text-gray-600 leading-7">Secure your spot with a deposit, and enjoy free cancellation up to 31 days before departure.</p>
+        </div>
+      </div>
+      <div class="flex gap-5">
+        <div class="shrink-0 grid place-items-center w-[88px] h-[88px] sm:w-[100px] sm:h-[100px] rounded-2xl bg-white">
+          <img src="https://strapi-imaginary.weroad.it/resource/small/17796/icon-book-flights.svg" alt="" class="w-[60px] h-[60px] sm:w-[72px] sm:h-[72px]" loading="lazy"/>
+        </div>
+        <div>
+          <h3 class="text-[18px] font-semibold">Book your flights</h3>
+          <p class="mt-1 text-[15px] text-gray-600 leading-7">Once your trip is confirmed, book your return flights at your convenience to suit your schedule.</p>
+        </div>
+      </div>
+      <div class="flex gap-5">
+        <div class="shrink-0 grid place-items-center w-[88px] h-[88px] sm:w-[100px] sm:h-[100px] rounded-2xl bg-white">
+          <img src="https://strapi-imaginary.weroad.it/resource/small/17795/icon-connect.svg" alt="" class="w-[60px] h-[60px] sm:w-[72px] sm:h-[72px]" loading="lazy"/>
+        </div>
+        <div>
+          <h3 class="text-[18px] font-semibold">Meet your travel companions</h3>
+          <p class="mt-1 text-[15px] text-gray-600 leading-7">Join the community on Facebook, and 15 days before departure, your Coordinator will create a WhatsApp group.</p>
+        </div>
+      </div>
+      <div class="flex gap-5">
+        <div class="shrink-0 grid place-items-center w-[88px] h-[88px] sm:w-[100px] sm:h-[100px] rounded-2xl bg-white">
+          <img src="https://strapi-imaginary.weroad.it/resource/small/17794/icon-travel.svg" alt="" class="w-[60px] h-[60px] sm:w-[72px] sm:h-[72px]" loading="lazy"/>
+        </div>
+        <div>
+          <h3 class="text-[18px] font-semibold">Set off on your WeRoad adventure!</h3>
+          <p class="mt-1 text-[15px] text-gray-600 leading-7">Pack your backpack and get ready for unforgettable experiences. Immerse yourself in local culture and make every moment count.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ CTA -->
+  <section class="mx-auto max-w-[900px] px-4 py-12 text-center">
+    <h3 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight">
+      A quiz to help you choose your first WeRoad trip
+    </h3>
+    <p class="mt-3 text-[15px] text-gray-600 leading-7">
+      Over 100,000 travellers across five European countries have joined a WeRoad group adventure. Where did they start?
+      Most likely by <span class="font-semibold">taking our quiz to find the perfect destination</span>.
+      It’s fun, takes just three minutes, and really helps!
+    </p>
+    <button class="mt-5 inline-flex items-center justify-center w-full sm:w-auto px-5 h-11 rounded-xl bg-[var(--cta)] text-white font-semibold hover:brightness-95">
+      Take the quiz!
+    </button>
+  </section>
+
+  <!-- MOST POPULAR TRIPS (SLIDER) -->
+  <section class="mx-auto max-w-[1200px] px-4 md:px-6">
+    <h3 class="text-center text-3xl sm:text-4xl font-extrabold tracking-tight">Here are the most popular trips</h3>
+    <p class="mt-2 text-center text-[15px] text-gray-600">
+      If you'd rather trust the community to help you choose your first WeRoad adventure, take a look at these top picks.
+    </p>
+
+    <div class="max-w-7xl mx-auto pl-3 pr-1 sm:px-4 pb-6">
+      <div class="relative">
+        <button id="prev" aria-label="Previous" class="navbtn hidden md:grid absolute -left-2 top-1/2 -translate-y-1/2 z-20">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.7 5.7a1 1 0 0 1 0 1.4L10.8 12l4.9 4.9a1 1 0 1 1-1.4 1.4l-5.6-5.6a1 1 0 0 1 0-1.4l5.6-5.6a1 1 0 0 1 1.4 0z"/></svg>
+        </button>
+        <button id="next" aria-label="Next" class="navbtn hidden md:grid absolute -right-2 top-1/2 -translate-y-1/2 z-20">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.3 18.3a1 1 0 0 1 0-1.4L13.2 12 8.3 7.1a1 1 0 1 1 1.4-1.4l5.6 5.6a1 1 0 0 1 0 1.4l-5.6 5.6a1 1 0 0 1-1.4 0z"/></svg>
+        </button>
+
+        <div class="overflow-hidden">
+          <ul id="track"
+              class="no-scrollbar overflow-x-auto snap-x snap-proximity snap-always
+                     flex gap-3 sm:gap-5 md:gap-6 touch-pan-x overscroll-x-contain py-2">
+          </ul>
+        </div>
+
+        <div id="dots" class="mt-5 flex items-center justify-center gap-2"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GET TO KNOW US (mobile: horizontal scroll) -->
+  <section class="mx-auto max-w-[1100px] px-4 pt-10 pb-14">
+    <h2 class="text-center text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight">
+      Want to get to know us better before traveling with us?
+    </h2>
+    <p class="mt-4 text-center text-[15px] sm:text-base leading-7 text-gray-600 max-w-[880px] mx-auto">
+      It’s true, we don’t have public offices, but you can find us everywhere—both online and offline!
+      Join our <span class="font-semibold">Facebook group</span> to connect with the community, or meet us in person
+      at one of the many <span class="font-semibold">events we host across the world!</span>
+    </p>
+    <p class="mt-3 text-center text-[15px] sm:text-base leading-7 text-gray-600 max-w-[880px] mx-auto">
+      If you're not ready to dive into a 12-day trip across the world, try our <span class="font-semibold">Express trips</span>.
+      These 5 to 6-day itineraries are perfect for seeing if WeRoad is the right fit for you. That way, when the time
+      comes for a bigger adventure, you’ll set off with total confidence!
+    </p>
+
+    <!-- SCROLLABLE ROW ON MOBILE -->
+    <section class="px-4 mt-10">
+      <!-- container: row on mobile, column on >=sm -->
+      <div
+        class="mx-auto w-full max-w-[600px]
+               flex gap-4 -mx-4 px-4
+               overflow-x-auto no-scrollbar touch-pan-x overscroll-x-contain
+               snap-x snap-mandatory
+               sm:mx-auto sm:px-0 sm:flex-col sm:overflow-visible sm:snap-none sm:gap-10">
+
+        <!-- card 1 -->
+        <article class="min-w-[290px] snap-start sm:min-w-0 bg-white rounded-xl border border-[var(--border)] p-4">
+          <div class="flex items-start gap-4 sm:gap-6">
+            <img src="https://strapi-imaginary.weroad.it/resource/webp-small/11278/.webp" alt="" class="w-[88px] h-[88px] sm:w-[110px] sm:h-[110px] object-contain" loading="lazy"/>
+            <div class="flex-1">
+              <h3 class="text-[15px] md:text-[16px] font-semibold leading-6">We host events and activities all across the world!</h3>
+              <button class="mt-3 inline-flex items-center justify-center w-full h-11 px-5 rounded-xl bg-[var(--cta)] text-white font-semibold hover:brightness-95">Find an event</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- card 2 -->
+        <article class="min-w-[290px] snap-start sm:min-w-0 bg-white rounded-xl border border-[var(--border)] p-4">
+          <div class="flex items-start gap-4 sm:gap-6">
+            <img src="https://strapi-imaginary.weroad.it/resource/webp-small/8961/.webp" alt="" class="w-[88px] h-[88px] sm:w-[110px] sm:h-[110px] object-contain" loading="lazy"/>
+            <div class="flex-1">
+              <h3 class="text-[15px] md:text-[16px] font-semibold leading-6">Join our Facebook community</h3>
+              <button class="mt-3 inline-flex items-center justify-center w-full h-11 px-5 rounded-xl bg-[var(--cta)] text-white font-semibold hover:brightness-95">I want to join!</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- card 3 -->
+        <article class="min-w-[290px] snap-start sm:min-w-0 bg-white rounded-xl border border-[var(--border)] p-4">
+          <div class="flex items-start gap-4 sm:gap-6">
+            <img src="https://strapi-imaginary.weroad.it/resource/webp-small/27977/.webp" alt="" class="w-[88px] h-[88px] sm:w-[110px] sm:h-[110px] object-contain" loading="lazy"/>
+            <div class="flex-1">
+              <h3 class="text-[15px] md:text-[16px] font-semibold leading-6">Start off with an express trip!</h3>
+              <button class="mt-3 inline-flex items-center justify-center w-full h-11 px-5 rounded-xl bg-[var(--cta)] text-white font-semibold hover:brightness-95">Show me!</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </section>
+
+  <!-- FAQs -->
+  <section class="mx-auto max-w-[1100px] px-4 py-14">
+    <h3 class="text-center text-3xl sm:text-4xl font-extrabold tracking-tight">Some FAQs to clear your mind</h3>
+
+    <div class="mt-8 divide-y divide-[var(--border)] border-t border-b">
+
+      <!-- 1 -->
+      <details class="group">
+        <summary class="list-none cursor-pointer select-none py-4 sm:py-5">
+          <div class="flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3 transform transition-transform duration-200 group-hover:translate-x-1">
+              <img src="https://cdn.weroad.io/common/images/icons-services/dark-gray/activities.svg" alt="Activities" class="w-5 h-5 opacity-80 transition-opacity group-hover:opacity-100" loading="lazy">
+              <span class="text-[16px] sm:text-[17px] font-medium">How does WeRoad work?</span>
+            </div>
+<span class="faq-chevron text-gray-500/80">›</span>
+        <div class="pb-5 text-gray-600 leading-7">
+        We’ll keep it short. Choose your trip based on departure dates, destinations, and travel vibe, and... book! Once you receive the confirmation email, book your round-trip flights to your destination—no, they’re not included in the package because we like flexibility!
+<br><br>15 days before departure, the coordinator will create a WhatsApp group so you can start getting to know your future travel companions. That’s it: enjoy your WeRoad trip! You’ll share incredible experiences, discover local culture, and live every moment to the fullest. You’ll probably shed a tear when it’s time to say goodbye, but that’s completely normal!
+        </div>
+      </details>
+
+      <!-- 2 -->
+      <details class="group">
+        <summary class="list-none cursor-pointer select-none py-4 sm:py-5">
+          <div class="flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3 transform transition-transform duration-200 group-hover:translate-x-1">
+              <img src="https://cdn.weroad.io/common/images/icons-services/dark-gray/registry.svg" alt="Registry" class="w-5 h-5 opacity-80 transition-opacity group-hover:opacity-100" loading="lazy">
+              <span class="text-[16px] sm:text-[17px] font-medium">Are there age restrictions?</span>
+            </div>
+<span class="faq-chevron text-gray-500/80">›</span>
+          </div>
+        </summary>
+        <div class="pb-5 text-gray-600 leading-7">
+Yes, we do have age limits. We cater to travellers in their 20s, 30s, and 40s. We don’t want to exclude anyone, but we believe it’s important to create age-appropriate groups to help you have the best experience possible!        </div>
+      </details>
+
+      <!-- 3 -->
+      <details class="group">
+        <summary class="list-none cursor-pointer select-none py-4 sm:py-5">
+          <div class="flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3 transform transition-transform duration-200 group-hover:translate-x-1">
+              <img src="https://cdn.weroad.io/common/images/icons-services/dark-gray/plane-2.svg" alt="Plane" class="w-5 h-5 opacity-80 transition-opacity group-hover:opacity-100" loading="lazy">
+              <span class="text-[16px] sm:text-[17px] font-medium">Is the flight included?</span>
+            </div>
+<span class="faq-chevron text-gray-500/80">›</span>
+          </div>
+        </summary>
+        <div class="pb-5 text-gray-600 leading-7">
+The flight is not included because we love flexibility! This way, you’re free to choose your departure airport, the airline, how many layovers you want, and even extend your stay at the destination if you’d like. We’re here to help you choose (just contact us!), and we also offer discounts with some of the major airlines.        </div>
+      </details>
+
+      <!-- 4 -->
+      <details class="group">
+        <summary class="list-none cursor-pointer select-none py-4 sm:py-5">
+          <div class="flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3 transform transition-transform duration-200 group-hover:translate-x-1">
+              <img src="https://cdn.weroad.io/common/images/icons-services/dark-gray/alert-me.svg" alt="Alert" class="w-5 h-5 opacity-80 transition-opacity group-hover:opacity-100" loading="lazy">
+              <span class="text-[16px] sm:text-[17px] font-medium">What is the difference between a planned and a confirmed departure?</span>
+            </div>
+<span class="faq-chevron text-gray-500/80">›</span>
+          </div>
+        </summary>
+        <div class="pb-5 text-gray-600 leading-7">
+If you see "planned" next to the trip you're interested in, it means the trip is planned, but we haven’t reached the minimum number of participants yet. If you see "confirmed," it means the group is set, and all you need to do is book your spot and purchase your flight!        </div>
+      </details>
+
+      <!-- 5 -->
+      <details class="group">
+        <summary class="list-none cursor-pointer select-none py-4 sm:py-5">
+          <div class="flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3 transform transition-transform duration-200 group-hover:translate-x-1">
+              <img src="https://cdn.weroad.io/common/images/icons-services/dark-gray/bed.svg" alt="Bed" class="w-5 h-5 opacity-80 transition-opacity group-hover:opacity-100" loading="lazy">
+              <span class="text-[16px] sm:text-[17px] font-medium">On a WeRoad trip, do you share a room with other travelers?</span>
+            </div>
+<span class="faq-chevron text-gray-500/80">›</span>
+          </div>
+        </summary>
+        <div class="pb-5 text-gray-600 leading-7">
+Yes, that’s right—on all our trips, you won’t be alone in your nice room. But don’t worry, you’ll be sharing the room only with your travel companions of the same gender, and you’ll have a private bathroom (either in the room or shared only among the participants). Of course, this doesn’t apply to trips with tent stays or homestays, but we promise the experience will be so special that comfort will be the last thing on your mind!
+<br><br>If you prefer privacy, you can opt for a Private Room during booking on certain itineraries. To keep it simple, for an additional fee, you can have a room all to yourself.        </div>
+      </details>
+
+      <!-- 6 NEW (separate question with culture icon) -->
+      <details class="group">
+        <summary class="list-none cursor-pointer select-none py-4 sm:py-5">
+          <div class="flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3 transform transition-transform duration-200 group-hover:translate-x-1">
+              <img src="https://cdn.weroad.io/common/images/icons-services/dark-gray/culture.svg" alt="Culture" class="w-5 h-5 opacity-80 transition-opacity group-hover:opacity-100" loading="lazy">
+              <span class="text-[16px] sm:text-[17px] font-medium">Can I go on a WeRoad with friends? What if I travel alone?</span>
+            </div>
+<span class="faq-chevron text-gray-500/80">›</span>
+          </div>
+        </summary>
+        <div class="pb-5 text-gray-600 leading-7">
+Of course, you can book and travel with one or more friends! It’s a great way to bond even more and meet new friends together. The more, the merrier! But don’t worry, if you prefer to travel solo, that’s perfectly fine too. You’ll get to know your fellow adventurers before the trip through a WhatsApp group just for you.        </div>
+      </details>
+
+      <!-- 7 -->
+      <details class="group">
+        <summary class="list-none cursor-pointer select-none py-4 sm:py-5">
+          <div class="flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3 transform transition-transform duration-200 group-hover:translate-x-1">
+              <img src="https://cdn.weroad.io/common/images/icons-services/dark-gray/souk.svg" alt="Start" class="w-5 h-5 opacity-80 transition-opacity group-hover:opacity-100" loading="lazy">
+              <span class="text-[16px] sm:text-[17px] font-medium">Where do I start when choosing my first WeRoad?</span>
+            </div>
+<span class="faq-chevron text-gray-500/80">›</span>
+          </div>
+        </summary>
+        <div class="pb-5 text-gray-600 leading-7">
+True, there are a lot of itineraries, so how do you choose the perfect one for your very first experience?
+<br><br>Our advice is to start by asking yourself these questions—luckily, these are the same filters you can set in the search sections on our website:
+<br><br>What’s my budget?
+How long do I want to be away, and when can I leave?
+What am I in the mood for? Beach, nature, adventure, food, everything!
+By answering these questions, you’ll narrow down your options significantly, making it easier to find the perfect trip. What else can you consider at this point? Flight times and prices for the destination, the status of the trip confirmation, and maybe even the coordinator’s profile if it’s already assigned.
+<br><br>If after all this, you still haven’t found the right trip—or you’re a Libra, Pisces, or Gemini—or if you need assistance, our team is ready to help you on <a href="#" class="text-red-600 visited:text-red-700 hover:text-red-700 font-medium">
+<b>WhatsApp (click here)</b>
+</a></div>
+      </details>
+
+    </div>
+  </section>
+
+  <!-- DEPARTURE DATES -->
+  <section class="mx-auto max-w-[900px] px-4 pb-16 text-center">
+    <h3 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight">Discover departure dates.</h3>
+    <p class="mt-2 text-[15px] text-gray-600">If you still haven't found the trip that has captured your heart, it might be right here!</p>
+  </section>
+
+  <script>
+    // ------- Data for slides -------
+    const trips = [
+      { title:"Japan Complete: Tokyo to Kyoto", country:"Japan", days:"10 days", age:"25–35", rating:4.9, reviews:312, price:"from €1,290", img:"https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=1500&auto=format&fit=crop" },
+      { title:"Iceland Ring Road Adventure", country:"Iceland", days:"8 days", age:"25–35", rating:4.8, reviews:198, price:"from €1,540", img:"https://images.unsplash.com/photo-1476610182048-b716b8518aae?q=80&w=1500&auto=format&fit=crop" },
+      { title:"Peru Essentials: Cusco & Machu Picchu", country:"Peru", days:"9 days", age:"25–35", rating:4.9, reviews:421, price:"from €1,390", img:"https://images.unsplash.com/photo-1526392060635-9d6019884377?q=80&w=1500&auto=format&fit=crop" },
+      { title:"Bali & Nusa Islands Explorer", country:"Indonesia", days:"8 days", age:"25–35", rating:4.7, reviews:287, price:"from €990", img:"https://images.unsplash.com/photo-1518544801976-3e159e50e5bb?q=80&w=1500&auto=format&fit=crop" },
+      { title:"Thailand North to South", country:"Thailand", days:"12 days", age:"25–35", rating:4.8, reviews:354, price:"from €1,150", img:"https://images.unsplash.com/photo-1465311530779-5241f5a29892?q=80&w=1500&auto=format&fit=crop" },
+      { title:"Morocco Sahara & Atlas", country:"Morocco", days:"8 days", age:"25–35", rating:4.7, reviews:268, price:"from €890", img:"https://images.unsplash.com/photo-1518684079-3c830dcef090?q=80&w=1500&auto=format&fit=crop" },
+      { title:"USA West: Parks & Vegas", country:"USA", days:"11 days", age:"25–35", rating:4.8, reviews:199, price:"from €1,680", img:"https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=1500&auto=format&fit=crop" },
+      { title:"Vietnam Coastline Discovery", country:"Vietnam", days:"10 days", age:"25–35", rating:4.9, reviews:244, price:"from €1,090", img:"https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1500&auto=format&fit=crop" }
+    ];
+
+    const track = document.getElementById('track');
+    const dotsWrap = document.getElementById('dots');
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+
+    // build slides (compact & responsive)
+    trips.forEach((t, i) => {
+      const li = document.createElement('li');
+      li.className = "relative shrink-0 snap-start snap-always w-[200px] h-[280px] sm:w-[260px] sm:h-[340px] md:w-[300px] md:h-[380px] lg:w-[340px] lg:h-[420px] xl:w-[360px] rounded-2xl overflow-hidden card-shadow";
+      li.innerHTML = `
+        <img src="${t.img}" alt="${t.title}" class="absolute inset-0 w-full h-full object-cover" loading="lazy" decoding="async"/>
+        <div class="card-grad"></div>
+        <div class="absolute top-3 left-3 flex gap-2">
+          <span class="chip">${t.days}</span>
+          <span class="chip">${t.country}</span>
+        </div>
+        <button class="absolute top-2.5 right-2.5 heart" aria-label="Save trip">
+          <svg viewBox="0 0 24 24"><path d="M12.001 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6 4 4 6.5 4c1.74 0 3.41.99 4.22 2.49C11.53 4.99 13.2 4 14.94 4 17.44 4 19.44 6 19.44 8.5c0 3.78-3.4 6.86-8.05 11.54l-.39.36z"/></svg>
+        </button>
+        <div class="absolute bottom-3 left-3 right-3 text-white select-none">
+          <div class="flex items-center justify-between mb-2">
+            <div class="rating-stars" aria-hidden="true">
+              ${'<span class="star"><svg viewBox="0 0 24 24"><path d="M12 .587l3.668 7.431 8.2 1.193-5.934 5.786 1.401 8.168L12 18.897l-7.335 3.868 1.401-8.168L.132 9.211l8.2-1.193z"/></svg></span>'.repeat(5)}
+            </div>
+            <span class="text-[11px] sm:text-[12px] text-white/90">${t.rating.toFixed(1)} · ${t.reviews} reviews</span>
+          </div>
+          <h4 class="font-extrabold text-base sm:text-lg leading-snug">${t.title}</h4>
+          <div class="mt-2 flex items-center justify-between">
+            <span class="text-xs sm:text-sm text-white/90">Age ${t.age}</span>
+            <span class="price-pill">${t.price}</span>
+          </div>
+        </div>
+      `;
+      track.appendChild(li);
+
+      const dot = document.createElement('button');
+      dot.className = 'dot';
+      dot.setAttribute('aria-label', `Go to slide ${i+1}`);
+      dotsWrap.appendChild(dot);
+    });
+
+    // slider logic
+    const dots = Array.from(dotsWrap.querySelectorAll('button'));
+    function stepSize(){
+      if(!track.children.length) return 300;
+      const first = track.children[0].getBoundingClientRect().width;
+      const gap = parseFloat(getComputedStyle(track).gap) || 0;
+      return Math.round(first + gap);
+    }
+    const clamp = (v, a, b) => Math.min(Math.max(v, a), b);
+    const currentIndex = () => clamp(Math.round(track.scrollLeft / stepSize()), 0, track.children.length - 1);
+    function updateDots(){ const idx = currentIndex(); dots.forEach((d,i)=> d.classList.toggle('dot-active', i===idx)); }
+    updateDots();
+
+    dots.forEach((d,i)=> d.addEventListener('click', () => {
+      track.children[i].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+    }));
+    nextBtn?.addEventListener('click', () => track.scrollBy({ left: stepSize(),  behavior: 'smooth' }));
+    prevBtn?.addEventListener('click', () => track.scrollBy({ left: -stepSize(), behavior: 'smooth' }));
+    track.addEventListener('scroll', () => { window.requestAnimationFrame(updateDots); });
+    window.addEventListener('resize', updateDots);
+  </script>
+</body>
+</html>

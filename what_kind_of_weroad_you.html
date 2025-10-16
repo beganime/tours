@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>What Kind of WeRoader Are You?</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root{
+      --bg:#000;
+      --ink:#fff;
+      --muted:#cfcfcc;
+      --brand:#ff4b57;
+      --brand-2:#ff7a85;
+      --brand-press:#e74450;
+      --card:#0b0b0b;
+      --border:#1f1f1f;
+
+      /* новые – серые для прогресса */
+      --prog-done-1:#9ca3af; /* gray-400 */
+      --prog-done-2:#c7cbd1; /* ~gray-300 */
+      --prog-current:#e5e7eb; /* gray-200 */
+      --prog-base:#2b2b2b;    /* полоса базовая */
+      --prog-border:#3a3a3a;
+    }
+    html,body{height:100%}
+    body{
+      background:var(--bg); color:var(--ink);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* Декоративные «капсулы» сверху */
+    .rails{
+      position:fixed; inset:0 0 auto 0; height:22px; pointer-events:none; z-index:40;
+      display:flex; justify-content:center; gap:32px; padding-top:6px;
+      opacity:.9;
+    }
+    .rails .cap{
+      width:min(12vw, 180px); height:10px; border-radius:9999px;
+      background:linear-gradient(180deg,#1c1c1c 0%, #161616 100%);
+      box-shadow: inset 0 0 0 1px #222, 0 1px 0 rgba(255,255,255,.05);
+      opacity:.68;
+    }
+    @media (max-width:640px){ .rails{ gap:16px } .rails .cap{ width:18vw; height:8px } }
+
+    /* Прогресс опроса – теперь серый и чуть тоньше */
+    #progressWrap{position:fixed; left:0; right:0; top:28px; z-index:50; pointer-events:none}
+    #progressInner{max-width:1200px; margin:0 auto; padding:0 24px}
+    #progressGrid{display:grid; grid-template-columns:repeat(8,1fr); gap:22px; height:6px}
+    #progressGrid .seg{
+      height:6px; border-radius:9999px;
+      background:var(--prog-base); border:1px solid var(--prog-border);
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.03);
+      transition:background .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+    #progressGrid .seg.current{ background:var(--prog-current); border-color:#525252 }
+    #progressGrid .seg.done{
+      background:linear-gradient(90deg,var(--prog-done-1),var(--prog-done-2));
+      border-color:#a8a8a8;
+      box-shadow:0 0 0 1px rgba(200,200,200,.35), 0 8px 16px rgba(0,0,0,.18);
+    }
+    @media (max-width:640px){ #progressGrid{ gap:12px; height:5px } }
+
+    /* Кнопки */
+    .btn{
+      position:relative;
+      display:inline-flex; align-items:center; gap:.55rem;
+      background:linear-gradient(180deg,var(--brand-2),var(--brand));
+      color:#fff; font-weight:800;
+      padding:.85rem 1.05rem; border-radius:14px;
+      box-shadow:0 10px 28px rgba(255,75,87,.26);
+      transition:transform .05s ease, opacity .15s ease, filter .15s ease;
+      font-size:13.5px;
+    }
+    .btn:active{ transform:translateY(1px); filter:brightness(.95) }
+    .btn[disabled]{ opacity:.45; pointer-events:none }
+    .btn::after{
+      content:""; position:absolute; inset:auto -28px -24px -28px; z-index:-1;
+      background:radial-gradient(60% 70% at 50% 50%, rgba(255,75,87,.29), transparent 70%);
+      filter:blur(16px); border-radius:32px;
+    }
+
+    .btn-muted{
+      background:#161616; border:1px solid #252525; color:#eee;
+      padding:.55rem .9rem; border-radius:12px; font-weight:700; font-size:13px;
+    }
+
+    /* Карточки вариантов */
+    .card{
+      background:linear-gradient(180deg,#0a0a0a 0%,#090909 100%);
+      border:1px solid var(--border); border-radius:16px; overflow:hidden;
+      transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+      cursor:pointer;
+    }
+    .card:hover{ transform:translateY(-1px); border-color:#2a2a2a }
+    .card.selected{ border-color:rgba(255,255,255,.28); box-shadow:0 0 0 2px rgba(255,255,255,.16) }
+
+    .card img{ height:11rem !important; object-fit:cover; } /* было h-56 (~224px) */
+
+    .chip{
+      position:absolute; top:.55rem; left:.55rem; z-index:2;
+      font-weight:800; font-size:.85rem; line-height:1;
+      color:#e5e5e5; background:#111; border:1px solid #252525;
+      padding:.38rem .5rem; border-radius:.5rem;
+    }
+
+    .badge-tally{
+      position:fixed; right:18px; bottom:18px; z-index:30;
+      background:#0f0f0f; border:1px solid #2a2a2a;
+      padding:.6rem .9rem; border-radius:14px; font-weight:800;
+      color:#e9e9ff; display:flex; gap:.5rem; align-items:center;
+      box-shadow:0 10px 24px rgba(0,0,0,.5);
+      font-size:12.5px;
+    }
+    .badge-tally:before{ content:"✶"; font-weight:900; }
+
+    /* Типографика – всё компактнее */
+    .hero-title{
+      font-weight:800;
+      letter-spacing:-.02em;
+      font-size:clamp(34px, 6vw, 60px); /* было до 76px */
+      line-height:1.04;
+    }
+    #app p{ font-size:15.5px; line-height:1.72 }
+    .step h2{ font-size:22px; line-height:1.25 }
+    @media (min-width:640px){ .step h2{ font-size:26px } }
+    .card div{ font-size:15px }
+    #resTitle{ font-size:clamp(28px,3.6vw,38px); line-height:1.15 }
+    #resSub{ font-size:20px }
+    #resImg{ width:240px; height:150px; } /* было 280x170 */
+  </style>
+</head>
+<body>
+  <!-- Декоративные капсулы -->
+  <div class="rails" aria-hidden="true">
+    <div class="cap"></div><div class="cap"></div><div class="cap"></div><div class="cap"></div>
+    <div class="cap"></div><div class="cap"></div><div class="cap"></div><div class="cap"></div>
+  </div>
+
+  <!-- Прогресс-грид -->
+  <div id="progressWrap">
+    <div id="progressInner">
+      <div id="progressGrid"></div>
+    </div>
+  </div>
+
+  <main class="mx-auto max-w-[1100px] px-6 py-14 sm:py-18">
+    <div id="app">
+      <!-- 0. Intro -->
+      <section data-step="0" class="step">
+        <h1 class="hero-title">What Kind of WeRoader Are You?</h1>
+
+        <div class="mt-6 max-w-[760px] text-[color:var(--muted)]">
+          <p class="mb-4">Not sure which destination suits you best?</p>
+          <p class="mb-4">
+            <span class="font-extrabold text-white">WeRoad</span> has
+            <span class="font-extrabold text-white">1483</span> travel options and you’re feeling
+            <span class="font-extrabold text-white">lost like a little kid</span>?
+          </p>
+          <p>
+            We've created a <span class="font-extrabold text-white">quiz</span> to help you navigate this
+            <span class="font-extrabold text-white">storm</span>: answer the questions and we’ll tell you
+            what kind of WeRoader you are… <span class="font-extrabold text-white">and where to go on your next trip!</span>
+          </p>
+        </div>
+
+        <div class="mt-8">
+          <button class="btn" data-next>
+            <span>Let’s start!</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="ml-1" aria-hidden="true">
+              <path d="M5 12h14m-7-7 7 7-7 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- 1. Вопросы -->
+      <section data-step="1" class="step hidden">
+        <button class="btn-muted mb-5" data-back>← Back</button>
+        <h2 class="font-extrabold max-w-3xl">
+          Just off the top of your head: among these 4 destinations, where would you go tomorrow? <span class="align-super text-xl">•</span>
+        </h2>
+
+        <div class="grid sm:grid-cols-2 gap-5 mt-6">
+          <label class="card relative" data-group="q1" data-score="explorer">
+            <input type="radio" name="q1" class="sr-only" value="iceland">
+            <span class="chip">A</span>
+            <img class="w-full h-56 object-cover" src="https://images.unsplash.com/photo-1465310477141-6fb93167a273?q=80&w=1400&auto=format&fit=crop" alt="">
+            <div class="px-4 py-3 font-bold">Iceland</div>
+          </label>
+
+          <label class="card relative" data-group="q1" data-score="culture">
+            <input type="radio" name="q1" class="sr-only" value="egypt">
+            <span class="chip">B</span>
+            <img class="w-full h-56 object-cover" src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1400&auto=format&fit=crop" alt="">
+            <div class="px-4 py-3 font-bold">Egypt</div>
+          </label>
+
+          <label class="card relative" data-group="q1" data-score="adventure">
+            <input type="radio" name="q1" class="sr-only" value="mongolia">
+            <span class="chip">C</span>
+            <img class="w-full h-56 object-cover" src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1400&auto=format&fit=crop" alt="">
+            <div class="px-4 py-3 font-bold">Mongolia</div>
+          </label>
+
+          <label class="card relative" data-group="q1" data-score="beach">
+            <input type="radio" name="q1" class="sr-only" value="maldives">
+            <span class="chip">D</span>
+            <img class="w-full h-56 object-cover" src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?q=80&w=1400&auto=format&fit=crop" alt="">
+            <div class="px-4 py-3 font-bold">Maldives</div>
+          </label>
+        </div>
+
+        <div class="mt-6">
+          <button class="btn" data-next disabled>Next
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="ml-2" aria-hidden="true">
+              <path d="M5 12h14m-7-7 7 7-7 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </section>
+
+      <section data-step="2" class="step hidden">
+        <button class="btn-muted mb-5" data-back>← Back</button>
+        <h2 class="font-extrabold max-w-3xl">How long is your ideal trip? <span class="align-super text-xl">•</span></h2>
+        <div class="mt-6 grid gap-3.5 sm:max-w-xl">
+          <label class="card px-4 py-3 relative" data-group="q2" data-score="explorer"><input type="radio" name="q2" class="sr-only"><span class="chip">A</span><span class="ml-8 font-bold">A long weekend</span></label>
+          <label class="card px-4 py-3 relative" data-group="q2" data-score="culture"><input type="radio" name="q2" class="sr-only"><span class="chip">B</span><span class="ml-8 font-bold">One week</span></label>
+          <label class="card px-4 py-3 relative" data-group="q2" data-score="adventure"><input type="radio" name="q2" class="sr-only"><span class="chip">C</span><span class="ml-8 font-bold">At least 10 days or I’m not going</span></label>
+          <label class="card px-4 py-3 relative" data-group="q2" data-score="beach"><input type="radio" name="q2" class="sr-only"><span class="chip">D</span><span class="ml-8 font-bold">2 weeks or more</span></label>
+        </div>
+        <div class="mt-6"><button class="btn" data-next disabled>Next</button></div>
+      </section>
+
+      <section data-step="3" class="step hidden">
+        <button class="btn-muted mb-5" data-back>← Back</button>
+        <h2 class="font-extrabold max-w-3xl">Aperitivo time, what do you drink? <span class="align-super text-xl">•</span></h2>
+        <div class="grid sm:grid-cols-2 gap-5 mt-6">
+          <label class="card relative" data-group="q3" data-score="culture"><input type="radio" name="q3" class="sr-only"><span class="chip">A</span><img class="w-full h-56 object-cover" src="https://images.unsplash.com/photo-1519415943484-9fa18778a71b?q=80&w=1400&auto=format&fit=crop"><div class="px-4 py-3 font-bold">A beer</div></label>
+          <label class="card relative" data-group="q3" data-score="explorer"><input type="radio" name="q3" class="sr-only"><span class="chip">B</span><img class="w-full h-56 object-cover" src="https://images.unsplash.com/photo-1541976076758-347942db1971?q=80&w=1400&auto=format&fit=crop"><div class="px-4 py-3 font-bold">A ginger ale</div></label>
+          <label class="card relative" data-group="q3" data-score="adventure"><input type="radio" name="q3" class="sr-only"><span class="chip">C</span><img class="w-full h-56 object-cover" src="https://images.unsplash.com/photo-1597248881519-b9a2f667b3ea?q=80&w=1400&auto=format&fit=crop"><div class="px-4 py-3 font-bold">Start strong with a vodka shot</div></label>
+          <label class="card relative" data-group="q3" data-score="beach"><input type="radio" name="q3" class="sr-only"><span class="chip">D</span><img class="w-full h-56 object-cover" src="https://images.unsplash.com/photo-1557063673-00ab3c6f4f8b?q=80&w=1400&auto=format&fit=crop"><div class="px-4 py-3 font-bold">A spritz</div></label>
+        </div>
+        <div class="mt-6"><button class="btn" data-next disabled>Next</button></div>
+      </section>
+
+      <section data-step="4" class="step hidden">
+        <button class="btn-muted mb-5" data-back>← Back</button>
+        <h2 class="font-extrabold max-w-3xl">What’s always in your backpack? <span class="align-super text-xl">•</span></h2>
+        <div class="mt-6 grid gap-3.5 sm:max-w-xl">
+          <label class="card px-4 py-3 relative" data-group="q4" data-score="explorer"><input type="radio" name="q4" class="sr-only"><span class="chip">A</span><span class="ml-8 font-bold">A waterproof jacket</span></label>
+          <label class="card px-4 py-3 relative" data-group="q4" data-score="culture"><input type="radio" name="q4" class="sr-only"><span class="chip">B</span><span class="ml-8 font-bold">Lonely Planet of the destination</span></label>
+          <label class="card px-4 py-3 relative" data-group="q4" data-score="adventure"><input type="radio" name="q4" class="sr-only"><span class="chip">C</span><span class="ml-8 font-bold">Water bottle with built-in filter</span></label>
+          <label class="card px-4 py-3 relative" data-group="q4" data-score="beach"><input type="radio" name="q4" class="sr-only"><span class="chip">D</span><span class="ml-8 font-bold">Sunscreen</span></label>
+        </div>
+        <div class="mt-6"><button class="btn" data-next disabled>Next</button></div>
+      </section>
+
+      <section data-step="5" class="step hidden">
+        <button class="btn-muted mb-5" data-back>← Back</button>
+        <h2 class="font-extrabold max-w-3xl">You wake up before dawn to… <span class="align-super text-xl">•</span></h2>
+        <div class="grid sm:grid-cols-2 gap-5 mt-6">
+          <label class="card relative" data-group="q5" data-score="explorer"><input type="radio" name="q5" class="sr-only"><span class="chip">A</span><img class="w-full h-56 object-cover" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1400&auto=format&fit=crop"><div class="px-4 py-3 font-bold">Watch the sunrise from the summit</div></label>
+          <label class="card relative" data-group="q5" data-score="culture"><input type="radio" name="q5" class="sr-only"><span class="chip">B</span><img class="w-full h-56 object-cover" src="https://images.unsplash.com/photo-1529101091764-c3526daf38fe?q=80&w=1400&auto=format&fit=crop"><div class="px-4 py-3 font-bold">Avoid queues to museum and enjoy it without the crowd</div></label>
+          <label class="card relative" data-group="q5" data-score="adventure"><input type="radio" name="q5" class="sr-only"><span class="chip">C</span><img class="w-full h-56 object-cover" src="https://images.unsplash.com/photo-1434394354979-a235cd36269d?q=80&w=1400&auto=format&fit=crop"><div class="px-4 py-3 font-bold">Hit the road or start hiking</div></label>
+          <label class="card relative" data-group="q5" data-score="beach"><input type="radio" name="q5" class="sr-only"><span class="chip">D</span><img class="w-full h-56 object-cover" src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?q=80&w=1400&auto=format&fit=crop"><div class="px-4 py-3 font-bold">I don’t wake up before dawn, I’m on vacation</div></label>
+        </div>
+        <div class="mt-6"><button class="btn" data-next disabled>Next</button></div>
+      </section>
+
+      <section data-step="6" class="step hidden">
+        <button class="btn-muted mb-5" data-back>← Back</button>
+        <h2 class="font-extrabold max-w-3xl">What shoes do you bring on a trip? <span class="align-super text-xl">•</span></h2>
+        <div class="mt-6 grid gap-3.5 sm:max-w-xl">
+          <label class="card px-4 py-3 relative" data-group="q6" data-score="explorer"><input type="radio" name="q6" class="sr-only"><span class="chip">A</span><span class="ml-8 font-bold">Goretex trekking shoes</span></label>
+          <label class="card px-4 py-3 relative" data-group="q6" data-score="adventure"><input type="radio" name="q6" class="sr-only"><span class="chip">B</span><span class="ml-8 font-bold">Teva-style sandals</span></label>
+          <label class="card px-4 py-3 relative" data-group="q6" data-score="explorer"><input type="radio" name="q6" class="sr-only"><span class="chip">C</span><span class="ml-8 font-bold">Sturdy boots</span></label>
+          <label class="card px-4 py-3 relative" data-group="q6" data-score="beach"><input type="radio" name="q6" class="sr-only"><span class="chip">D</span><span class="ml-8 font-bold">Flip-flops or Birkenstocks</span></label>
+        </div>
+        <div class="mt-6"><button class="btn" data-next disabled>Next</button></div>
+      </section>
+
+      <section data-step="7" class="step hidden">
+        <button class="btn-muted mb-5" data-back>← Back</button>
+        <h2 class="font-extrabold max-w-3xl">Which of these accommodations would you stay in? <span class="align-super text-xl">•</span></h2>
+        <div class="grid sm:grid-cols-2 gap-5 mt-6">
+          <label class="card relative" data-group="q7" data-score="culture"><input type="radio" name="q7" class="sr-only"><span class="chip">A</span><img class="w-full h-56 object-cover" src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1400&auto=format&fit=crop"><div class="px-4 py-3 font-bold">Hostel</div></label>
+          <label class="card relative" data-group="q7" data-score="culture"><input type="radio" name="q7" class="sr-only"><span class="chip">B</span><img class="w-full h-56 object-cover" src="https://images.unsplash.com/photo-1520256862855-398228c41684?q=80&w=1400&auto=format&fit=crop"><div class="px-4 py-3 font-bold">City center hotel</div></label>
+          <label class="card relative" data-group="q7" data-score="adventure"><input type="radio" name="q7" class="sr-only"><span class="chip">C</span><img class="w-full h-56 object-cover" src="https://images.unsplash.com/photo-1504280390368-3971f66085f4?q=80&w=1400&auto=format&fit=crop"><div class="px-4 py-3 font-bold">Tent</div></label>
+          <label class="card relative" data-group="q7" data-score="beach"><input type="radio" name="q7" class="sr-only"><span class="chip">D</span><img class="w-full h-56 object-cover" src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1400&auto=format&fit=crop"><div class="px-4 py-3 font-bold">Bungalow with a sea view</div></label>
+        </div>
+        <div class="mt-6"><button class="btn" data-next disabled>Next</button></div>
+      </section>
+
+      <section data-step="8" class="step hidden">
+        <button class="btn-muted mb-5" data-back>← Back</button>
+        <h2 class="font-extrabold max-w-3xl">So.. what Kind of WeRoader Are You?</h2>
+        <div class="mt-6">
+          <button class="btn" id="showResult">Spill the beans! →</button>
+        </div>
+      </section>
+
+      <section data-step="9" class="step hidden">
+        <h2 id="resTitle" class="font-extrabold leading-tight"></h2>
+        <p id="resSub" class="mt-1 text-2xl italic font-extrabold text-[color:var(--prog-done-1)]"></p>
+
+        <div class="grid sm:grid-cols-[1fr_auto] items-start gap-7 mt-5 max-w-4xl">
+          <div class="text-[color:#cfcfcf] text-[15.5px] leading-7">
+            <p id="resP1" class="mb-3"></p>
+            <p id="resP2" class="mb-3"></p>
+            <p><a id="resLink" class="underline underline-offset-4 decoration-2 text-[#ddddff]" href="#">Visit the itinerary page for you!</a></p>
+          </div>
+          <img id="resImg" alt="" class="rounded-[12px] border border-[#262626]">
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <div class="badge-tally">Made with Tally</div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // ===== базовая навигация =====
+      var steps = Array.prototype.slice.call(document.querySelectorAll('[data-step]'));
+      var cur = 0;
+
+      // построить прогресс по количеству шагов (исключая интро и финал)
+      var PROG_STEPS = Math.max(1, steps.length - 2); // 8
+      var grid = document.getElementById('progressGrid');
+      grid.style.gridTemplateColumns = 'repeat(' + PROG_STEPS + ',1fr)';
+      for (var i = 0; i < PROG_STEPS; i++) {
+        var d = document.createElement('div'); d.className = 'seg'; grid.appendChild(d);
+      }
+      function updateProgress(i){
+        var segIdx = Math.min(Math.max(i-1,-1), PROG_STEPS-1); // интро = -1
+        var segs = grid.children;
+        for (var k=0;k<segs.length;k++){
+          segs[k].classList.remove('done','current');
+          if (segIdx >= 0){
+            if (k < segIdx) segs[k].classList.add('done');
+            if (k === segIdx) segs[k].classList.add('current');
+          }
+        }
+      }
+
+      function show(i){
+        cur = i;
+        steps.forEach(function(s,idx){ s.classList.toggle('hidden', idx!==cur); });
+        updateProgress(i);
+        window.scrollTo(0,0);
+      }
+      function next(){ show(Math.min(cur+1, steps.length-1)); }
+      function back(){ show(Math.max(cur-1, 0)); }
+
+      // старт/назад
+      document.addEventListener('click', function(e){
+        if(e.target.closest('[data-next]')) next();
+        if(e.target.closest('[data-back]')) back();
+      });
+
+      // ===== выбор, набор очков и АВТО-NEXT =====
+      var scores = { beach:0, explorer:0, culture:0, adventure:0 };
+      var answers = {}; // { q1: 'explorer', ... }
+
+      function enableNextOnPick(sectionEl){
+        var firstWithGroup = sectionEl.querySelector('[data-group]');
+        if(!firstWithGroup) return;
+        var group = firstWithGroup.getAttribute('data-group');
+        var cards = sectionEl.querySelectorAll('[data-group="'+group+'"]');
+
+        Array.prototype.forEach.call(cards, function(card){
+          var radio = card.querySelector('input[type="radio"]');
+          if(!radio) return;
+
+          // реагируем на change, не на click по label
+          radio.addEventListener('change', function(){
+            Array.prototype.forEach.call(cards, function(c){ c.classList.remove('selected'); });
+            card.classList.add('selected');
+
+            var btn = sectionEl.querySelector('[data-next]');
+            if(btn) btn.removeAttribute('disabled');
+
+            var key = card.getAttribute('data-score');
+            var prev = answers[group];
+            if(prev && scores[prev] > 0){ scores[prev] -= 1; }
+            scores[key] = (scores[key] || 0) + 1;
+            answers[group] = key;
+
+            setTimeout(next, 110);
+          });
+        });
+      }
+
+      for(var i=1;i<=7;i++){ enableNextOnPick(steps[i]); }
+
+      // ===== результат =====
+      var resultMap = {
+        beach: {
+          title:'You’re an Aquaman:',
+          sub:'sea, beach, and beach life!',
+          p1:'You’re a true Aquaman – or Aquawoman, but you get the idea. You love living under the sun, with sand between your toes and the sound of waves as your soundtrack.',
+          p2:'Every beach is your paradise, where you relax, swim, and immerse yourself in marine life. You love exploring coral reefs, snorkeling, and discovering the beauty of the underwater world.',
+          img:'https://images.unsplash.com/photo-1517344884500-66e6e74c49c3?q=80&w=1200&auto=format&fit=crop'
+        },
+        explorer:{
+          title:'You’re a Frostbound Explorer:',
+          sub:'peaks, glaciers, and epic views!',
+          p1:'You chase horizons at dawn and collect summits instead of souvenirs. The colder the wind, the bigger the smile.',
+          p2:'Volcanos, fjords and northern lights: that’s your happy place. Waterproof jacket is your cape.',
+          img:'https://images.unsplash.com/photo-1500043357865-c6b8827edf39?q=80&w=1200&auto=format&fit=crop'
+        },
+        culture:{
+          title:'You’re a Culture Seeker:',
+          sub:'cities, museums, and food tours!',
+          p1:'Your compass points to history and stories. You rise early to enter museums without crowds and end days with street food discoveries.',
+          p2:'Iconic skylines, hidden courtyards and local markets are your playground.',
+          img:'https://images.unsplash.com/photo-1453831362806-3d5577f014a4?q=80&w=1200&auto=format&fit=crop'
+        },
+        adventure:{
+          title:'You’re a Wild Nomad:',
+          sub:'deserts, trails, and starry skies!',
+          p1:'Give you a dirt road and you’ll find the end of it. You pack a filter-bottle, lace the sandals and go.',
+          p2:'Camping, ridgelines and remote valleys: where the map fades, your story starts.',
+          img:'https://images.unsplash.com/photo-1499696010180-025ef6e1a8f8?q=80&w=1200&auto=format&fit=crop'
+        }
+      };
+
+      document.getElementById('showResult').addEventListener('click', function(){
+        var order = ['beach','explorer','culture','adventure'];
+        var best = order[0], bestVal = -1;
+        order.forEach(function(k){ if(scores[k] > bestVal){ bestVal = scores[k]; best = k; } });
+        var d = resultMap[best];
+        document.getElementById('resTitle').textContent = d.title;
+        document.getElementById('resSub').textContent   = d.sub;
+        document.getElementById('resP1').textContent    = d.p1;
+        document.getElementById('resP2').textContent    = d.p2;
+        document.getElementById('resImg').src           = d.img;
+        document.getElementById('resLink').href         = '#';
+        show(9);
+      });
+
+      // стартуем
+      show(0);
+    });
+  </script>
+</body>
+</html>
