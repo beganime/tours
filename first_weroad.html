@@ -31,8 +31,12 @@
     .no-scrollbar::-webkit-scrollbar{display:none}
     .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
 
-.faq-chevron{display:inline-block;transition:transform .2s;transform:rotate(90deg);} /* вниз */
-details[open] .faq-chevron{transform:rotate(-90deg);}                               /* вверх при открытии */
+summary::-webkit-details-marker{display:none} /* скрыть дефолтный маркер в Safari/Chrome */
+summary::marker{content:""}                  /* скрыть в Firefox */
+
+.faq-chevron{display:inline-block; transition:transform .2s; transform:rotate(90deg);} /* вниз по умолчанию */
+details[open] .faq-chevron{transform:rotate(-90deg);}                                  /* вверх когда открыт */
+
 
 
   </style>
@@ -237,22 +241,25 @@ details[open] .faq-chevron{transform:rotate(-90deg);}                           
     <div class="mt-8 divide-y divide-[var(--border)] border-t border-b">
 
       <!-- 1 -->
-      <details class="group">
+  <details class="group border-b border-[var(--border)] last:border-b-0">
         <summary class="list-none cursor-pointer select-none py-4 sm:py-5">
           <div class="flex items-center justify-between gap-4">
             <div class="flex items-center gap-3 transform transition-transform duration-200 group-hover:translate-x-1">
-              <img src="https://cdn.weroad.io/common/images/icons-services/dark-gray/activities.svg" alt="Activities" class="w-5 h-5 opacity-80 transition-opacity group-hover:opacity-100" loading="lazy">
+              <img src="https://cdn.weroad.io/common/images/icons-services/dark-gray/activities.svg" alt="Registry" class="w-5 h-5 opacity-80 transition-opacity group-hover:opacity-100" loading="lazy">
               <span class="text-[16px] sm:text-[17px] font-medium">How does WeRoad work?</span>
             </div>
 <span class="faq-chevron text-gray-500/80">›</span>
+          </div>
+        </summary>
         <div class="pb-5 text-gray-600 leading-7">
-        We’ll keep it short. Choose your trip based on departure dates, destinations, and travel vibe, and... book! Once you receive the confirmation email, book your round-trip flights to your destination—no, they’re not included in the package because we like flexibility!
-<br><br>15 days before departure, the coordinator will create a WhatsApp group so you can start getting to know your future travel companions. That’s it: enjoy your WeRoad trip! You’ll share incredible experiences, discover local culture, and live every moment to the fullest. You’ll probably shed a tear when it’s time to say goodbye, but that’s completely normal!
+We’ll keep it short. Choose your trip based on departure dates, destinations, and travel vibe, and... book! Once you receive the confirmation email, book your round-trip flights to your destination—no, they’re not included in the package because we like flexibility!
+<br><br>15 days before departure, the coordinator will create a WhatsApp group so you can start getting to know your future travel companions. That’s it: enjoy your WeRoad trip! You’ll share incredible experiences, discover local culture, and live every moment to the fullest. You’ll probably shed a tear when it’s time to say goodbye, but that’s completely normal!      </details>
         </div>
       </details>
 
+
       <!-- 2 -->
-      <details class="group">
+<details class="group border-b border-[var(--border)] last:border-b-0">
         <summary class="list-none cursor-pointer select-none py-4 sm:py-5">
           <div class="flex items-center justify-between gap-4">
             <div class="flex items-center gap-3 transform transition-transform duration-200 group-hover:translate-x-1">
@@ -267,7 +274,7 @@ Yes, we do have age limits. We cater to travellers in their 20s, 30s, and 40s. W
       </details>
 
       <!-- 3 -->
-      <details class="group">
+<details class="group border-b border-[var(--border)] last:border-b-0">
         <summary class="list-none cursor-pointer select-none py-4 sm:py-5">
           <div class="flex items-center justify-between gap-4">
             <div class="flex items-center gap-3 transform transition-transform duration-200 group-hover:translate-x-1">
@@ -282,7 +289,7 @@ The flight is not included because we love flexibility! This way, you’re free 
       </details>
 
       <!-- 4 -->
-      <details class="group">
+ <details class="group border-b border-[var(--border)] last:border-b-0">
         <summary class="list-none cursor-pointer select-none py-4 sm:py-5">
           <div class="flex items-center justify-between gap-4">
             <div class="flex items-center gap-3 transform transition-transform duration-200 group-hover:translate-x-1">
@@ -297,8 +304,7 @@ If you see "planned" next to the trip you're interested in, it means the trip is
       </details>
 
       <!-- 5 -->
-      <details class="group">
-        <summary class="list-none cursor-pointer select-none py-4 sm:py-5">
+<details class="group border-b border-[var(--border)] last:border-b-0">        <summary class="list-none cursor-pointer select-none py-4 sm:py-5">
           <div class="flex items-center justify-between gap-4">
             <div class="flex items-center gap-3 transform transition-transform duration-200 group-hover:translate-x-1">
               <img src="https://cdn.weroad.io/common/images/icons-services/dark-gray/bed.svg" alt="Bed" class="w-5 h-5 opacity-80 transition-opacity group-hover:opacity-100" loading="lazy">
@@ -313,8 +319,7 @@ Yes, that’s right—on all our trips, you won’t be alone in your nice room. 
       </details>
 
       <!-- 6 NEW (separate question with culture icon) -->
-      <details class="group">
-        <summary class="list-none cursor-pointer select-none py-4 sm:py-5">
+<details class="group border-b border-[var(--border)] last:border-b-0">        <summary class="list-none cursor-pointer select-none py-4 sm:py-5">
           <div class="flex items-center justify-between gap-4">
             <div class="flex items-center gap-3 transform transition-transform duration-200 group-hover:translate-x-1">
               <img src="https://cdn.weroad.io/common/images/icons-services/dark-gray/culture.svg" alt="Culture" class="w-5 h-5 opacity-80 transition-opacity group-hover:opacity-100" loading="lazy">
@@ -328,8 +333,7 @@ Of course, you can book and travel with one or more friends! It’s a great way 
       </details>
 
       <!-- 7 -->
-      <details class="group">
-        <summary class="list-none cursor-pointer select-none py-4 sm:py-5">
+<details class="group border-b border-[var(--border)] last:border-b-0">        <summary class="list-none cursor-pointer select-none py-4 sm:py-5">
           <div class="flex items-center justify-between gap-4">
             <div class="flex items-center gap-3 transform transition-transform duration-200 group-hover:translate-x-1">
               <img src="https://cdn.weroad.io/common/images/icons-services/dark-gray/souk.svg" alt="Start" class="w-5 h-5 opacity-80 transition-opacity group-hover:opacity-100" loading="lazy">
@@ -433,6 +437,8 @@ By answering these questions, you’ll narrow down your options significantly, m
     prevBtn?.addEventListener('click', () => track.scrollBy({ left: -stepSize(), behavior: 'smooth' }));
     track.addEventListener('scroll', () => { window.requestAnimationFrame(updateDots); });
     window.addEventListener('resize', updateDots);
+
+    
   </script>
 </body>
 </html>
