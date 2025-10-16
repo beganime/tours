@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>All our trips to Europe — Tailwind</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+    <style>
+    body {
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif
+    }
+    </style>
+</head>
+
+<body class="bg-white text-gray-900">
+    <!-- Breadcrumbs -->
+    <header class="w-full mx-auto center mb-20">
+        <nav class="mx-auto max-w-6xl px-4 py-4 center">
+            <ol class="flex items-center gap-2 text-sm text-gray-500 justify-center">
+                <!-- home -->
+                <li class="flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m3 10.5 9-7.5 9 7.5M4.5 9.75V21h6v-6h3v6h6V9.75" />
+                    </svg>
+                    <span>Destinations</span>
+                </li>
+                <li class="text-gray-400">></li>
+                <li class="text-gray-600">Europe</li>
+            </ol>
+        </nav>
+    </header>
+    <!-- Hero / Title block -->
+    <main class="mx-auto max-w-4xl px-4 pt-6 pb-12 text-center">
+        <h1 class="text-3xl font-extrabold tracking-tight mb-4">
+            All our trips to Europe
+        </h1>
+        <p class="text-gray-600 leading-relaxed mb-8">
+            The old continent is rich with surprises and it may be the perfect destination for your next trip if you're
+            looking for a little bit of
+            everything. You can relax on the Greek beaches, live <em>la dolce vita</em> in Italy, fight the icy winds of the
+            North or discover the sunny
+            Mediterranean.
+        </p>
+        <!-- Buttons -->
+        <div class="flex flex-wrap items-center justify-center gap-4">
+            <a href="#" class="inline-flex min-w-[250px] items-center justify-center rounded-md bg-rose-500 px-8 py-3 text-white font-semibold shadow-sm
+                hover:bg-rose-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400">
+                Italy
+            </a>
+            <a href="#" class="inline-flex min-w-[250px] items-center justify-center rounded-md bg-rose-500 px-8 py-3 text-white font-semibold shadow-sm
+                hover:bg-rose-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400">
+                Other Mediterranean
+            </a>
+            <a href="#" class="inline-flex min-w-[250px] items-center justify-center rounded-md bg-rose-500 px-8 py-3 text-white font-semibold shadow-sm
+                hover:bg-rose-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400">
+                Nordics and mainland Europe
+            </a>
+        </div>
+    </main>
+</body>
+
+</html>
