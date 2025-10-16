@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wishlist block — pixel match</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root{
+      --heading:#3d3f44;       /* тёмно-серый как на скрине */
+      --body:#5b616a;          /* серый текста абзаца */
+      --cta:#ff4b57;           /* красная кнопка */
+      --link:#1e8790;          /* бирюзовая ссылка */
+    }
+    body{
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      color:var(--heading);
+      background:#ffffff;
+    }
+    .h1-wish{
+      font-weight:800;
+      font-size:40px;
+      line-height:1.15;
+      letter-spacing:-0.01em;
+    }
+    .p-wish{
+      font-size:18px;
+      line-height:30px;
+      color:var(--body);
+    }
+    .btn-wish{
+      background:var(--cta);
+      color:#fff;
+      font-weight:700;
+      font-size:16px;
+      line-height:1;
+      padding:.95rem 1.25rem;
+      border-radius:.5rem;
+      box-shadow:0 10px 24px rgba(255,75,87,.22);
+      transition:filter .15s ease, transform .15s ease;
+    }
+    .btn-wish:hover{ filter:brightness(.96); transform:translateY(-1px) }
+    .link-wish{ color:var(--link); }
+    .link-wish:hover{ text-decoration:underline }
+  </style>
+</head>
+<body>
+  <main class="mx-auto max-w-[760px] px-4 pt-10 pb-12">
+
+    <!-- Центрируем логотип -->
+    <div class="flex justify-center">
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
+           class="block mx-auto w-16 h-16">
+        <g>
+          <path d="M11.9166 62.125H32V42.0416H11.9166V62.125Z" stroke="#323232" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+          <path d="M21.9583 32.0001H1.87488L11.9166 42.0417H31.9999L21.9583 32.0001Z" stroke="#323232" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+          <path d="M32 62.125H52.0834V42.0416H32V62.125Z" stroke="#323232" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+          <path d="M62.125 32.0001H42.0416L32 42.0417H52.0834L62.125 32.0001Z" stroke="#323232" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+          <path d="M32 29.9917C32 29.9917 32 7.90007 19.95 7.90007C9.90836 7.90007 9.90836 21.9583 23.9666 21.9583" stroke="#323232" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+          <path d="M42.0416 3.88325C56.0999 3.88325 56.0999 21.9583 38.025 21.9583" stroke="#323232" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+          <path d="M32 1.87493L34.0084 3.8833L36.0166 1.87493" stroke="#FF4758" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+        </g>
+      </svg>
+    </div>
+
+    <!-- заголовок в 3 строки -->
+    <h1 class="h1-wish text-center mt-5 max-w-[560px] mx-auto">
+      Your wishlist: all your<br>
+      favourite trips in one<br>
+      place
+    </h1>
+
+    <!-- абзац -->
+    <p class="p-wish text-center mt-5 max-w-[560px] mx-auto">
+      Every new adventure is simply a wish that hasn't come true yet – yes, we just invented this quote
+      and you can use it if you want. Save trips and come back here to find them all!
+    </p>
+
+    <!-- кнопка -->
+    <div class="flex justify-center mt-6">
+      <a href="#" class="btn-wish">Find your trips</a>
+    </div>
+
+    <!-- линк логина -->
+    <p class="text-center mt-6 text-[16px]">
+      <a href="#" class="link-wish">You already have an account? Login</a>
+    </p>
+  </main>
+</body>
+</html>
