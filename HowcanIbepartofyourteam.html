@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+        font-family: 'Inter', system-ui, sans-serif;
+    }
+
+    .transition-max {
+        transition: max-height 0.3s ease;
+    }
+    </style>
+</head>
+
+<body>
+    <section class="text-gray-700">
+        <div class="w-full flex flex-col md:flex-row md:items-center md:justify-between gap-3 px-4 md:px-8 py-4">
+            <!-- Breadcrumb -->
+            <nav class="flex flex-wrap items-center text-sm text-[#4b89a1] space-x-1">
+                <a href="#" class="hover:underline">WeRoad Travel</a>
+                <span class="text-gray-400">&gt;</span>
+                <a href="#" class="hover:underline">General Informations</a>
+                <span class="text-gray-400">&gt;</span>
+                <a href="#" class="hover:underline">How WeRoad works</a>
+            </nav>
+            <!-- Search -->
+            <div class="relative w-full md:w-[300px] lg:w-[350px]">
+                <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                <input type="text" placeholder="Search" class="border border-gray-300 rounded-md pl-9 pr-3 py-1.5 text-md w-full focus:ring-1 focus:ring-gray-400 focus:outline-none" />
+            </div>
+        </div>
+    </section>
+    <script>
+    lucide.createIcons();
+    </script>
+    <div class="flex flex-col md:flex-row mx-auto justify-center w-[90%]">
+        <aside class="w-full md:max-w-md border-t p-4 mx-auto md:mx-1">
+            <!-- Header (mobile view collapsible) -->
+            <button id="toggleButton" class="w-full flex justify-between items-center py-3 px-2 md:hidden">
+                <span class="text-[15px] font-semibold text-gray-900">Articles in this section</span>
+                <svg id="arrowIcon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
+            <!-- Desktop heading -->
+            <h3 class="hidden md:block text-[15px] font-semibold text-gray-900 mb-3 mt-3 px-2">
+                Articles in this section
+            </h3>
+            <!-- Links list -->
+            <ul id="articlesList" class="overflow-hidden max-h-0 md:max-h-none md:block transition-max text-[15px] leading-snug">
+                <li>
+                    <a href="#" class="block bg-[#5E9DA4] text-white font-medium rounded px-3 py-2">
+                        How can I be part of your team?
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="block text-gray-900 hover:underline px-3 py-2">
+                        How to become a Travel Coordinator?
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="block text-gray-900 hover:underline px-3 py-2">
+                        How can I become a partner?
+                    </a>
+                </li>
+            </ul>
+        </aside>
+        <div>
+            <main class="max-w-full md:max-w-full mx-auto md:mr-10 p-8 color[#111827]">
+                <!-- Заголовок -->
+                <h1 class="text-2xl font-extrabold text-gray-900 mb-3 leading-snug">
+                    How can I be<br>part of your team?
+                </h1>
+                <!-- Автор и дата -->
+                <div class="flex items-center flex-col md:flex-row space-x-2 text-sm text-gray-600 mb-5">
+                    <img src="https://weroadsupport.zendesk.com/system/photos/1900054122254/wr_logo.png" alt="WeRoad logo" class="w-6 h-6 object-contain rounded-full" />
+                    <span class="font-medium text-gray-800">WeRoad</span>
+                    <span>8 months ago</span>
+                    <span>Updated</span>
+                </div>
+                <!-- Контент -->
+                <div class="space-y-4 text-[15px] leading-relaxed">
+                    <p>
+                        We are present in 6 European cities:
+                        <span class="font-medium">Milan, our HQ, Paris, London, Madrid, Berlin and Chiasso in Switzerland.</span>
+                    </p>
+                    <p>
+                        You can find all our open positions, always up to date, here:<br>
+                        <a href="https://career.weroad.travel/" target="_blank" class="text-[#1b7a72] break-words hover:underline">
+                            https://career.weroad.travel/
+                        </a>, and if you want to be part of our (incredible) team, follow the application process – we wish you the best of luck!
+                    </p>
+                    <p>
+                        If you work in tech... join our Monkeys!<br>
+                        Take a look at this page:<br>
+                        <a href="https://monkeys.weroad.io/" target="_blank" class="text-[#1b7a72] break-words hover:underline">
+                            https://monkeys.weroad.io/
+                        </a>
+                    </p>
+                </div>
+                <!-- Соцсети -->
+                <div class="flex items-center space-x-5 mt-6 pb-4 justify-start">
+                    <a href="#" aria-label="Facebook" class="text-gray-600 hover:text-[#1b7a72]">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M22 12.07C22 6.48 17.52 2 11.93 2S1.86 6.48 1.86 12.07C1.86 17.11 5.69 21.26 10.5 22v-7.03H7.9v-2.9h2.6V9.94c0-2.57 1.54-3.99 3.9-3.99 1.13 0 2.31.2 2.31.2v2.54h-1.3c-1.28 0-1.67.8-1.67 1.62v1.94h2.83l-.45 2.9h-2.38V22c4.81-.74 8.64-4.89 8.64-9.93z" />
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="Twitter" class="text-gray-600 hover:text-[#1b7a72]">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M22.46 6.11c-.77.35-1.6.58-2.46.69a4.27 4.27 0 001.88-2.37 8.61 8.61 0 01-2.7 1.03 4.25 4.25 0 00-7.24 3.87A12.05 12.05 0 013 4.8a4.25 4.25 0 001.32 5.67 4.22 4.22 0 01-1.92-.53v.05a4.25 4.25 0 003.41 4.17 4.27 4.27 0 01-1.91.07 4.25 4.25 0 003.96 2.94A8.53 8.53 0 012 19.54a12.02 12.02 0 006.52 1.91c7.82 0 12.09-6.48 12.09-12.1 0-.18 0-.35-.01-.53a8.63 8.63 0 002.13-2.2z" />
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="LinkedIn" class="text-gray-600 hover:text-[#1b7a72]">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20.45 20.45h-3.56v-5.24c0-1.25-.02-2.85-1.74-2.85-1.75 0-2.02 1.36-2.02 2.76v5.33h-3.56V9h3.42v1.56h.05a3.75 3.75 0 013.37-1.85c3.6 0 4.26 2.37 4.26 5.44v6.3zM5.34 7.43a2.06 2.06 0 110-4.12 2.06 2.06 0 010 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.78C.8 0 0 .8 0 1.78v20.44C0 23.2.8 24 1.78 24h20.44c.98 0 1.78-.8 1.78-1.78V1.78C24 .8 23.2 0 22.22 0z" />
+                        </svg>
+                    </a>
+                </div>
+            </main>
+            <section class="text-gray-800  border-b border-t border-gray-200">
+                <section class="flex flex-col items-center justify-center py-20">
+                    <p class="text-sm text-gray-800 font-medium mb-4">Was this article helpful?</p>
+                    <div class="flex items-center space-x-3 mb-3">
+                        <button class="flex items-center space-x-1 border border-[#1b7a72] text-[#1b7a72] hover:bg-[#eaf5f3] px-4 py-1.5 rounded text-sm transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293A1 1 0 103.293 10.707l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd" />
+                            </svg>
+                            <span>Yes</span>
+                        </button>
+                        <button class="flex items-center space-x-1 border border-gray-400 text-gray-700 hover:bg-gray-50 px-4 py-1.5 rounded text-sm transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 8.586l3.95-3.95a1 1 0 111.414 1.414L11.414 10l3.95 3.95a1 1 0 11-1.414 1.414L10 11.414l-3.95 3.95a1 1 0 11-1.414-1.414L8.586 10l-3.95-3.95A1 1 0 116.05 4.636L10 8.586z" clip-rule="evenodd" />
+                            </svg>
+                            <span>No</span>
+                        </button>
+                    </div>
+                    <p class="text-xs text-gray-600">1 out of 1 found this helpful</p>
+                </section>
+            </section>
+            <section class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 p-6 pt-6">
+                <!-- Recently viewed -->
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-900 mb-5">Recently viewed articles</h3>
+                    <ul class="space-y-5 text-sm text-[#1b7a72]">
+                        <li><a href="#" class="hover:underline">What is WeRoad?</a></li>
+                        <li><a href="#" class="hover:underline">How can I get in touch with WeRoad?</a></li>
+                        <li><a href="#" class="hover:underline">Who is WeRoad for? What type of travellers are WeRoaders?</a></li>
+                        <li><a href="#" class="hover:underline">Can I see who’s in the group before I book the trip?</a></li>
+                        <li><a href="#" class="hover:underline">Are there any age restrictions?</a></li>
+                    </ul>
+                </div>
+                <!-- Related -->
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-900 mb-5">Related articles</h3>
+                    <ul class="space-y-5 text-sm text-[#1b7a72]">
+                        <li><a href="#" class="hover:underline">How to become a Travel Coordinator?</a></li>
+                        <li><a href="#" class="hover:underline">How can I become a partner?</a></li>
+                        <li><a href="#" class="hover:underline">Why do I have to travel with a backpack?</a></li>
+                        <li><a href="#" class="hover:underline">Is the flight included?</a></li>
+                        <li><a href="#" class="hover:underline">Are there any age restrictions?</a></li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </div>
+    <script>
+    const toggleButton = document.getElementById('toggleButton');
+    const articlesList = document.getElementById('articlesList');
+    const arrowIcon = document.getElementById('arrowIcon');
+
+    toggleButton.addEventListener('click', () => {
+        if (articlesList.classList.contains('max-h-0')) {
+            articlesList.classList.remove('max-h-0');
+            articlesList.classList.add('max-h-96');
+            arrowIcon.classList.add('rotate-180');
+        } else {
+            articlesList.classList.add('max-h-0');
+            articlesList.classList.remove('max-h-96');
+            arrowIcon.classList.remove('rotate-180');
+        }
+    });
+    </script>
+</body>
+
+</html>
