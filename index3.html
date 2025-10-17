@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Уведомления — компонент</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-white text-gray-900">
+    <main class="max-w-2xl mx-auto px-6 py-8">
+        <!-- Заголовок -->
+        <h1 class="text-2xl font-extrabold mb-6">Уведомления</h1>
+        <!-- КАНАЛЫ -->
+        <h2 class="text-xs font-semibold uppercase tracking-wider text-gray-600">КАНАЛЫ</h2>
+        <p class="text-[13.5px] text-gray-600 mt-1 mb-4">
+            Добавьте удобные каналы для получения оповещений, рассылок и рекламных уведомлений
+        </p>
+        <div class="space-y-2">
+            <!-- Email -->
+            <label class="flex items-center justify-between py-2 cursor-pointer select-none">
+                <span class="text-[15px]">Email</span>
+                <span class="inline-flex items-center">
+                    <input type="checkbox" class="sr-only peer" aria-label="Email">
+                    <!-- дорожка + кружок-псевдоэлемент -->
+                    <span class="relative w-10 h-5 bg-gray-200 rounded-full transition-colors peer-checked:bg-[#abc323]
+                       after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-4 after:h-4 after:bg-white after:rounded-full after:shadow
+                       after:transition-transform peer-checked:after:translate-x-5"></span>
+                </span>
+            </label>
+            <!-- Telegram -->
+            <label class="flex items-center justify-between py-2 cursor-pointer select-none">
+                <span class="text-[15px]">Telegram</span>
+                <span class="inline-flex items-center">
+                    <input type="checkbox" class="sr-only peer" aria-label="Telegram">
+                    <span class="relative w-10 h-5 bg-gray-200 rounded-full transition-colors peer-checked:bg-[#abc323]
+                       after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-4 after:h-4 after:bg-white after:rounded-full after:shadow
+                       after:transition-transform peer-checked:after:translate-x-5"></span>
+                </span>
+            </label>
+            <!-- SMS-уведомления (включено) -->
+            <label class="flex items-center justify-between py-2 cursor-pointer select-none">
+                <span class="text-[15px]">SMS-уведомления</span>
+                <span class="inline-flex items-center">
+                    <input type="checkbox" class="sr-only peer" aria-label="SMS-уведомления" checked>
+                    <span class="relative w-10 h-5 bg-gray-200 rounded-full transition-colors peer-checked:bg-[#abc323]
+                       after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-4 after:h-4 after:bg-white after:rounded-full after:shadow
+                       after:transition-transform peer-checked:after:translate-x-5"></span>
+                </span>
+            </label>
+            <!-- Push-уведомления -->
+            <label class="flex items-center justify-between py-2 cursor-pointer select-none">
+                <span class="text-[15px]">Push-уведомления</span>
+                <span class="inline-flex items-center">
+                    <input type="checkbox" class="sr-only peer" aria-label="Push-уведомления">
+                    <span class="relative w-10 h-5 bg-gray-200 rounded-full transition-colors peer-checked:bg-[#abc323]
+                       after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-4 after:h-4 after:bg-white after:rounded-full after:shadow
+                       after:transition-transform peer-checked:after:translate-x-5"></span>
+                </span>
+            </label>
+            <!-- Кнопка и подпояснение -->
+            <div class="pt-2">
+                <button type="button" class="px-4 py-2 text-[13.5px] font-semibold border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition">
+                    Добавить Текущее Устройство
+                </button>
+                <p class="text-[12.5px] text-gray-500 mt-2 max-w-md">
+                    Необходимо активировать на каждом устройстве, на котором Вам удобно получать Push-уведомления
+                </p>
+            </div>
+            <!-- Whatsapp -->
+            <label class="flex items-center justify-between py-2 cursor-pointer select-none">
+                <span class="text-[15px]">Whatsapp</span>
+                <span class="inline-flex items-center">
+                    <input type="checkbox" class="sr-only peer" aria-label="Whatsapp">
+                    <span class="relative w-10 h-5 bg-gray-200 rounded-full transition-colors peer-checked:bg-[#abc323]
+                       after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-4 after:h-4 after:bg-white after:rounded-full after:shadow
+                       after:transition-transform peer-checked:after:translate-x-5"></span>
+                </span>
+            </label>
+        </div>
+    </main>
+</body>
+
+</html>

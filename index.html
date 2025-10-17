@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Аккаунт — компонент</title>
+    <!-- Tailwind Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+        --brand: #6b21a8;
+        --brand1: #abc323;
+        /* фиолетовый как на скрине */
+    }
+       :root{
+      /* Палитра как на скринах */
+      --purple:#6f2dbd;       /* заголовки, активные чипы, ползунок */
+      --ink:#2f3237;          /* текст */
+      --muted:#6b7280;        /* подзаголовки */
+      --line:#e5e7eb;         /* границы */
+      --chipbg:#fff;       /* фон чипов */
+      --chiptext:#4b5563;     /* текст чипов */
+      --chipbg-on:#abc323;    /* активный чип */
+      --chiptext-on:#ffffff;  /* текст активного чипа */
+      --placeholder:#9ca3af;  /* плейсхолдер */
+      --cta:#b4cd1e;          /* зелёная кнопка Сохранить */
+      --cta-press:#a5bd17;
+    }
+    html,body{height:100%}
+    body{
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--ink);
+      background:#fff;
+    }
+
+    .card{background:#fff;border:1px solid var(--line);border-radius:12px;}
+    .field{border:1px solid var(--line);background:#fff;color:var(--ink);}
+    .field::placeholder{color:var(--placeholder)}
+    .field:focus{outline:3px solid rgba(111,45,189,.18); outline-offset:0}
+
+    /* Чипы (checkbox/radio) */
+    .chip-input{position:absolute;opacity:0;width:0;height:0;pointer-events:none;}
+    .chip{
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:.5rem 1rem;border-radius:.5rem;font-size:14px;line-height:1;
+      background:var(--chipbg);color:var(--chiptext);border:1px solid var(--line);
+      cursor:pointer;user-select:none;transition:all .18s ease;white-space:nowrap;
+    }
+    .chip:hover{border-color:#d1d5db}
+    .chip-input:focus + .chip{outline:3px solid rgba(111,45,189,.18);outline-offset:2px}
+    .chip-input:checked + .chip{background:var(--chipbg-on);color:var(--chiptext-on);border-color:var(--chipbg-on);}
+    .chip-wide{width:100%;justify-content:flex-start;}
+    .chips-wrap{gap:.6rem .6rem}
+    @media (max-width: 640px){ .chips-wrap{gap:.5rem .5rem} }
+
+    /* Ползунок интроверт—экстраверт */
+    .range{ -webkit-appearance:none; width:100%; height:2px; background:var(--line); border-radius:999px; outline:none; }
+    .range::-webkit-slider-thumb{
+      -webkit-appearance:none; width:14px; height:14px; border-radius:999px;
+      background:var(--purple); border:2px solid var(--purple);
+      box-shadow:0 0 0 2px rgba(111,45,189,.20);
+      margin-top:-6px; cursor:pointer;
+    }
+    .range::-moz-range-track{height:2px;background:var(--line);border:none;border-radius:999px;}
+    .range::-moz-range-thumb{
+      width:14px;height:14px;border-radius:999px;background:var(--purple);
+      border:2px solid var(--purple); box-shadow:0 0 0 2px rgba(111,45,189,.20); cursor:pointer;
+    }
+
+    body {
+        font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+    </style>
+</head>
+
+<body class="bg-white text-gray-800">
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 md:px-8 py-6">
+        <!-- Заголовок и пользователь -->
+        <h1 class="text-2xl font-extrabold tracking-tight text-[color:var(--brand)]">
+            Аккаунт
+        </h1>
+    </section>
+    <main class="min-h-screen flex items-start justify-center px-4 py-10 sm:py-14">
+        <section class="w-full max-w-4xl">
+            <!-- Заголовок страницы -->
+            <h1 class="text-center font-extrabold tracking-tight" style="color:var(--purple); font-size:clamp(26px,4.5vw,32px);">
+                Расскажите вашей группе о себе
+            </h1>
+            <p class="mt-2 text-center text-sm sm:text-base" style="color:var(--muted);">
+                Заполните анкету и узнайте больше о тех, кто поедет вместе с вами
+            </p>
+            <!-- Карточка всей анкеты -->
+            <div class="card mt-6 p-5 sm:p-6">
+                <!-- Я живу в -->
+                <div class="space-y-2">
+                    <label for="city" class="block text-[15px] font-semibold">Я живу в:</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21s-7-4.5-7-10a7 7 0 1114 0c0 5.5-7 10-7 10z" />
+                                <circle cx="12" cy="11" r="2.8" />
+                            </svg>
+                        </span>
+                        <input id="city" type="text" class="field w-full rounded-md pl-10 pr-3 py-2.5 text-[15px]" placeholder="Москва, Российская Федерация" />
+                    </div>
+                </div>
+                <!-- Мне интересно -->
+                <div class="mt-6">
+                    <p class="text-[15px] font-semibold mb-3">Мне интересно:</p>
+                    <div class="flex flex-wrap chips-wrap">
+                        <input id="c-fish" class="chip-input" type="checkbox"><label class="chip" for="c-fish">Рыбалка</label>
+                        <input id="c-med" class="chip-input" type="checkbox"><label class="chip" for="c-med">Медитация</label>
+                        <input id="c-auto" class="chip-input" type="checkbox"><label class="chip" for="c-auto">Автопутешествия</label>
+                        <input id="c-extreme" class="chip-input" type="checkbox"><label class="chip" for="c-extreme">Экстрим</label>
+                        <input id="c-hike" class="chip-input" type="checkbox"><label class="chip" for="c-hike">Походы</label>
+                        <input id="c-self" class="chip-input" type="checkbox"><label class="chip" for="c-self">Саморазвитие</label>
+                        <input id="c-sport" class="chip-input" type="checkbox"><label class="chip" for="c-sport">Спорт</label>
+                        <input id="c-lang" class="chip-input" type="checkbox"><label class="chip" for="c-lang">Иностранные языки</label>
+                        <input id="c-history" class="chip-input" type="checkbox"><label class="chip" for="c-history">История</label>
+                        <input id="c-art" class="chip-input" type="checkbox"><label class="chip" for="c-art">Искусство</label>
+                        <input id="c-shop" class="chip-input" type="checkbox"><label class="chip" for="c-shop">Шоппинг</label>
+                        <input id="c-bars" class="chip-input" type="checkbox"><label class="chip" for="c-bars">Бары и рестораны</label>
+                        <input id="c-sea" class="chip-input" type="checkbox"><label class="chip" for="c-sea">Море и пляж</label>
+                        <input id="c-photo" class="chip-input" type="checkbox"><label class="chip" for="c-photo">Фото- и видеосъёмка</label>
+                        <input id="c-nature" class="chip-input" type="checkbox"><label class="chip" for="c-nature">Природа и парки</label>
+                        <input id="c-kids" class="chip-input" type="checkbox"><label class="chip" for="c-kids">Путешествия с детьми</label>
+                        <input id="c-sail" class="chip-input" type="checkbox"><label class="chip" for="c-sail">Путешествия под парусом</label>
+                        <input id="c-food" class="chip-input" type="checkbox"><label class="chip" for="c-food">Гастрономия</label>
+                        <input id="c-ind" class="chip-input" type="checkbox"><label class="chip" for="c-ind">Индастриал</label>
+                        <input id="c-museums" class="chip-input" type="checkbox"><label class="chip" for="c-museums">Музеи</label>
+                        <input id="c-slums" class="chip-input" type="checkbox"><label class="chip" for="c-slums">Трущобы</label>
+                        <input id="c-loft" class="chip-input" type="checkbox"><label class="chip" for="c-loft">Лофты</label>
+                    </div>
+                </div>
+                <!-- Я путешествую -->
+                <div class="mt-8">
+                    <p class="text-[15px] font-semibold mb-3">Я путешествую:</p>
+                    <div class="grid grid-cols-2 gap-2.5 sm:max-w-xl">
+                        <input id="t-1" class="chip-input" type="radio" name="travel_freq"><label class="chip" for="t-1">Один раз в месяц</label>
+                        <input id="t-2" class="chip-input" type="radio" name="travel_freq"><label class="chip" for="t-2">Несколько раз в год</label>
+                        <input id="t-3" class="chip-input" type="radio" name="travel_freq"><label class="chip" for="t-3">Один раз в год</label>
+                        <input id="t-4" class="chip-input" type="radio" name="travel_freq"><label class="chip" for="t-4">Реже одного раза в год</label>
+                    </div>
+                </div>
+                <!-- Ожидания -->
+                <div class="mt-8">
+                    <p class="text-[15px] font-semibold mb-3">От этого путешествия я жду:</p>
+                    <div class="flex flex-col gap-2.5 sm:max-w-2xl">
+                        <input id="e-1" class="chip-input" type="checkbox"><label class="chip chip-wide" for="e-1">Активный отдых, не хочу лежать на шезлонге</label>
+                        <input id="e-2" class="chip-input" type="checkbox"><label class="chip chip-wide" for="e-2">Хочу лежать на шезлонге, не хочу никуда бежать</label>
+                        <input id="e-3" class="chip-input" type="checkbox"><label class="chip chip-wide" for="e-3">Компания единомышленников по возрасту и интересам</label>
+                        <input id="e-4" class="chip-input" type="checkbox"><label class="chip chip-wide" for="e-4">Насыщенный маршрут, чтобы посмотреть много нового</label>
+                    </div>
+                </div>
+                <!-- ▲▲▲ КОНЕЦ НОВОГО БЛОКА ▲▲▲ -->
+                <!-- ▼▼▼ НОВЫЙ БЛОК СО СКРИНА ▼▼▼ -->
+                <div class="mt-8 grid gap-5 ">
+                    <div>
+                        <label for="f-like" class="block text-[15px] font-semibold mb-1.5">Я люблю:</label>
+                        <input id="f-like" type="text" class="field w-full rounded-md px-3 py-2.5" placeholder="">
+                    </div>
+                    <div>
+                        <label for="f-super" class="block text-[15px] font-semibold mb-1.5">Моя суперсила:</label>
+                        <input id="f-super" type="text" class="field w-full rounded-md px-3 py-2.5" placeholder="">
+                    </div>
+                    <div>
+                        <label for="f-want" class="block text-[15px] font-semibold mb-1.5">В путешествии я хочу:</label>
+                        <input id="f-want" type="text" class="field w-full rounded-md px-3 py-2.5" placeholder="">
+                    </div>
+                    <div>
+                        <p class="text-[15px] font-semibold mb-1.5">Честно говоря, я</p>
+                        <div class="flex justify-between text-xs text-gray-500 mb-2">
+                            <span>Интроверт</span>
+                            <span>Экстраверт</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="35" class="range" aria-label="Интроверт — Экстраверт">
+                    </div>
+                    <div>
+                        <label for="f-dislike" class="block text-[15px] font-semibold mb-1.5">Больше всего в путешествии я не люблю:</label>
+                        <input id="f-dislike" type="text" class="field w-full rounded-md px-3 py-2.5" placeholder="">
+                    </div>
+                    <div>
+                        <label for="f-expect" class="block text-[15px] font-semibold mb-1.5">Больше всего в путешествии я жду:</label>
+                        <input id="f-expect" type="text" class="field w-full rounded-md px-3 py-2.5" placeholder="">
+                    </div>
+                </div>
+                <div class="pt-2">
+                    <button type="button" class="w-full rounded-md px-8 py-3 font-bold text-white" style="background:var(--cta);">СОХРАНИТЬ</button>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+
+</html>

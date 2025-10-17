@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Решение разногласий — Компонент</title>
+    <!-- Tailwind Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        html,body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,"Noto Sans","Apple Color Emoji","Segoe UI Emoji";}
+  </style>
+</head>
+
+<body class="bg-white text-gray-800">
+    <main class="max-w-3xl mx-auto px-4 sm:px-6 py-8">
+        <!-- Заголовок и описание -->
+        <h1 class="text-2xl sm:text-[26px] font-extrabold text-purple-800 tracking-tight">
+            Решение разногласий
+        </h1>
+        <p class="mt-2 text-sm text-gray-600 max-w-2xl leading-relaxed">
+            Отправить или запросить деньги, связанные с бронированием (дополнительные услуги/сборы, возвраты или компенсацию ущерба).
+        </p>
+        <!-- Кнопка (неактивная) -->
+        <div class="mt-4">
+            <button type="button" disabled class="w-[500px] max-w-full h-10 rounded-md bg-gray-300 text-gray-600 font-semibold uppercase tracking-wider cursor-not-allowed select-none flex items-center justify-center" aria-disabled="true">
+                Запрос возврата
+            </button>
+        </div>
+        <!-- Раздел: Текущие заявки -->
+        <section class="mt-10">
+            <h2 class="text-base sm:text-lg font-semibold text-gray-900">
+                Текущие заявки
+            </h2>
+            <p class="mt-2 text-sm text-gray-600">
+                Нет исходящих запросов.
+            </p>
+        </section>
+        <!-- Раздел: Входящие заявки -->
+        <section class="mt-8">
+            <h2 class="text-base sm:text-lg font-semibold text-gray-900">
+                Входящие заявки
+            </h2>
+            <p class="mt-2 text-sm text-gray-600">
+                Нет входящих запросов
+            </p>
+        </section>
+    </main>
+</body>
+
+</html>
