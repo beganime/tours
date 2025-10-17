@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Бонусная программа — компоненты</title>
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+        :root{
+      --ink:#111827; --muted:#6b7280; --border:#e5e7eb; --link:#6f3bd2; --accent:#6d28d9;
+      --green:#16a34a; --green-50:#ecfdf5;
+    }
+    html,body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;color:var(--ink);background:#fff}
+    .link{color:var(--link);text-decoration:underline;text-underline-offset:2px}
+    .link:hover{opacity:.85}
+    /* Чтобы текст инпута выглядел как блок из скрина */
+    .invite-like{background:#f9fafb;border:1px solid var(--border);border-radius:12px;padding:.75rem 1rem;color:#6b7280}
+    .invite-like:focus{outline:none;box-shadow:0 0 0 3px rgba(109,40,217,.15)}
+  </style>
+</head>
+
+<body>
+    <!-- ====== Бонусный счёт ====== -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight mb-5 sm:mb-6">Бонусный счёт</h1>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+            <!-- Статус -->
+            <div class="bg-white rounded-2xl shadow-[0_4px_22px_rgba(20,28,38,.06)] ring-1 ring-gray-100 p-4 sm:p-5 flex flex-col justify-between">
+                <div class="flex items-center justify-between">
+                    <div class="text-[15px] font-semibold">Ваш статус</div>
+                    <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gray-100 text-gray-500 text-xs font-bold" title="Как работает статус">i</span>
+                </div>
+                <div class="mt-6 sm:mt-8">
+                    <div class="flex items-center gap-2">
+                        <div class="w-6 h-6 rounded-full bg-[var(--accent)] text-white grid place-items-center text-[11px] font-bold">✓</div>
+                        <div class="flex-1 h-[2px] bg-[var(--border)]"></div>
+                        <div class="w-6 h-6 rounded-full bg-white border border-[var(--border)] grid place-items-center"></div>
+                        <div class="flex-1 h-[2px] bg-[var(--border)]"></div>
+                        <div class="w-6 h-6 rounded-full bg-white border border-[var(--border)] grid place-items-center"></div>
+                        <div class="flex-1 h-[2px] bg-[var(--border)]"></div>
+                        <div class="w-6 h-6 rounded-full bg-white border border-[var(--border)] grid place-items-center"></div>
+                        <div class="flex-1 h-[2px] bg-[var(--border)]"></div>
+                        <div class="w-6 h-6 rounded-full bg-white border border-[var(--border)] grid place-items-center"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Баланс -->
+            <div class="bg-white rounded-2xl shadow-[0_4px_22px_rgba(20,28,38,.06)] ring-1 ring-gray-100 p-4 sm:p-5">
+                <div class="text-[15px] font-semibold mb-5">Ваш баланс</div>
+                <div class="text-[var(--accent)] text-2xl font-extrabold leading-none mb-2">0 бонусов</div>
+                <div class="text-sm text-[var(--muted)]">(1 бонус = 1 ₽)</div>
+            </div>
+            <!-- Расходы -->
+            <div class="bg-white rounded-2xl shadow-[0_4px_22px_rgba(20,28,38,.06)] ring-1 ring-gray-100 p-4 sm:p-5">
+                <div class="text-[15px] font-semibold mb-5">Расходы на путешествия</div>
+                <div class="text-2xl font-extrabold leading-none mb-5 text-[var(--accent)]">0 ₽</div>
+                <a href="#" class="group flex items-center justify-between rounded-xl border border-transparent hover:border-[var(--border)] px-4 py-3 transition">
+                    <span class="text-sm font-semibold">История транзакций</span>
+                    <svg class="w-5 h-5 text-gray-400 group-hover:text-[var(--ink)] transition" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M7.293 4.293a1 1 0 011.414 0l4.999 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414-1.414L11.586 11H3a1 1 0 110-2h8.586L7.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- ====== Как получать бонусы ====== -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <div class="bg-white rounded-2xl shadow-[0_4px_22px_rgba(20,28,38,.06)] ring-1 ring-gray-100 p-4 sm:p-6">
+            <h2 class="text-[22px] sm:text-[24px] font-extrabold mb-3">Как получать бонусы?</h2>
+            <div class="py-3">
+                <h3 class="text-[15px] font-semibold mb-1">Ездить в путешествия</h3>
+                <p class="text-[15px] text-[var(--muted)]">После каждой поездки от 1% до 3% стоимости возвращается бонусами.</p>
+                <a href="#" class="link inline-block mt-2 text-[15px]">Подробнее об условиях</a>
+            </div>
+            <hr class="my-4 border-t border-[var(--border)]">
+            <div class="py-3">
+                <div class="flex items-start gap-1.5">
+                    <h3 class="text-[15px] font-semibold">Оставлять отзывы о путешествиях</h3>
+                    <span class="mt-[1px] inline-flex items-center justify-center w-4 h-4 rounded-full bg-gray-100 text-gray-500 text-[10px] font-bold select-none" title="Подробности о начислении бонусов">i</span>
+                </div>
+                <p class="text-[15px] text-[var(--muted)] mt-1">
+                    Пишите подробные отзывы на <a class="link" href="#">irecommend.ru</a>, <a class="link" href="#">otzovik.ru</a>, в <a class="link" href="#">ВК</a> или <a class="link" href="#">Инстаграме</a> и получите <span class="font-semibold text-[var(--ink)]">2 000 бонусов</span>; <a class="link" href="#">Яндекс</a>: <span class="font-semibold text-[var(--ink)]">500</span>, <a class="link" href="#">Google</a>: <span class="font-semibold text-[var(--ink)]">500</span>.
+                </p>
+            </div>
+            <hr class="my-4 border-t border-[var(--border)]">
+            <div class="py-3">
+                <h3 class="text-[15px] font-semibold mb-1">Приглашать друзей в поездки с нами</h3>
+                <p class="text-[15px] text-[var(--muted)]">
+                    За каждого приглашённого по вашей ссылке друга — <span class="font-semibold text-[var(--ink)]">1 000 бонусов</span>. Другу — скидка до <span class="font-semibold text-[var(--ink)]">1 000 ₽</span>.
+                </p>
+                <a href="#" class="link inline-block mt-2 text-[15px]">Подробнее о программе</a>
+            </div>
+            <div class="mt-5">
+                <div class="text-[13px] font-semibold mb-2">Ваша ссылка для друзей</div>
+                <div class="flex flex-col sm:flex-row items-stretch gap-3">
+                    <input id="inviteInput" type="text" readonly value="https://youtravel.me/invite/74f3cfae" class="invite-like w-full text-[15px]" autocomplete="off" />
+                    <button id="copyBtn" type="button" aria-label="Скопировать ссылку" class="inline-flex justify-center items-center gap-2 px-4 py-3 rounded-xl border border-[var(--border)] hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-300 transition text-[15px] font-semibold">
+                        <svg class="w-5 h-5 text-gray-500" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <rect x="9" y="9" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.6" />
+                            <rect x="4" y="4" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.6" />
+                        </svg>
+                        Скопировать
+                    </button>
+                </div>
+                <p id="copiedNote" class="hidden text-[13px] text-green-600 mt-2" role="status" aria-live="polite">Ссылка скопирована!</p>
+            </div>
+        </div>
+    </section>
+    <!-- ====== Как оплатить бонусами ====== -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <div class="bg-white rounded-2xl shadow-[0_4px_22px_rgba(20,28,38,.06)] ring-1 ring-gray-100 p-4 sm:p-6">
+            <h2 class="text-[22px] sm:text-[24px] font-extrabold mb-3">Как оплатить путешествие бонусами?</h2>
+            <ul class="space-y-3 sm:space-y-3.5 mt-2">
+                <li class="flex items-start gap-3">
+                    <span class="mt-0.5 inline-flex items-center justify-center w-5 h-5 rounded-full" style="background:var(--green-50); border:1px solid var(--border); color:var(--green);">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                    </span>
+                    <p class="text-[15px] text-[var(--muted)]">При расчёте стоимости тура вы увидите, сколько бонусов на вашем счёте</p>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="mt-0.5 inline-flex items-center justify-center w-5 h-5 rounded-full" style="background:var(--green-50); border:1px solid var(--border); color:var(--green);">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                    </span>
+                    <p class="text-[15px] text-[var(--muted)]">Вы сами решаете, списывать бонусы или продолжать копить</p>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="mt-0.5 inline-flex items-center justify-center w-5 h-5 rounded-full" style="background:var(--green-50); border:1px solid var(--border); color:var(--green);">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                    </span>
+                    <p class="text-[15px] text-[var(--muted)]">Вы можете оплатить бонусами не более 10% от общей суммы</p>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="mt-0.5 inline-flex items-center justify-center w-5 h-5 rounded-full" style="background:var(--green-50); border:1px solid var(--border); color:var(--green);">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                    </span>
+                    <p class="text-[15px] text-[var(--muted)]">Бонусы хранятся 1 год с момента начисления</p>
+                </li>
+            </ul>
+        </div>
+    </section>
+    <script>
+    // Универсальное копирование: Clipboard API -> выделение инпута + execCommand -> ручной алерт
+    (function() {
+        const btn = document.getElementById('copyBtn');
+        const input = document.getElementById('inviteInput');
+        const note = document.getElementById('copiedNote');
+        if (!btn || !input) return;
+
+        // удобство: по клику на инпут выделяем весь текст
+        input.addEventListener('click', () => {
+            input.focus();
+            input.select();
+            input.setSelectionRange(0, input.value.length);
+        });
+
+        async function copyUsingClipboardAPI(text) {
+            if (!(navigator.clipboard && window.isSecureContext)) return false;
+            try { await navigator.clipboard.writeText(text); return true; } catch { return false; }
+        }
+
+        function copyUsingExecCommand() {
+            try {
+                input.focus();
+                input.select();
+                input.setSelectionRange(0, input.value.length); // iOS
+                const ok = document.execCommand('copy');
+                window.getSelection() ? .removeAllRanges ? .();
+                return ok;
+            } catch { return false; }
+        }
+
+        btn.addEventListener('click', async () => {
+            const text = input.value.trim();
+            let ok = await copyUsingClipboardAPI(text);
+            if (!ok) ok = copyUsingExecCommand();
+
+            if (ok) {
+                note.classList.remove('hidden');
+                const old = btn.innerHTML;
+                btn.innerHTML = 'Скопировано!';
+                setTimeout(() => {
+                    note.classList.add('hidden');
+                    btn.innerHTML = old;
+                }, 1500);
+            } else {
+                alert('Не удалось скопировать автоматически. Выделите ссылку и нажмите Ctrl+C.');
+                input.focus();
+                input.select();
+            }
+        });
+    })();
+    </script>
+</body>
+
+</html>
