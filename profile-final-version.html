@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Профиль пользователя — YouTravel.Me</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/css/intlTelInput.css">
+	<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/intlTelInput.min.js"></script>
+	<style>
+		body {
+			font-family: Inter, ui-sans-serif, system-ui;
+			color: #111827;
+			background: #fff;
+		}
+
+		.ytm-input {
+			width: 100%;
+			border: 1px solid #e5e7eb;
+			border-radius: 8px;
+			font-size: 0.95rem;
+			padding: 0.75rem 1rem;
+			transition: all .15s ease;
+		}
+
+		.ytm-input:focus {
+			outline: none;
+			border-width: 2px;
+		}
+
+		/* --- СЕЙЧАС desktop = узкая верстка --- */
+		.form-row {
+			display: grid;
+			grid-template-columns: 110px 1fr;
+			align-items: center;
+			gap: 12px;
+		}
+
+		/* --- На телефоне наоборот: триколоночная адаптация стекается --- */
+		@media (max-width: 1023px) {
+			.panel-grid {
+				display: grid;
+				grid-template-columns: 1fr;
+				row-gap: 16px;
+			}
+		}
+
+		@media (min-width: 1024px) {
+			.panel-grid {
+				display: grid;
+				grid-template-columns: 220px 1fr 280px;
+				column-gap: 60px;
+				/* ← увеличено с 48px до 70px для большего отступа между лейблом и инпутом */
+				row-gap: 18px;
+			}
+
+			.full-span-lg {
+				grid-column: 1 / -1;
+			}
+
+			.label-lg {
+				grid-column: 1 / 2;
+				align-self: center;
+			}
+
+			.field-lg {
+				grid-column: 2 / 3;
+				align-self: center;
+			}
+
+			.right-lg {
+				grid-column: 3 / 4;
+				align-self: center;
+			}
+		}
+	</style>
+
+</head>
+
+<body>
+	<main class="max-w-[420px] lg:max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+		<h1 class="text-2xl font-semibold mb-6">Профиль пользователя</h1>
+
+		<section class="relative bg-white border border-gray-200 p-6 sm:p-8 shadow-sm">
+			<h2 class="text-lg font-semibold text-gray-800 mb-4 lg:mb-2 full-span-lg">Личные данные</h2>
+
+			<!-- Верстка под десктоп (узкая как на скрине) -->
+			<div class="panel-grid">
+
+				<!-- Аватар -->
+				<label class="text-sm font-medium text-gray-700 label-lg">Аватар</label>
+				<div class="field-lg flex items-center gap-6">
+					<div class="w-[80px] h-[80px] rounded-md bg-gray-50 border border-gray-300 flex items-center justify-center">
+						<span class="text-3xl text-gray-400 select-none">+</span>
+					</div>
+				</div>
+
+				<!-- Подсказка справа -->
+				<div class="right-lg flex items-start gap-2 text-xs text-gray-500 leading-snug">
+					<i class="fa-regular fa-circle-question mt-0.5"></i>
+					<p>Ваши Аватар и Имя будут видны другим пользователям.</p>
+				</div>
+
+				<!-- Имя -->
+				<label class="text-sm font-medium text-gray-700 label-lg">Имя</label>
+				<input class="ytm-input field-lg" type="text" value="Артём" />
+
+				<!-- Фамилия -->
+				<label class="text-sm font-medium text-gray-700 label-lg">Фамилия</label>
+				<input class="ytm-input field-lg" type="text" value="Губин" />
+
+				<!-- Дата рождения -->
+				<label class="text-sm font-medium text-gray-700 label-lg">Дата рождения</label>
+				<div class="field-lg grid grid-cols-3 gap-2">
+					<select class="ytm-input">
+						<option>--</option>
+					</select>
+					<select class="ytm-input">
+						<option>--</option>
+					</select>
+					<select class="ytm-input">
+						<option>----</option>
+					</select>
+				</div>
+
+				<!-- Пол -->
+				<label class="text-sm font-medium text-gray-700 label-lg">Пол</label>
+				<select class="ytm-input field-lg">
+					<option>Выберите</option>
+					<option>Мужской</option>
+					<option>Женский</option>
+				</select>
+			</div>
+		</section>
+		<section class="relative bg-white border border-gray-200 p-6 sm:p-8 shadow-sm">
+			<h2 class="text-lg font-semibold text-gray-800 mb-4 lg:mb-2 full-span-lg">Контактная информация</h2>
+
+			<!-- Верстка под десктоп (узкая как на скрине) -->
+			<div class="panel-grid">
+
+				<!-- Номер -->
+				<label class="text-sm font-medium text-gray-700 label-lg">Номер телефона</label>
+				<div class="field-lg flex items-center gap-6">
+
+					<input id="phone" type="tel" class="ytm-input" />
+				</div>
+
+				<!-- Подсказка справа -->
+				<div class="right-lg flex items-start gap-2 text-xs text-gray-500 leading-snug">
+					<i class="fa-regular fa-circle-question mt-0.5"></i>
+					<p>Это блок скрыт для всех пользователей. Информация, которая здесь указана, позволяет быстрее совершать
+						бронирования.</p>
+				</div>
+				<!-- Страна . Регион -->
+				<label class="text-sm font-medium text-gray-700 label-lg">Страна/Регион</label>
+				<select class="ytm-input" id='countrySelect'>
+					<option value="">Загрузка списка стран…</option>
+				</select>
+
+
+
+				<!-- Город -->
+				<label class="text-sm font-medium text-gray-700 label-lg">Город</label>
+				<input class="ytm-input field-lg" type="text" />
+				<!-- Адрес проживания -->
+				<label class="text-sm font-medium text-gray-700 label-lg">Адрес проживания</label>
+				<input class="ytm-input field-lg" type="text" />
+				<!-- Индекс -->
+				<label class="text-sm font-medium text-gray-700 label-lg">Индекс проживания</label>
+				<input class="ytm-input field-lg" type="text" />
+				<!-- Электронная почта -->
+				<label class="text-sm font-medium text-gray-700 label-lg">Электронная почта</label>
+				<input class="ytm-input field-lg" type="email" />
+		</section>
+		<section class="relative bg-white border border-gray-200 p-6 sm:p-8 shadow-sm">
+			<h2 class="text-lg font-semibold text-gray-800 mb-4 lg:mb-2 full-span-lg">Пароль</h2>
+
+			<!-- Верстка под десктоп (узкая как на скрине) -->
+			<div class="panel-grid">
+
+
+				<label class="text-sm font-medium text-gray-700 label-lg">Новый пароль</label>
+				<div class="relative mb-4">
+					<input id="new-password" type="password" class="ytm-input pr-12" placeholder="Новый пароль" />
+					<button type="button" id="toggle-new-password"
+						class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
+						<i class="fa-regular fa-eye"></i>
+					</button>
+				</div>
+				<!-- Подсказка справа -->
+				<div class="right-lg flex items-start gap-2 text-xs text-gray-500 leading-snug">
+					<i class="fa-regular fa-circle-question mt-0.5"></i>
+					<p>Рекомендуем использовать пароль, состоящий минимум из 6 символов.</p>
+				</div>
+
+
+				<!-- Фамилия -->
+				<label class="text-sm font-medium text-gray-700 label-lg">Подтверждение пароля</label>
+				<div class="relative mb-4">
+					<input id="confirm-password" type="password" class="ytm-input pr-12" placeholder="Подтверждение пароля" />
+					<button type="button" id="toggle-confirm-password"
+						class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
+						<i class="fa-regular fa-eye"></i>
+					</button>
+				</div>
+
+			</div>
+		</section>
+		<section class="relative bg-white border border-gray-200 p-6 sm:p-8 shadow-sm">
+			<h2 class="text-lg font-semibold text-gray-800 mb-4 lg:mb-2 full-span-lg">Дополнительные настройки</h2>
+
+			<!-- Верстка под десктоп (узкая как на скрине) -->
+			<div class="panel-grid">
+
+
+				<!-- Подключить Мессенджеры -->
+				<button class="text-sm font-medium rounded text-white field-lg bg-[#abc323] py-2">Подключить
+					Мессенджеры</button>
+				<!-- Подключить Текущее Устройство -->
+				<button class="text-sm font-medium  rounded text-white field-lg bg-[#abc323] py-2">Подключить Текущее
+					Устройство</button>
+				<!-- Подсказка справа -->
+				<label for="" class="field-lg">
+
+					<input type="checkbox" id="push-notifications"
+						class="h-5 w-5 text-[#abc323] border-gray-300 rounded field-lg" />
+					<span class="text-sm font-medium text-gray-700 field-lg">Получать push-уведомления</span>
+				</label>
+
+				<div class=" right-lg flex items-start gap-2 text-xs text-gray-500 leading-snug">
+					<i class="fa-regular fa-circle-question mt-0.5"></i>
+					<p>Необходимо разрешить получение уведомлений в браузере</p>
+				</div>
+				<!-- Подсказка справа -->
+				<div class="right-lg flex items-start gap-2 text-xs text-gray-500 leading-snug">
+					<i class="fa-regular fa-circle-question mt-0.5"></i>
+					<p>Ваш профиль станет профилем организатора авторских туров. Вы по-прежнему сможете осуществлять бронирования,
+						но часть
+						функций путешественника будет отключено.
+						Данное изменение необратимо.</p>
+				</div>
+				<!-- Стать Тревел-Экспертом -->
+				<button class="text-sm rounded font-medium text-white field-lg bg-[#abc323] py-2">Стать
+					Тревел-Экспертом</button>
+
+			</div>
+		</section>
+		<p class='text-sm text-gray-500 my-10'>Удалить аккаунт Внимание! Ваш аккаунт и все связанные с ним данные будут
+			удалены.
+		</p>
+		<button class="text-sm font-medium text-white w-full py-3 field-lg bg-[#abc323] py-2 rounded">СОХРАНИТЬ НАСТРОЙКИ
+			ПРОФИЛЯ</button>
+	</main>
+	<script>
+
+
+		document.addEventListener('DOMContentLoaded', function () {
+			// Получаем кнопки и инпуты для пароля
+			const toggleNewPassword = document.getElementById('toggle-new-password')
+			const toggleConfirmPassword = document.getElementById('toggle-confirm-password')
+			const newPasswordInput = document.getElementById('new-password')
+			const confirmPasswordInput = document.getElementById('confirm-password')
+
+			// Обработчик для нового пароля
+			toggleNewPassword.addEventListener('click', function () {
+				togglePasswordVisibility(newPasswordInput, this.querySelector('i'))
+			})
+
+			// Обработчик для подтверждения пароля
+			toggleConfirmPassword.addEventListener('click', function () {
+				togglePasswordVisibility(confirmPasswordInput, this.querySelector('i'))
+			})
+
+			// Функция для переключения видимости пароля
+			function togglePasswordVisibility(input, icon) {
+				if (input.type === 'password') {
+					input.type = 'text' // Показываем пароль
+					icon.classList.remove('fa-eye')
+					icon.classList.add('fa-eye-slash') // Меняем иконку на перечеркнутый глаз
+				} else {
+					input.type = 'password' // Скрываем пароль
+					icon.classList.remove('fa-eye-slash')
+					icon.classList.add('fa-eye') // Меняем иконку обратно на глаз
+				}
+			}
+		})
+
+
+
+		document.addEventListener('DOMContentLoaded', () => {
+			const select = document.getElementById('countrySelect')
+			if (!select) return
+
+			// Полный список ISO 3166-1 alpha-2
+			const codes = ["AF", "AX", "AL", "DZ", "AS", "AD", "AO", "AI", "AQ", "AG", "AR", "AM", "AW", "AU", "AT", "AZ", "BS", "BH", "BD", "BB", "BY", "BE", "BZ", "BJ", "BM", "BT", "BO", "BQ", "BA", "BW", "BV", "BR", "IO", "BN", "BG", "BF", "BI", "KH", "CM", "CA", "CV", "KY", "CF", "TD", "CL", "CN", "CX", "CC", "CO", "KM", "CD", "CG", "CK", "CR", "CI", "HR", "CU", "CW", "CY", "CZ", "DK", "DJ", "DM", "DO", "EC", "EG", "SV", "GQ", "ER", "EE", "SZ", "ET", "FK", "FO", "FJ", "FI", "FR", "GF", "PF", "TF", "GA", "GM", "GE", "DE", "GH", "GI", "GR", "GL", "GD", "GP", "GU", "GT", "GG", "GN", "GW", "GY", "HT", "HM", "VA", "HN", "HK", "HU", "IS", "IN", "ID", "IR", "IQ", "IE", "IM", "IL", "IT", "JM", "JP", "JE", "JO", "KZ", "KE", "KI", "KP", "KR", "KW", "KG", "LA", "LV", "LB", "LS", "LR", "LY", "LI", "LT", "LU", "MO", "MG", "MW", "MY", "MV", "ML", "MT", "MH", "MQ", "MR", "MU", "YT", "MX", "FM", "MD", "MC", "MN", "ME", "MS", "MA", "MZ", "MM", "NA", "NR", "NP", "NL", "NC", "NZ", "NI", "NE", "NG", "NU", "NF", "MK", "MP", "NO", "OM", "PK", "PW", "PS", "PA", "PG", "PY", "PE", "PH", "PN", "PL", "PT", "PR", "QA", "RE", "RO", "RU", "RW", "BL", "SH", "KN", "LC", "MF", "PM", "VC", "WS", "SM", "ST", "SA", "SN", "RS", "SC", "SL", "SG", "SX", "SK", "SI", "SB", "SO", "ZA", "GS", "SS", "ES", "LK", "SD", "SR", "SJ", "SE", "CH", "SY", "TW", "TJ", "TZ", "TH", "TL", "TG", "TK", "TO", "TT", "TN", "TR", "TM", "TC", "TV", "UG", "UA", "AE", "GB", "US", "UM", "UY", "UZ", "VU", "VE", "VN", "VG", "VI", "WF", "EH", "YE", "ZM", "ZW"]
+
+			// Локализованные названия (ru). Можно сменить на 'en'/'pl' и т.п.
+			const dn = new Intl.DisplayNames(['ru'], { type: 'region' })
+
+			// Строим пары [код, имя] и сортируем по имени
+			const entries = codes
+				.map(code => [code, dn.of(code) || code])
+				.sort((a, b) => a[1].localeCompare(b[1]))
+
+			// Заполняем select
+			const frag = document.createDocumentFragment()
+			const first = document.createElement('option')
+			first.value = ''
+			first.textContent = 'Выберите страну'
+			frag.appendChild(first)
+
+			for (const [code, name] of entries) {
+				const opt = document.createElement('option')
+				opt.value = code
+				opt.textContent = name
+				frag.appendChild(opt)
+			}
+			select.replaceChildren(frag)
+
+			// Предустановка значения (если нужно): data-default="TM"
+			const preset = select.getAttribute('data-default')
+			if (preset && codes.includes(preset)) select.value = preset
+		})
+		const input = document.querySelector("#phone")
+		window.intlTelInput(input, {
+			initialCountry: "tm",      // стартовая страна — Туркменистан
+			preferredCountries: ["tm", "ru", "us", "pl"],
+			separateDialCode: true,    // отделяет код страны
+			nationalMode: false,       // сохраняет формат +993 ...
+			utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js"
+		});
+	</script>
+</body>
+
+</html>
