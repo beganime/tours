@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Aside Menu — Collapsible</title>
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter (как на многих твоих макетах) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root{
+      /* Палитра под скрин */
+      --ink:#0f172a;          /* основной текст (чуть темно-серый) */
+      --muted:#6b7280;        /* вторичный */
+      --border:#e5e7eb;       /* бордеры */
+      --primary:#2563eb;      /* синий акцент */
+      --primary-50:#eff6ff;   /* светло-синий фон активного сабайта */
+    }
+    html,body{height:100%}
+    body{font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
+    /* Тонкая полоса скролла как в веб-приложениях */
+    ::-webkit-scrollbar{width:10px}
+    ::-webkit-scrollbar-thumb{background:#e7e9ee;border-radius:8px}
+    ::-webkit-scrollbar-track{background:transparent}
+  </style>
+</head>
+
+<body class="bg-white text-[15px] text-[color:var(--ink)]">
+    <div class="min-h-screen flex">
+        <!-- ASIDE -->
+        <aside class="w-[280px] shrink-0 border-r border-[color:var(--border)] bg-white">
+            <div class="px-4 py-6">
+                <nav class="space-y-2">
+                    <!-- Личный кабинет -->
+                    <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-[color:var(--ink)] hover:bg-slate-50 transition">
+                        <!-- heroicon: user -->
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        </svg>
+                        <span class="font-medium">Личный кабинет</span>
+                    </a>
+                    <!-- Центр уведомлений -->
+                    <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-[color:var(--ink)] hover:bg-slate-50 transition">
+                        <!-- heroicon: bell -->
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+                        </svg>
+                        <span class="font-medium">Центр уведомлений</span>
+                    </a>
+                    <!-- Мои туры -->
+                    <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-[color:var(--ink)] hover:bg-slate-50 transition">
+                        <!-- heroicon: clock -->
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>
+                        <span class="font-medium">Мои туры</span>
+                    </a>
+                    <!-- Заказы (collapsible) -->
+                    <div class="rounded-lg">
+                        <button type="button" class="w-full flex items-center justify-between gap-3 px-3 py-2 rounded-lg hover:bg-slate-50 transition" data-collapse-btn aria-expanded="true" aria-controls="orders-sub">
+                            <span class="flex items-center gap-3">
+                                <!-- heroicon: clipboard-document-list -->
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+                                </svg>
+                                <span class="font-medium">Заказы</span>
+                            </span>
+                            <!-- chevron -->
+                            <svg class="h-5 w-5 text-slate-400 transition-transform" data-chevron fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6" />
+                            </svg>
+                        </button>
+                        <div id="orders-sub" class="mt-1 pl-11 space-y-1">
+                            <a href="#" class="block px-3 py-[6px] rounded-md text-[color:var(--primary)] bg-[color:var(--primary-50)] font-medium">
+                                Заявки на бронирования
+                            </a>
+                            <a href="#" class="block px-3 py-[6px] rounded-md text-slate-600 hover:bg-slate-50">
+                                Оплаты
+                            </a>
+                            <a href="#" class="block px-3 py-[6px] rounded-md text-slate-600 hover:bg-slate-50">
+                                Путешественники
+                            </a>
+                            <a href="#" class="block px-3 py-[6px] rounded-md text-slate-600 hover:bg-slate-50">
+                                Урегулирование
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Мои отзывы -->
+                    <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-50 transition">
+                        <!-- heroicon: chat-bubble-left-right -->
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25" />
+                        </svg>
+                        <span class="font-medium">Мои отзывы</span>
+                    </a>
+                    <!-- Счета и Платежи (collapsible) -->
+                    <div class="rounded-lg">
+                        <button type="button" class="w-full flex items-center justify-between gap-3 px-3 py-2 rounded-lg hover:bg-slate-50 transition" data-collapse-btn aria-expanded="false" aria-controls="billing-sub">
+                            <span class="flex items-center gap-3">
+                                <!-- heroicon: credit-card -->
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
+                                </svg>
+                                <span class="font-medium">Счета и Платежи</span>
+                            </span>
+                            <svg class="h-5 w-5 text-slate-400 transition-transform" data-chevron fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6" />
+                            </svg>
+                        </button>
+                        <div id="billing-sub" class="hidden mt-1 pl-11 space-y-1">
+                            <a href="#" class="block px-3 py-[6px] rounded-md text-slate-600 hover:bg-slate-50">Счета</a>
+                            <a href="#" class="block px-3 py-[6px] rounded-md text-slate-600 hover:bg-slate-50">Платежи</a>
+                        </div>
+                    </div>
+                    <!-- Заказать продвижение -->
+                    <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-50 transition">
+                        <!-- heroicon: megaphone -->
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                        </svg>
+                        <span class="font-medium">Заказать продвижение</span>
+                    </a>
+                    <!-- Интеграции -->
+                    <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-50 transition">
+                        <!-- heroicon: puzzle-piece -->
+                        <svg class="h-5 w-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3.75a2.25 2.25 0 0 0-4.5 0V6H5.25A2.25 2.25 0 0 0 3 8.25V9a2.25 2.25 0 0 0 2.25 2.25H7.5V15H5.25A2.25 2.25 0 0 0 3 17.25V18a2.25 2.25 0 0 0 2.25 2.25H6v2.25a2.25 2.25 0 0 0 4.5 0V20.25h2.25A2.25 2.25 0 0 0 15 18v-.75A2.25 2.25 0 0 0 12.75 15H10.5v-3.75h2.25A2.25 2.25 0 0 0 15 9V8.25A2.25 2.25 0 0 0 12.75 6H10.5V3.75Z" />
+                        </svg>
+                        <span class="font-medium">Интеграции</span>
+                    </a>
+                </nav>
+            </div>
+        </aside>
+        <!-- DEMO CONTENT -->
+        <main class="flex-1 p-10 bg-slate-50">
+            <div class="max-w-3xl mx-auto">
+                <h1 class="text-2xl font-semibold mb-2">Контент</h1>
+                <p class="text-slate-600">
+                    Это демонстрационная область. Слева — сайдбар с раскрывающимися разделами, цвета и активное состояние
+                    совпадают со скрином: активный подпункт имеет синий текст и мягкий голубой фон.
+                </p>
+            </div>
+        </main>
+    </div>
+    <!-- Мини-скрипт для открытия/закрытия как на скрине -->
+    <script>
+    document.querySelectorAll('[data-collapse-btn]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const panelId = btn.getAttribute('aria-controls');
+            const panel = document.getElementById(panelId);
+            const expanded = btn.getAttribute('aria-expanded') === 'true';
+            btn.setAttribute('aria-expanded', String(!expanded));
+            panel.classList.toggle('hidden', expanded);
+            const chev = btn.querySelector('[data-chevron]');
+            if (chev) chev.classList.toggle('rotate-180', !expanded);
+        });
+        // начальное состояние chevron
+        const chev = btn.querySelector('[data-chevron]');
+        if (chev && btn.getAttribute('aria-expanded') === 'true') chev.classList.add('rotate-180');
+    });
+    </script>
+</body>
+
+</html>
