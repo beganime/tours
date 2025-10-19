@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Customer Care Assistant — Job Page</title>
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.5.3/build/css/intlTelInput.css">
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.5.3/build/js/intlTelInput.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.5.3/build/js/utils.js"></script>
+    <style>
+        :root {
+        --cta: #ff4b57;
+    }
+
+    body {
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+    }
+
+    .overlay-hero {
+        background: linear-gradient(to bottom, rgba(0, 0, 0, .55), rgba(0, 0, 0, .25) 45%, rgba(0, 0, 0, .55));
+    }
+
+    .floating-cta-hidden {
+        opacity: 0;
+        transform: translateY(12px);
+        pointer-events: none;
+        transition: all .25s ease;
+    }
+    </style>
+</head>
+
+<body class="bg-white text-gray-900">
+    <!-- HERO -->
+    <header class="relative h-[68vh] min-h-[420px] w-full overflow-hidden">
+        <img src="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/hero_picture_medium-v6/image_uploads/79ae06a8-7a9f-43ea-bc4e-299e3f49710a/original.jpeg" alt="WeRoad team smiling" class="absolute inset-0 w-full h-full object-cover object-center" />
+        <div class="absolute inset-0 overlay-hero"></div>
+        <div class="relative z-10 h-full w-full flex flex-col items-center justify-center text-center px-4">
+            <p class="text-xs sm:text-sm tracking-[0.2em] uppercase text-white/85 mb-3">Commercial • Milan</p>
+            <h1 class="max-w-5xl text-[34px] sm:text-[44px] md:text-[64px] leading-tight font-extrabold text-white drop-shadow-[0_6px_24px_rgba(0,0,0,.5)]">
+                Customer Care Assistant
+            </h1>
+            <a href="#apply" class="mt-6 inline-flex items-center justify-center rounded-full px-6 sm:px-7 py-3 text-sm sm:text-base font-semibold text-white" style="background:var(--cta);">
+                Apply for this job
+            </a>
+        </div>
+        <!-- chevron -->
+        <a href="#content" class="group absolute bottom-5 left-1/2 -translate-x-1/2 inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/70 bg-white/10 backdrop-blur-[2px] hover:bg-white/20 transition">
+            <svg class="h-6 w-6 stroke-white" viewBox="0 0 24 24" fill="none" stroke-width="2">
+                <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </a>
+    </header>
+    <!-- MAIN CONTENT -->
+    <main id="content" class="pb-10">
+        <section class="max-w-3xl mx-auto px-5 md:px-6 pt-12 space-y-8 text-[15.5px] leading-[1.7] text-gray-800">
+            <!-- ABOUT WEROAD -->
+            <div class="space-y-4">
+                <h2 class="text-sm font-extrabold tracking-wide uppercase text-gray-900">About WeRoad: Connecting people, cultures, and stories</h2>
+                <p>Founded in 2017, WeRoad is a fast-growing startup that is disrupting the travel industry in Italy, Spain, Switzerland, UK and also… in Germany and France!</p>
+                <p>With more than 200 team members and 2.8k Travel Coordinators, we are a community of travelers, united by their love for travel, adventure, and discovering faraway lands and cultures. We bring together small groups of like-minded millennials and send them on life-changing experiences to 300+ destinations all over the globe.</p>
+                <p>We're on a mission to design and deliver experiences worth living and sharing, through rewriting the rules of the travel industry.</p>
+            </div>
+            <!-- ABOUT THE ROLE -->
+            <!-- ABOUT THE ROLE — meta (stacked like screenshot #2) -->
+            <ul class="mt-4 space-y-4 text-[15px]">
+                <li class="font-semibold uppercase text-gray-900">
+                    Job title: <span class="font-normal normal-case text-gray-800">Customer Care Assistant</span>
+                </li>
+                <li class="font-semibold uppercase text-gray-900">
+                    Location: <span class="font-normal normal-case text-gray-800">Milan, HQ</span>
+                </li>
+                <li class="font-semibold uppercase text-gray-900">
+                    Type of contract: <span class="font-normal normal-case text-gray-800">Paid Internship</span>
+                </li>
+                <li class="font-semibold uppercase text-gray-900">
+                    Start date: <span class="font-normal normal-case text-gray-800">ASAP</span>
+                </li>
+            </ul>
+            <p>Being in a customer centric business where we strive to give all WeRoaders the best travel experience of their lives, we go all-out to delight them in every way possible. Whether you are a first time traveler or the most faithful WeRoader, we go the extra mile for you.</p>
+            <p>In this role you’ll be responsible for ensuring nonstop customer delight, providing a stunning post booking &amp; trip experience as well as giving the right insights related to market, offering and operations.</p>
+            </div>
+            <!-- What you'll do -->
+            <div class="space-y-4">
+                <h4 class="text-sm font-extrabold tracking-wide uppercase text-gray-900">What you'll do:</h4>
+                <ul class="list-disc pl-5 space-y-3">
+                    <li>Together with the Customer Care Team, you’ll be in contact with our WeRoaders, through our communication channels (Mail, phone, whatsapp). You will support our WeRoaders after they booked their trip, answering their questions and preparing them at best for their upcoming adventure</li>
+                    <li>Achieve agreed upon post sales targets and SLAs</li>
+                    <li>Check customer feedback to create strong, positive experience that exceeds their expectations</li>
+                    <li>Contribute in the management of key pre-departures processes, such as documents check, payment process, tour changes and cancellations.</li>
+                    <li>Be flexible to work outside of official working hours not exceeding the 40h/ week</li>
+                </ul>
+            </div>
+            <!-- What we're looking for -->
+            <div class="space-y-4">
+                <h4 class="text-sm font-extrabold tracking-wide uppercase text-gray-900">What we’re looking for:</h4>
+                <ul class="list-disc pl-5 space-y-3">
+                    <li>You are an Italian native or speak the language at a mother-tongue level</li>
+                    <li>You are empathetic and with great listening skills</li>
+                    <li>Excellent stress management skills and you are able to approach issues in a diligent, organized and rational way</li>
+                    <li>Great attention to details</li>
+                    <li>You are a fast-learner, to be able to integrate at best in a very dynamic environment</li>
+                    <li>Social and able to work strongly with a team</li>
+                    <li>You love to travel, learn and meet new people – in short, you are a true WeRoader</li>
+                    <li>You are currently based in Milan or willing to move.</li>
+                </ul>
+            </div>
+            <!-- You will love working at WeRoad if -->
+            <div class="space-y-4">
+                <h4 class="text-sm font-extrabold tracking-wide uppercase text-gray-900">You will love working at WeRoad if:</h4>
+                <ul class="list-disc pl-5 space-y-3">
+                    <li>You are ambitious and want in at the ground floor of a movement set to become huge;</li>
+                    <li>You love to travel and want to work with young, smart, and fun people who love it too;</li>
+                    <li>You prefer challenge and adventure over daily routine and enjoy a fast-paced, dynamic work environment;</li>
+                    <li>You are an entrepreneur at heart and aren't afraid to step outside your comfort zone in order to achieve;</li>
+                    <li>You are a self-starter ready to take on a lot of responsibility, right from the start;</li>
+                    <li>You welcome feedback and see mistakes as stepping stones to success;</li>
+                    <li>You want to grow faster than you thought possible, as a person and as a professional.</li>
+                </ul>
+            </div>
+            <!-- What we can offer -->
+            <div class="space-y-4">
+                <h4 class="text-sm font-extrabold tracking-wide uppercase text-gray-900">What we can offer:</h4>
+                <ul class="list-disc pl-5 space-y-3">
+                    <li>6 Months internship. This role is meant to cover our WeRoad peak but we’re a fast-growing company and we can ensure that talented people will always find an opportunity in WeRoad.</li>
+                    <li>A great workspace. WeRoad offices are based in the beating heart of Milan and a memorable onboarding experience in our HQ base the C30</li>
+                    <li>Opportunities to learn and grow your network. Join the training program of our holding company, OneDay. Participate in the numerous meetups and events we host at C30 or online, to share knowledge with other people in the industry;</li>
+                    <li>Fun! We schedule regular team-building events throughout the year and provide plenty of opportunities to meet our Travel Coordinators and WeRoaders.</li>
+                </ul>
+            </div>
+            <!-- Ready to apply -->
+            <div class="space-y-4">
+                <h4 class="text-sm font-extrabold tracking-wide uppercase text-gray-900">Ready to apply?</h4>
+                <p>The selection process will consist of:</p>
+                <ol class="list-decimal pl-5 space-y-2">
+                    <li>Customer Care role-play group interview</li>
+                    <li>Final motivation interview</li>
+                </ol>
+                <p class="text-gray-700">WeRoad is an equal opportunity employer: we consider for employment all applicants, regardless of their race, religion, color, ancestry, national origin, sex, sexual orientation, gender, gender identity, age, family status, political affiliation, disability, and any other legally protected characteristic.</p>
+                <p class="text-gray-700">Statistically speaking, women are less likely to apply for roles where they don't fit the job description perfectly. DON'T TRY AND BE PERFECT but just go for it and send us your application regardless.</p>
+            </div>
+            <!-- INFO BLOCK (точно как на скрине) -->
+            <div class="rounded-lg bg-gray-50 mt-10">
+                <div class="px-6 md:px-8 py-6">
+                    <div class="grid grid-cols-2 gap-x-16 gap-y-5 text-sm">
+                        <div class="font-bold text-gray-900">Team</div>
+                        <div class="text-gray-700">Commercial</div>
+                        <div class="font-bold text-gray-900">Locations</div>
+                        <div class="text-gray-700">Milan</div>
+                        <div class="font-bold text-gray-900">Employment type</div>
+                        <div class="text-gray-700">Internship</div>
+                    </div>
+                </div>
+            </div>
+            <!-- /UPDATED INFO BLOCK -->
+            <!-- Fake form target to stop floating CTA near footer -->
+        </section>
+        <!-- About WeRoad (секция под инфо-блоком) -->
+        <section class="bg-gray-50 py-14 md:py-16">
+            <div class="max-w-xl mx-auto px-5 md:px-6">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-center text-gray-900 mb-6">
+                    About WeRoad
+                </h2>
+                <div class="max-w-2xl mx-auto text-gray-700">
+                    <p>
+                        What’s WeRoad, you ask? Great question. In a nutshell: we do group adventures.
+                        We group strangers together and help them share incredible experiences around
+                        the world together. The result? Lifelong friendships that blossom from a group
+                        of people who didn’t know each other a few days before. Lovely, ain’t it?
+                    </p>
+                    <p class="mt-6 text-gray-900">
+                        <span class="font-semibold">Founded</span> in 2017
+                    </p>
+                </div>
+            </div>
+            <div id="apply-form" class="h-8"></div>
+        </section>
+        <!-- APPLY FORM (WeRoad-like) -->
+        <section class="bg-[#ff4b57] py-10 md:py-12">
+            <div class="max-w-[500px] mx-auto px-4">
+                <!-- small breadcrumb -->
+                <p class="text-white/80 text-[11px] tracking-[0.18em] uppercase text-center mb-3">
+                    Commercial · Milan
+                </p>
+                <!-- title -->
+                <h1 class="text-white text-4xl md:text-[44px] font-extrabold text-center mb-8">
+                    Customer Care Assistant
+                </h1>
+                <form class="space-y-5 text-white/95">
+                    <label class="block text-[15px]">
+                        <span class="block mb-1">How did you hear about us? <span class="text-white/80">*</span></span>
+                        <select class="w-full rounded-lg bg-white text-gray-800 px-3 py-3 outline-none focus:ring-2 focus:ring-white/70">
+                            <option selected>Select an option</option>
+                            <option>You have travelled with us</option>
+                            <option>WeRoad Website</option>
+                            <option>WeRoad IG Profile</option>
+                            <option>WeRoad FB Profile</option>
+                            <option>Linkedin</option>
+                            <option>WeRoad World (office, others Travel Coordinator)</option>
+                            <option>Others</option>
+                        </select>
+                    </label>
+                    <!-- Start date -->
+                    <label class="block text-[15px]">
+                        <span class="block mb-1">From when are you available to start working? <span class="text-white/80">*</span></span>
+                        <input type="date" placeholder="ДД.ММ.ГГГГ" class="w-full rounded-lg bg-white text-gray-800 px-3 py-3 outline-none focus:ring-2 focus:ring-white/70" />
+                    </label>
+                    <!-- 6 months? -->
+                    <div class="text-[15px]">
+                        <p class="mb-2">The role you are applying for is a six months internship, is this the opportunity you are looking for? <span class="text-white/80">*</span></p>
+                        <!-- YES / NO pills -->
+                        <div class="flex gap-2">
+                            <label class="group">
+                                <input type="radio" name="grp_1" class="peer sr-only">
+                                <span class="inline-flex items-center gap-2 rounded-lg bg-white/15 border border-white/40 px-3 py-1.5 text-white/90
+                 peer-checked:bg-white peer-checked:text-[#ff4b57]">
+                                    <span class="h-2.5 w-2.5 rounded-full border border-current inline-block peer-checked:bg-current"></span>
+                                    Yes
+                                </span>
+                            </label>
+                            <label class="group">
+                                <input type="radio" name="grp_1" class="peer sr-only">
+                                <span class="inline-flex items-center gap-2 rounded-lg bg-white/15 border border-white/40 px-3 py-1.5 text-white/90
+                 peer-checked:bg-white peer-checked:text-[#ff4b57]">
+                                    <span class="h-2.5 w-2.5 rounded-full border border-current inline-block peer-checked:bg-current"></span>
+                                    No
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- OK to start internship? -->
+                    <div class="text-[15px]">
+                        <p class="mb-2">
+                            Please note that this role is a 6-months internship. So, please, proceed to apply only if you are available for an internship. Are you OK starting with an internship? <span class="text-white/80">*</span>
+                        </p>
+                        <!-- YES / NO pills -->
+                        <div class="flex gap-2">
+                            <label class="group">
+                                <input type="radio" name="grp_2" class="peer sr-only">
+                                <span class="inline-flex items-center gap-2 rounded-lg bg-white/15 border border-white/40 px-3 py-1.5 text-white/90
+                 peer-checked:bg-white peer-checked:text-[#ff4b57]">
+                                    <span class="h-2.5 w-2.5 rounded-full border border-current inline-block peer-checked:bg-current"></span>
+                                    Yes
+                                </span>
+                            </label>
+                            <label class="group">
+                                <input type="radio" name="grp_2" class="peer sr-only">
+                                <span class="inline-flex items-center gap-2 rounded-lg bg-white/15 border border-white/40 px-3 py-1.5 text-white/90
+                 peer-checked:bg-white peer-checked:text-[#ff4b57]">
+                                    <span class="h-2.5 w-2.5 rounded-full border border-current inline-block peer-checked:bg-current"></span>
+                                    No
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- Personal info header + LinkedIn -->
+                    <!-- LinkedIn pill -->
+                    <div class="text-center mb-4 bg-white rounded-lg">
+                        <button type="button" class="inline-flex items-center gap-2 rounded-full bg-[#0A66C2] text-white text-[13px] font-semibold px-4 py-2 my-3">
+                            <!-- LinkedIn logo -->
+                            <svg viewBox="0 0 448 512" class="h-4 w-4 fill-white" aria-hidden="true">
+                                <path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8A53.79 53.79 0 0 1 107.58 53.8c0 29.7-24.09 54.3-53.79 54.3zM447.9 448h-92.7V302.4c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.6V448h-92.7V148.9h89V190h1.3c12.4-23.6 42.6-48.3 87.7-48.3 93.8 0 111.1 61.8 111.1 142.3V448z" />
+                            </svg>
+                            Apply With LinkedIn
+                        </button>
+                    </div>
+                    <!-- Names -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <label class="block text-[15px]">
+                            <span class="block mb-1">First name <span class="text-white/80">*</span></span>
+                            <input type="text" placeholder="Jane" class="w-full rounded-lg bg-white text-gray-800 px-3 py-3 outline-none focus:ring-2 focus:ring-white/70" />
+                        </label>
+                        <label class="block text-[15px]">
+                            <span class="block mb-1">Last name <span class="text-white/80">*</span></span>
+                            <input type="text" placeholder="Doe" class="w-full rounded-lg bg-white text-gray-800 px-3 py-3 outline-none focus:ring-2 focus:ring-white/70" />
+                        </label>
+                    </div>
+                    <!-- Email + Phone -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <label class="block text-[15px]">
+                            <span class="block mb-1">Email <span class="text-white/80">*</span></span>
+                            <input type="email" placeholder="jane@example.com" class="w-full rounded-lg bg-white text-gray-800 px-3 py-3 outline-none focus:ring-2 focus:ring-white/70" />
+                        </label>
+                        <!-- PHONE with country picker -->
+                        <!-- PHONE (intl-tel-input) -->
+                        <label class="block text-[15px]">
+                            <span class="block mb-1">Phone <span class="text-white/80">*</span></span>
+                            <input id="phone" type="tel" class="w-full rounded-lg bg-white text-gray-800 px-3 py-3 outline-none focus:ring-2 focus:ring-white/70" />
+                        </label>
+                    </div>
+                    <!-- Upload CV -->
+                    <label class="block text-[15px]">
+                        <span class="block mb-1">Upload CV <span class="text-white/80">*</span></span>
+                        <div class="rounded-lg bg-white/90 text-gray-700 border-2 border-dashed border-gray-300 px-4 py-3">
+                            Drop your file or <button type="button" class="underline">upload</button>
+                        </div>
+                    </label>
+                    <!-- Additional files -->
+                    <label class="block text-[15px]">
+                        <span class="block mb-1">Additional files</span>
+                        <div class="rounded-lg bg-white/90 text-gray-700 border-2 border-dashed border-gray-300 px-4 py-3 ">
+                            Drop your file or <button type="button" class="underline">upload</button>
+                        </div>
+                    </label>
+                    <!-- Cover letter -->
+                    <label class="block text-[15px]">
+                        <span class="block mb-1">Cover letter <span class="text-white/80">*</span></span>
+                        <textarea rows="4" placeholder="Write your letter..." class="w-full rounded-lg bg-white text-gray-800 px-3 py-3 outline-none focus:ring-2 focus:ring-white/70"></textarea>
+                    </label>
+                    <!-- checkboxes -->
+                    <!-- checkbox 1 -->
+                    <label class="flex items-start gap-2 text-white/95 text-[13px]">
+                        <input type="checkbox" class="mt-1 h-4 w-4 rounded-[4px] bg-white border-white/70 accent-gray-900" checked>
+                        <span>
+                            I have read, understand and accept the content of the
+                            <a href="#" class="underline">Privacy Policy</a> <span class="text-white/80">*</span>
+                        </span>
+                    </label>
+                    <!-- checkbox 2 -->
+                    <label class="flex items-start gap-2 text-white/95 text-[13px]">
+                        <input type="checkbox" class="mt-1 h-4 w-4 rounded-[4px] bg-white border-white/70 accent-gray-900" checked>
+                        <span>Yes, WeRoad can contact me directly about future opportunities.</span>
+                    </label>
+                    <!-- submit -->
+                    <div class="pt-2">
+                        <button type="submit" class="mx-auto block rounded-full bg-white text-[#ff4b57] font-semibold px-10 py-2
+           ring-2 ring-white/60 shadow-[0_0_0_6px_rgba(255,255,255,.25)_inset]">
+                            Submit application
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <!-- /APPLY FORM -->
+    </main>
+    <!-- Floating bottom-center CTA -->
+    <a id="floatingCta" href="#apply" class="fixed left-1/2 -translate-x-1/2 bottom-6 z-40 inline-flex items-center justify-center rounded-full px-6 sm:px-7 py-3 text-sm sm:text-base font-semibold text-white shadow-[0_10px_30px_rgba(0,0,0,.18)]" style="background:var(--cta);">
+        Apply for this job
+    </a>
+    <section class="bg-white">
+        <div class="max-w-4xl mx-auto px-4 py-8 text-center">
+            <!-- top links -->
+            <nav class="flex items-center justify-center gap-6 text-[13px] text-[#ff4b57]">
+                <a href="#" class="hover:underline">Home</a>
+                <a href="#" class="hover:underline">Job Openings</a>
+                <a href="#" class="hover:underline">Data &amp; privacy</a>
+                <a href="#" class="hover:underline">Manage cookies</a>
+            </nav>
+            <!-- socials -->
+            <div class="mt-5 flex items-center justify-center gap-4 text-gray-700">
+                <!-- LinkedIn -->
+                <a href="#" aria-label="LinkedIn" class="inline-flex">
+                    <svg viewBox="0 0 448 512" class="h-4 w-4 fill-gray-700">
+                        <path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8A53.79 53.79 0 0 1 107.58 53.8c0 29.7-24.09 54.3-53.79 54.3zM447.9 448h-92.7V302.4c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.6V448h-92.7V148.9h89V190h1.3c12.4-23.6 42.6-48.3 87.7-48.3 93.8 0 111.1 61.8 111.1 142.3V448z" /></svg>
+                </a>
+                <!-- Instagram -->
+                <a href="#" aria-label="Instagram" class="inline-flex">
+                    <svg viewBox="0 0 448 512" class="h-4 w-4 fill-gray-700">
+                        <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9S160.5 370.8 224.1 370.8 339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.2 0-74.7-33.4-74.7-74.7s33.4-74.7 74.7-74.7 74.7 33.4 74.7 74.7-33.4 74.7-74.7 74.7zm146.4-194.3a26.6 26.6 0 1 1-26.6-26.6 26.6 26.6 0 0 1 26.6 26.6zM398.8 80H49.2A49.2 49.2 0 0 0 0 129.2v249.6A49.2 49.2 0 0 0 49.2 428h349.6A49.2 49.2 0 0 0 448 378.8V129.2A49.2 49.2 0 0 0 398.8 80zM224.1 338c-45.5 0-82.5-37-82.5-82.1s37-82.1 82.5-82.1S306.6 210.4 306.6 255.9 269.6 338 224.1 338zm147.7-173.4a34.1 34.1 0 1 1 34.1-34.1 34.1 34.1 0 0 1-34.1 34.1z" /></svg>
+                </a>
+            </div>
+            <!-- handle -->
+            <div class="mt-3 text-[13px] text-gray-500">weroad.travel</div>
+            <!-- line -->
+            <div class="mt-6 mb-4 border-t border-gray-200"></div>
+            <!-- bottom links -->
+            <div class="flex items-center justify-between text-[12px] text-gray-500">
+                <a href="#" class="hover:underline">Employee login - SSO</a>
+                <a href="#" class="hover:underline">Candidate Connect login</a>
+            </div>
+        </div>
+    </section>
+    <!-- Already working at WeRoad? -->
+    <section class="py-10">
+        <div class="max-w-3xl mx-auto px-4">
+            <div class="relative rounded-lg bg-[#ff4b57] text-white px-6 sm:px-10 py-8 text-center">
+                <h3 class="text-2xl font-extrabold">Already working at WeRoad?</h3>
+                <p class="mt-1 text-white/90 text-sm">Let's recruit together and find your next colleague.</p>
+                <!-- email pill -->
+                <form class="mt-4 max-w-md mx-auto">
+                    <div class="relative">
+                        <input type="email" placeholder="name@weroad.it" class="h-10 w-full rounded-full bg-white/90 text-gray-900 placeholder-gray-500 pl-4 pr-12 outline-none" />
+                        <button type="submit" class="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8 rounded-full border border-white/80 flex items-center justify-center">
+                            <svg viewBox="0 0 24 24" class="h-4 w-4 stroke-white" fill="none" stroke-width="2">
+                                <path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+                <!-- avatars (слегка нависают над низом блока) -->
+                <div class="absolute left-1/2 -bottom-6 -translate-x-1/2 flex items-center">
+                    <img class="h-10 w-10 rounded-full ring-2 ring-white shadow -ml-3 first:ml-0" src="https://i.pravatar.cc/80?img=11" alt="">
+                    <img class="h-10 w-10 rounded-full ring-2 ring-white shadow -ml-3" src="https://i.pravatar.cc/80?img=32" alt="">
+                    <img class="h-10 w-10 rounded-full ring-2 ring-white shadow -ml-3" src="https://i.pravatar.cc/80?img=5" alt="">
+                    <img class="h-10 w-10 rounded-full ring-2 ring-white shadow -ml-3" src="https://i.pravatar.cc/80?img=19" alt="">
+                    <img class="h-10 w-10 rounded-full ring-2 ring-white shadow -ml-3" src="https://i.pravatar.cc/80?img=58" alt="">
+                </div>
+            </div>
+            <!-- Teamtailor note -->
+            <div class="pt-10 text-center">
+                <div class="font-black italic text-gray-800">Teamtailor</div>
+                <div class="text-[12px] text-gray-500">
+                    <a href="#" class="underline">Applicant tracking system</a> by Teamtailor
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+    // Появление/скрытие плавающей CTA
+    (function() {
+        const cta = document.getElementById('floatingCta');
+        const hero = document.querySelector('header');
+        const applyForm = document.getElementById('apply-form');
+
+        const toggle = () => {
+            const heroRect = hero.getBoundingClientRect();
+            const formRect = applyForm.getBoundingClientRect();
+            const viewportH = window.innerHeight || document.documentElement.clientHeight;
+
+            const stillOnHero = heroRect.bottom > 120;
+            const nearForm = formRect.top < viewportH - 80;
+
+            if (stillOnHero || nearForm) {
+                cta.classList.add('floating-cta-hidden');
+            } else {
+                cta.classList.remove('floating-cta-hidden');
+            }
+        };
+
+        cta.classList.add('floating-cta-hidden');
+        ['scroll', 'resize', 'load'].forEach(e => window.addEventListener(e, toggle, { passive: true }));
+        toggle();
+    })();
+
+
+
+
+    // Удали прежний кастомный код для телефона, если был
+    const phoneInput = document.querySelector('#phone');
+    const iti = window.intlTelInput(phoneInput, {
+        initialCountry: 'az', // старт как на скрине (+994). Можно 'auto' или другую страну.
+        separateDialCode: true, // код страны отдельно
+        nationalMode: false, // вводим в международном формате
+        autoPlaceholder: 'aggressive', // показывает валидный пример номера
+        placeholderNumberType: 'MOBILE',
+        utilsScript: 'https://cdn.jsdelivr.net/npm/intl-tel-input@18.5.3/build/js/utils.js'
+    });
+    </script>
+</body>
+
+</html>
