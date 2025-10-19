@@ -1,667 +1,657 @@
-<!DOCTYPE html>
-<html lang="en">
+<script setup lang="ts">
+import { computed, ref, onMounted, onBeforeUnmount, watch } from 'vue'
+import { useRoute, useRouter } from '#app'
+import { useApi } from '../../composables/useApi'
+import { useAuth } from '../../composables/useAuth'
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The old continent</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700&display=swap" rel="stylesheet">
-    <style>
-        body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial;background:#fff;color:#1f2937}
-    .overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.38) 0%,rgba(0,0,0,.18) 45%,rgba(0,0,0,.42) 100%)}
-    .heart{filter:drop-shadow(0 2px 4px rgba(0,0,0,.3));}
-    .heart svg{width:28px;height:28px;fill:#fff}
+defineOptions({ name: 'AppHeader' })
 
-    /* Slider helpers (из твоего кода) */
-    .dot{width:6px;height:6px;border-radius:9999px;background:#d1d5db;display:inline-block}
-    .dot-active{background:#ef4444}
-    .navbtn{width:42px;height:42px;border-radius:9999px;background:#fff;box-shadow:0 6px 16px rgba(0,0,0,.12);display:grid;place-items:center}
-    .navbtn svg{width:18px;height:18px}
+const api = useApi()
+const auth = useAuth()
+const router = useRouter()
+const route = useRoute()
+const showAuthModal = ref(false)
+const mobileMenuOpen = ref(false)
+const isHero = computed(() => route.meta?.hero === true)
+const open = ref(false)
 
-    /* Карточки слайдера */
-    .card-grad{position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,.78) 0%, rgba(0,0,0,.38) 48%, rgba(0,0,0,.08) 100%)}
-    .chip{background:rgba(0,0,0,.72);color:#fff;font-size:12px;font-weight:700;padding:2px 8px;border-radius:8px}
-    .price-pill{background:rgba(255,255,255,.2);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);color:#fff;font-size:12px;padding:2px 8px;border-radius:8px}
+function close() {
+  open.value = false
+}
 
-    /* Модалка */
-    .backdrop{background:rgba(17,24,39,.45);backdrop-filter:blur(2px)}
-    .modal-enter{animation:pop .18s ease-out}
-    @keyframes pop{from{transform:translate(-50%,-8px);opacity:0}to{transform:translate(-50%,0);opacity:1}}
+watch(open, v => document.documentElement.classList.toggle('overflow-hidden', v))
 
-    /* Звезды рейтинга */
-    .rating-stars { display: flex; gap: 1px; }
-    .star { width: 14px; height: 14px; background-color: #16A34A; display: flex; align-items: center; justify-content: center; border-radius: 2px; }
-    .star svg { width: 8px; height: 8px; fill: white; }
+const scrolled = ref(false)
+const handleScroll = () => {
+  scrolled.value = window.scrollY > 120
+}
 
-  
-  </style>
-</head>
+onMounted(() => window.addEventListener('scroll', handleScroll, { passive: true }))
+onBeforeUnmount(() => window.removeEventListener('scroll', handleScroll))
 
-<body class="m-0 p-0">
-    <section class='text-gray-900'>
-        <header class="w-full mx-auto center mb-20">
-            <nav class="mx-auto max-w-6xl px-4 py-4 center">
-                <ol class="flex items-center gap-2 text-sm text-gray-500 justify-center">
-                    <!-- home -->
-                    <li class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m3 10.5 9-7.5 9 7.5M4.5 9.75V21h6v-6h3v6h6V9.75" />
-                        </svg>
-                        <span>Travel styles
-                        </span>
-                    </li>
-                    <li class="text-gray-400">></li>
-                    <li class="text-gray-600">New Itineraries
-                    </li>
-                </ol>
-            </nav>
-        </header>
-        <!-- Hero / Title block -->
-        <main class="mx-auto max-w-4xl px-4 pt-6 pb-12 text-center">
-            <h1 class="text-3xl font-extrabold tracking-tight mb-4">
-                Discover our new itineraries all over the world!
-            </h1>
-            <p class="text-gray-600 leading-relaxed mb-8">
-                Our Travel Designers are always working on something new - check out the new adventures on this page!
-                We travel all year round, constantly crafting fresh itineraries to take you to exciting new destinations (or help you rediscover familiar ones in a whole new way). Take a look at the latest adventures for group trips.
-            </p>
-        </main>
-    </section>
-    <!-- ===== CARDS SLIDER (замена старой сетки) ===== -->
-    <section class="max-w-7xl mx-auto px-4 pb-6">
-        <div class="relative">
-            <!-- arrows -->
-            <button id="prev" aria-label="Previous" class="navbtn absolute -left-2 top-1/2 -translate-y-1/2 z-20">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M15.7 5.7a1 1 0 0 1 0 1.4L10.8 12l4.9 4.9a1 1 0 1 1-1.4 1.4l-5.6-5.6a1 1 0 0 1 0-1.4l5.6-5.6a1 1 0 0 1 1.4 0z" /></svg>
+/* dropdown hover: небольшая задержка на закрытие */
+const dropdown = ref<Record<string, boolean>>({
+  departures: false,
+  destinations: false,
+  triptypes: false,
+  deals: false,
+  events: false,
+  info: false,
+  user: false
+})
+
+let closeTimers: Record<string, number> = {}
+
+function openDropdown(key: string) {
+  clearTimeout(closeTimers[key])
+  dropdown.value[key] = true
+}
+
+function closeDropdown(key: string) {
+  clearTimeout(closeTimers[key])
+  closeTimers[key] = window.setTimeout(() => dropdown.value[key] = false, 140)
+}
+
+/* подтянуть профиль для аватарки/имени */
+onMounted(async () => {
+  if (auth.accessToken.value && !auth.user.value) {
+    try {
+      const me = await api('/api/accounts/me/', { method: 'GET' })
+      auth.user.value = me as any
+    } catch {
+      auth.clearSession()
+    }
+  }
+})
+
+/* logout (бэкенд ждёт refresh) */
+const logout = async () => {
+  try {
+    if (auth.refreshToken.value) {
+      await api('/api/accounts/logout/', { method: 'POST', body: { refresh: auth.refreshToken.value } })
+    }
+  } catch {}
+  auth.clearSession()
+  router.push('/')
+}
+
+/* инициалы для плейсхолдера аватара */
+const initials = computed(() => {
+  const full = (auth.user.value?.full_name || auth.user.value?.name || '').trim()
+  if (!full) return 'U'
+  const parts = full.split(/\s+/).filter(Boolean)
+  return ((parts[0]?.[0] || '') + (parts[1]?.[0] || '')).toUpperCase()
+})
+</script>
+
+<template>
+  <header
+    class="fixed inset-x-0 z-50 transition-all duration-300"
+    :class="{
+      'bg-white text-black h-12 pt-1 border border-b-gray-100  top-0': scrolled,
+      'bg-transparent text-white h-14 top-2' : !scrolled && isHero,
+      'bg-white text-black h-12 pt-1  top-0': !isHero
+    }"
+  >
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex h-full items-center justify-between gap-6">
+        <!-- LOGO -->
+        <NuxtLink to="/" class="inline-flex items-center text-xl font-extrabold tracking-tight group">
+          <span class="transition-colors group-hover:text-white"
+                :class="(!scrolled && isHero) ? 'text-white' : 'text-black'">Group</span>
+          <span class="mx-1 rounded-full px-2 py-0.5 transition-colors"
+                :class="(!scrolled && isHero)
+                  ? 'bg-white text-black group-hover:bg-indigo-100'
+                  : 'bg-lime-500 text-white group-hover:bg-lime-400'">Tour</span>
+          <span class="transition-colors group-hover:text-white"
+                :class="(!scrolled && isHero) ? 'text-white' : 'text-black'">Dates</span>
+        </NuxtLink>
+
+        <!-- NAV — скрыто на мобильных -->
+        <nav class="hidden lg:flex flex-1 items-center justify-center gap-6">
+          <div class="relative"
+               @mouseenter="openDropdown('departures')" @mouseleave="closeDropdown('departures')">
+            <button class="nav-link flex items-center gap-1 hover:text-white"
+                    :class="(!scrolled && isHero) ? 'text-white' : 'text-black'">
+              Departures
+              <svg class="h-4 w-4 opacity-80" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
             </button>
-            <button id="next" aria-label="Next" class="navbtn absolute -right-2 top-1/2 -translate-y-1/2 z-20">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M8.3 18.3a1 1 0 0 1 0-1.4L13.2 12 8.3 7.1a1 1 0 1 1 1.4-1.4l5.6 5.6a1 1 0 0 1 0 1.4l-5.6 5.6a1 1 0 0 1-1.4 0z" /></svg>
-            </button>
-            <!-- viewport -->
-            <div class="overflow-hidden">
-                <ul id="track" class="flex gap-6 will-change-transform transition-transform duration-400 ease-out touch-pan-y">
-                    <!-- Slide 1 -->
-                    <li class="shrink-0 w-[calc(100vw-2rem)] sm:w-[330px] lg:w-[340px]">
-                        <article class="relative rounded-2xl overflow-hidden">
-                            <img src="    https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=1200&auto=format&fit=crop" class="w-full h-[370px] object-cover" alt="New York 360" />
-                            <div class="card-grad"></div>
-                            <button class="absolute top-3 right-3 heart cursor-pointer" aria-label="Save to wishlist" data-trip="New York 360°: discovering Manhattan, Brooklyn and Harlem" data-days="8 days • 7 nights">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M12.1 20.3 12 20.4l-.1-.1C7.14 16.24 4 13.39 4 10.25 4 8.1 5.6 6.5 7.75 6.5c1.3 0 2.56.6 3.25 1.54A4.16 4.16 0 0 1 14.25 6.5C16.4 6.5 18 8.1 18 10.25c0 3.14-3.14 5.99-5.9 10.05Z" /></svg>
-                            </button>
-                            <span class="absolute left-3 top-3 chip">Top seller</span>
-                            <div class="absolute left-3 right-3 bottom-3 text-white">
-                                <div class="flex items-center gap-2 mb-2">
-                                    <div class="rating-stars">
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                    </div>
-                                    <span class="text-xs font-bold">4.7</span>
-                                </div>
-                                <h3 class="text-[21px] font-extrabold leading-tight">
-                                    New York 360°:<br> discovering Manhattan, Brooklyn and Harlem
-                                </h3>
-                                <div class="mt-2 flex items-center gap-3 text-[13px]">
-                                    <span class="opacity-90">From <span class="font-bold">$ 1,033</span> <span class="line-through opacity-70">$ 1,160</span></span>
-                                    <span class="price-pill">-11%</span>
-                                </div>
-                            </div>
-                        </article>
+            <transition name="dd-fade">
+              <div v-show="dropdown.departures" class="mega mega-3 absolute left-1/2 -translate-x-1/2 top-full mt-2">
+                <div class="mega-panel grid grid-cols-3 gap-6">
+                  <div><h4 class="mega-title">Months</h4><ul class="mega-list">
+                    <li v-for="month in ['october','november','december','january','february','march','april','may','june','july','august','september']" :key="month">
+                      <NuxtLink class="dd-item" :to="`/months/${month}`">{{ month.charAt(0).toUpperCase() + month.slice(1) }}</NuxtLink>
                     </li>
-                    <!-- Slide 2 -->
-                    <li class="shrink-0 w-[calc(100vw-2rem)] sm:w-[330px] lg:w-[340px]">
-                        <article class="relative rounded-2xl overflow-hidden">
-                            <img src="    https://images.unsplash.com/photo-1505764706515-aa95265c5abc?q=80&w=1200&auto=format&fit=crop" class="w-full h-[370px] object-cover" alt="Cuba 360" />
-                            <div class="card-grad"></div>
-                            <button class="absolute top-3 right-3 heart cursor-pointer" aria-label="Save to wishlist" data-trip="Cuba 360°: from Havana to Trinidad" data-days="9 days • 8 nights">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M12.1 20.3 12 20.4l-.1-.1C7.14 16.24 4 13.39 4 10.25 4 8.1 5.6 6.5 7.75 6.5c1.3 0 2.56.6 3.25 1.54A4.16 4.16 0 0 1 14.25 6.5C16.4 6.5 18 8.1 18 10.25c0 3.14-3.14 5.99-5.9 10.05Z" /></svg>
-                            </button>
-                            <span class="absolute left-3 top-3 chip">Top seller</span>
-                            <div class="absolute left-3 right-3 bottom-3 text-white">
-                                <div class="flex items-center gap-2 mb-2">
-                                    <div class="rating-stars">
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                    </div>
-                                    <span class="text-xs font-bold">4.7</span>
-                                </div>
-                                <h3 class="text-[21px] font-extrabold leading-tight">
-                                    Cuba 360°: from<br> Havana to Trinidad
-                                </h3>
-                                <div class="mt-2 flex items-center gap-3 text-[13px]">
-                                    <span class="opacity-90">From <span class="font-bold">$ 1,335</span></span>
-                                </div>
-                            </div>
-                        </article>
-                    </li>
-                    <!-- Slide 3 -->
-                    <li class="shrink-0 w-[calc(100vw-2rem)] sm:w-[330px] lg:w-[340px]">
-                        <article class="relative rounded-2xl overflow-hidden">
-                            <img src="    https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1200&auto=format&fit=crop" class="w-full h-[370px] object-cover" alt="Sweden" />
-                            <div class="card-grad"></div>
-                            <button class="absolute top-3 right-3 heart cursor-pointer" aria-label="Save to wishlist" data-trip="Sweden: Northern Lights and Lapland" data-days="7 days • 6 nights">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M12.1 20.3 12 20.4l-.1-.1C7.14 16.24 4 13.39 4 10.25 4 8.1 5.6 6.5 7.75 6.5c1.3 0 2.56.6 3.25 1.54A4.16 4.16 0 0 1 14.25 6.5C16.4 6.5 18 8.1 18 10.25c0 3.14-3.14 5.99-5.9 10.05Z" /></svg>
-                            </button>
-                            <div class="absolute left-3 right-3 bottom-3 text-white">
-                                <div class="flex items-center gap-2 mb-2">
-                                    <div class="rating-stars">
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                    </div>
-                                    <span class="text-xs font-bold">4.8</span>
-                                </div>
-                                <h3 class="text-[21px] font-extrabold leading-tight">
-                                    Sweden: Northern<br> Lights and Lapland
-                                </h3>
-                                <div class="mt-2 flex items-center gap-3 text-[13px]">
-                                    <span class="opacity-90">From <span class="font-bold">$ 1,532</span> <span class="line-through opacity-70">$ 1,800</span></span>
-                                    <span class="price-pill">-14%</span>
-                                </div>
-                            </div>
-                        </article>
-                    </li>
-                    <!-- Slide 4 -->
-                    <li class="shrink-0 w-[calc(100vw-2rem)] sm:w-[330px] lg:w-[340px]">
-                        <article class="relative rounded-2xl overflow-hidden">
-                            <img src="    https://images.unsplash.com/photo-1521295121783-8a321d551ad2?q=80&w=1200&auto=format&fit=crop" class="w-full h-[370px] object-cover" alt="Nepal 360" />
-                            <div class="card-grad"></div>
-                            <button class="absolute top-3 right-3 heart cursor-pointer" aria-label="Save to wishlist" data-trip="Nepal 360°: the temples of Kathmandu and the peaks of Annapurna" data-days="8 days • 7 nights">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M12.1 20.3 12 20.4l-.1-.1C7.14 16.24 4 13.39 4 10.25 4 8.1 5.6 6.5 7.75 6.5c1.3 0 2.56.6 3.25 1.54A4.16 4.16 0 0 1 14.25 6.5C16.4 6.5 18 8.1 18 10.25c0 3.14-3.14 5.99-5.9 10.05Z" /></svg>
-                            </button>
-                            <div class="absolute left-3 right-3 bottom-3 text-white">
-                                <div class="flex items-center gap-2 mb-2">
-                                    <div class="rating-stars">
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                    </div>
-                                    <span class="text-xs font-bold">4.8</span>
-                                </div>
-                                <h3 class="text-[21px] font-extrabold leading-tight">
-                                    Nepal 360°: the temples of Kathmandu and the peaks of Annapurna
-                                </h3>
-                                <div class="mt-2 flex items-center gap-3 text-[13px]">
-                                    <span class="opacity-90">From <span class="font-bold">$ 893</span> <span class="line-through opacity-70">$ 986</span></span>
-                                    <span class="price-pill">-9%</span>
-                                </div>
-                            </div>
-                        </article>
-                    </li>
-                    <!-- Slide 5 -->
-                    <li class="shrink-0 w-[calc(100vw-2rem)] sm:w-[330px] lg:w-[340px]">
-                        <article class="relative rounded-2xl overflow-hidden">
-                            <img src="    https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop" class="w-full h-[370px] object-cover" alt="Iceland" />
-                            <div class="card-grad"></div>
-                            <button class="absolute top-3 right-3 heart cursor-pointer" aria-label="Save to wishlist" data-trip="Iceland: Hunting the Northern Lights" data-days="8 days • 7 nights">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M12.1 20.3 12 20.4l-.1-.1C7.14 16.24 4 13.39 4 10.25 4 8.1 5.6 6.5 7.75 6.5c1.3 0 2.56.6 3.25 1.54A4.16 4.16 0 0 1 14.25 6.5C16.4 6.5 18 8.1 18 10.25c0 3.14-3.14 5.99-5.9 10.05Z" /></svg>
-                            </button>
-                            <span class="absolute left-3 top-3 chip">Top seller</span>
-                            <div class="absolute left-3 right-3 bottom-3 text-white">
-                                <div class="flex items-center gap-2 mb-2">
-                                    <div class="rating-stars">
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                    </div>
-                                    <span class="text-xs font-bold">4.8</span>
-                                </div>
-                                <h3 class="text-[21px] font-extrabold leading-tight">
-                                    Iceland: Hunting the<br> Northern Lights
-                                </h3>
-                                <div class="mt-2 flex items-center gap-3 text-[13px]">
-                                    <span class="opacity-90">From <span class="font-bold">$ 1,532</span> <span class="line-through opacity-70">$ 1,800</span></span>
-                                    <span class="price-pill">-14%</span>
-                                </div>
-                            </div>
-                        </article>
-                    </li>
-                    <!-- Slide 6 -->
-                    <li class="shrink-0 w-[calc(100vw-2rem)] sm:w-[330px] lg:w-[340px]">
-                        <article class="relative rounded-2xl overflow-hidden">
-                            <img src="    https://images.unsplash.com/photo-1549890762-0a3f8933bcf7?q=80&w=1200&auto=format&fit=crop" class="w-full h-[370px] object-cover" alt="Cuba street" />
-                            <div class="card-grad"></div>
-                            <button class="absolute top-3 right-3 heart cursor-pointer" aria-label="Save to wishlist" data-trip="Havana streets photo walk" data-days="5 days • 4 nights">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M12.1 20.3 12 20.4l-.1-.1C7.14 16.24 4 13.39 4 10.25 4 8.1 5.6 6.5 7.75 6.5c1.3 0 2.56.6 3.25 1.54A4.16 4.16 0 0 1 14.25 6.5C16.4 6.5 18 8.1 18 10.25c0 3.14-3.14 5.99-5.9 10.05Z" /></svg>
-                            </button>
-                            <div class="absolute left-3 right-3 bottom-3 text-white">
-                                <div class="flex items-center gap-2 mb-2">
-                                    <div class="rating-stars">
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                    </div>
-                                    <span class="text-xs font-bold">4.8</span>
-                                </div>
-                                <h3 class="text-[21px] font-extrabold leading-tight">Havana streets photo walk</h3>
-                                <div class="mt-2 text-[13px] opacity-90">From <span class="font-bold">$ 980</span></div>
-                            </div>
-                        </article>
-                    </li>
-                    <!-- Slide 7 -->
-                    <li class="shrink-0 w-[calc(100vw-2rem)] sm:w-[330px] lg:w-[340px]">
-                        <article class="relative rounded-2xl overflow-hidden">
-                            <img src="    https://images.unsplash.com/photo-1526481280698-8fcc13fd0f3b?q=80&w=1200&auto=format&fit=crop" class="w-full h-[370px] object-cover" alt="Peru" />
-                            <div class="card-grad"></div>
-                            <button class="absolute top-3 right-3 heart cursor-pointer" aria-label="Save to wishlist" data-trip="Peru on the road" data-days="10 days • 9 nights">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M12.1 20.3 12 20.4l-.1-.1C7.14 16.24 4 13.39 4 10.25 4 8.1 5.6 6.5 7.75 6.5c1.3 0 2.56.6 3.25 1.54A4.16 4.16 0 0 1 14.25 6.5C16.4 6.5 18 8.1 18 10.25c0 3.14-3.14 5.99-5.9 10.05Z" /></svg>
-                            </button>
-                            <div class="absolute left-3 right-3 bottom-3 text-white">
-                                <div class="flex items-center gap-2 mb-2">
-                                    <div class="rating-stars">
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                    </div>
-                                    <span class="text-xs font-bold">4.8</span>
-                                </div>
-                                <h3 class="text-[21px] font-extrabold leading-tight">Peru on the road</h3>
-                                <div class="mt-2 text-[13px] opacity-90">From <span class="font-bold">$ 1,890</span></div>
-                            </div>
-                        </article>
-                    </li>
-                    <!-- Slide 8 -->
-                    <li class="shrink-0 w-[calc(100vw-2rem)] sm:w-[330px] lg:w-[340px]">
-                        <article class="relative rounded-2xl overflow-hidden">
-                            <img src="    https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=1600&auto=format&fit=crop" class="w-full h-[370px] object-contain bg-gray-100" alt="Morocco" />
-                            <div class="card-grad"></div>
-                            <button class="absolute top-3 right-3 heart cursor-pointer" aria-label="Save to wishlist" data-trip="Morocco Desert & Atlas" data-days="8 days • 7 nights">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M12.1 20.3 12 20.4l-.1-.1C7.14 16.24 4 13.39 4 10.25 4 8.1 5.6 6.5 7.75 6.5c1.3 0 2.56.6 3.25 1.54A4.16 4.16 0 0 1 14.25 6.5C16.4 6.5 18 8.1 18 10.25c0 3.14-3.14 5.99-5.9 10.05Z" /></svg>
-                            </button>
-                            <div class="absolute left-3 right-3 bottom-3 text-white">
-                                <div class="flex items-center gap-2 mb-2">
-                                    <div class="rating-stars">
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                        <div class="star"><svg viewBox="0 0 24 24">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z" /></svg></div>
-                                    </div>
-                                    <span class="text-xs font-bold">4.8</span>
-                                </div>
-                                <h3 class="text-[21px] font-extrabold leading-tight">Morocco Desert &amp; Atlas</h3>
-                                <div class="mt-2 text-[13px] opacity-90">From <span class="font-bold">$ 1,290</span></div>
-                            </div>
-                        </article>
-                    </li>
-                </ul>
-            </div>
-            <!-- dots -->
-            <div id="dots" class="flex items-center justify-center gap-2 mt-4"></div>
-        </div>
-    </section>
-    <!-- ===== Modal (wishlist) ===== -->
-    <div id="modal" class="fixed inset-0 hidden z-40">
-        <div class="absolute inset-0 backdrop"></div>
-        <div id="dialog" role="dialog" aria-modal="true" class="modal-enter absolute left-1/2 top-[18vh] -translate-x-1/2 w-[90%] max-w-[520px] rounded-2xl bg-white shadow-2xl p-5">
-            <div class="flex items-center justify-between">
-                <h4 class="text-[18px] font-semibold">Save trip in your wishlist</h4>
-                <button id="closeModal" aria-label="Close" class="text-gray-500 hover:text-gray-700">
-                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M6.2 5.2 5.2 6.2 10.99 12 5.2 17.8l1 1 5.8-5.8 5.8 5.8 1-1-5.79-5.8 5.8-5.8-1-1-5.8 5.8L6.2 5.2Z" /></svg>
-                </button>
-            </div>
-            <div id="tripBox" class="mt-4 flex items-center gap-3 rounded-xl border border-gray-200 p-3">
-                <div class="w-8 h-8 rounded-full bg-gray-100 grid place-items-center">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.8" class="w-4 h-4">
-                        <path d="M12.1 20.3 12 20.4l-.1-.1C7.14 16.24 4 13.39 4 10.25 4 8.1 5.6 6.5 7.75 6.5c1.3 0 2.56.6 3.25 1.54A4.16 4.16 0 0 1 14.25 6.5C16.4 6.5 18 8.1 18 10.25c0 3.14-3.14 5.99-5.9 10.05Z" />
-                    </svg>
+                  </ul></div>
+                  <div><h4 class="mega-title">Recommended</h4><ul class="mega-list">
+                    <li><NuxtLink class="dd-item" to="/deals/last-minute">Last Minute Deals</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/departures/holidays">Public Holidays</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/departures/autumn">Autumn Escapes</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/departures/half-term">Half Term Trips</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/departures/thanksgiving">Thanksgiving Departures</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/departures/christmas-new-year">Christmas & New Years Eve Trips</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/departures/spring">Spring 2026</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/departures/summer">Summer 2026</NuxtLink></li>
+                  </ul></div>
+                  <div><h4 class="mega-title">All confirmed departures</h4><ul class="mega-list">
+                    <li><NuxtLink class="dd-item" to="/departures/">All departures</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/departures/y2026">2026 departures</NuxtLink></li>
+                  </ul></div>
                 </div>
-                <div class="text-sm">
-                    <div id="tripName" class="font-semibold">Sweden: Northern Lights and Lapland</div>
-                    <div id="tripDays" class="text-gray-600">7 days • 6 nights</div>
-                </div>
-            </div>
-            <label class="block mt-5 text-sm font-medium">Your email</label>
-            <div class="mt-2 flex items-center gap-2">
-                <input id="email" type="email" placeholder="Your email" class="flex-1 rounded-lg border border-gray-300 px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-gray-300" />
-                <button id="submitWish" class="w-10 h-10 rounded-lg bg-gray-800 text-white grid place-items-center hover:bg-black" aria-label="Save">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" class="w-5 h-5">
-                        <path d="M20 6 9 17l-5-5" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </div>
-    </div>
-    <main class="mx-auto max-w-4xl px-4 pt-6 pb-12 text-center">
-        <h1 class="text-3xl font-extrabold tracking-tight mb-4">
-            Check out our next departure dates for all new destinations:
-        </h1>
-        <p class="text-gray-600 leading-relaxed mb-8">
-            Remember, you only need to pay an €100 deposit to secure your spot!
-        </p>
-    </main>
-    <!-- ===== Slider script (после разметки!) ===== -->
-    <script>
-    const track = document.getElementById('track');
-    const prev = document.getElementById('prev');
-    const next = document.getElementById('next');
-    const dotsWrap = document.getElementById('dots');
-
-    /* ---------- ДАННЫЕ СЛАЙДОВ (редактируй тут) ---------- */
-    const slides = [{
-            img: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=1200&auto=format&fit=crop",
-            alt: "New York 360",
-            title: "New York 360°:<br> discovering Manhattan, Brooklyn and Harlem",
-            rating: "4.7",
-            from: "$ 1,033",
-            old: "$ 1,160",
-            discount: "-11%",
-            chip: "Top seller",
-            trip: "New York 360°: discovering Manhattan, Brooklyn and Harlem",
-            days: "8 days • 7 nights"
-        },
-        {
-            img: "    https://images.unsplash.com/photo-1505764706515-aa95265c5abc?q=80&w=1200&auto=format&fit=crop",
-            alt: "Cuba 360",
-            title: "Cuba 360°: from<br> Havana to Trinidad",
-            rating: "4.7",
-            from: "$ 1,335",
-            chip: "Top seller",
-            trip: "Cuba 360°: from Havana to Trinidad",
-            days: "9 days • 8 nights"
-        },
-        {
-            img: "    https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1200&auto=format&fit=crop",
-            alt: "Sweden",
-            title: "Sweden: Northern<br> Lights and Lapland",
-            rating: "4.8",
-            from: "$ 1,532",
-            old: "$ 1,800",
-            discount: "-14%",
-            trip: "Sweden: Northern Lights and Lapland",
-            days: "7 days • 6 nights"
-        },
-        {
-            img: "    https://images.unsplash.com/photo-1521295121783-8a321d551ad2?q=80&w=1200&auto=format&fit=crop",
-            alt: "Nepal 360",
-            title: "Nepal 360°: the temples of Kathmandu and the peaks of Annapurna",
-            rating: "4.8",
-            from: "$ 893",
-            old: "$ 986",
-            discount: "-9%",
-            trip: "Nepal 360°: the temples of Kathmandu and the peaks of Annapurna",
-            days: "8 days • 7 nights"
-        },
-        {
-            img: "    https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop",
-            alt: "Iceland",
-            title: "Iceland: Hunting the<br> Northern Lights",
-            rating: "4.8",
-            from: "$ 1,532",
-            old: "$ 1,800",
-            discount: "-14%",
-            chip: "Top seller",
-            trip: "Iceland: Hunting the Northern Lights",
-            days: "8 days • 7 nights"
-        },
-        {
-            img: "    https://images.unsplash.com/photo-1549890762-0a3f8933bcf7?q=80&w=1200&auto=format&fit=crop",
-            alt: "Cuba street",
-            title: "Havana streets photo walk",
-            rating: "4.8",
-            from: "$ 980",
-            chip: "Top seller",
-            trip: "Havana streets photo walk",
-            days: "5 days • 4 nights"
-        },
-        {
-            img: "    https://images.unsplash.com/photo-1526481280698-8fcc13fd0f3b?q=80&w=1200&auto=format&fit=crop",
-            alt: "Peru",
-            title: "Peru on the road",
-            rating: "4.8",
-            from: "$ 1,890",
-            trip: "Peru on the road",
-            days: "10 days • 9 nights"
-        },
-        {
-            img: "    https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=1600&auto=format&fit=crop",
-            alt: "Morocco",
-            title: "Morocco Desert &amp; Atlas",
-            rating: "4.8",
-            from: "$ 1,290",
-            contain: true,
-            chip: "Top seller",
-            trip: "Morocco Desert & Atlas",
-            days: "8 days • 7 nights"
-        }
-    ];
-
-    /* ---------- РЕНДЕР МАРКУПА ИЗ ДАННЫХ ---------- */
-    const esc = s => String(s)
-        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
-
-    function slideItem(s) {
-        const imgClass = s.contain ? 'object-contain bg-gray-100' : 'object-cover';
-        const rating = s.rating ?
-            `<div class="flex items-center gap-2 mb-2">
-           <div class="rating-stars">
-             <div class="star"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z"/></svg></div>
-             <div class="star"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z"/></svg></div>
-             <div class="star"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z"/></svg></div>
-             <div class="star"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z"/></svg></div>
-             <div class="star"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87-.69 6.9L12 18.5l-4.31 2.6-.69-6.9-5-4.87L9 8.26 12 2z"/></svg></div>
-           </div>
-           <span class="text-xs font-bold">${esc(s.rating)}</span>
-         </div>` : '';
-        const chip = s.chip ? `<span class="absolute left-3 top-3 chip">${esc(s.chip)}</span>` : '';
-        const price = (s.old && s.discount) ?
-            `<span class="opacity-90">From <span class="font-bold">${esc(s.from)}</span> <span class="line-through opacity-70">${esc(s.old)}</span></span>
-         <span class="price-pill">${esc(s.discount)}</span>` :
-            `<span class="opacity-90">From <span class="font-bold">${esc(s.from)}</span>${s.old?` <span class="line-through opacity-70">${esc(s.old)}</span>`:''}</span>`;
-
-        return `
-      <li class="shrink-0 w-[calc(100vw-2rem)] sm:w-[330px] lg:w-[340px]">
-        <article class="relative rounded-2xl overflow-hidden">
-          <img src="${esc(s.img)}" alt="${esc(s.alt||'')}" class="w-full h-[370px] ${imgClass}" />
-          <div class="card-grad"></div>
-          <button class="absolute top-3 right-3 heart cursor-pointer"
-                  aria-label="Save to wishlist"
-                  data-trip="${esc(s.trip || s.title)}"
-                  data-days="${esc(s.days || '')}">
-            <svg viewBox="0 0 24 24"><path d="M12.1 20.3 12 20.4l-.1-.1C7.14 16.24 4 13.39 4 10.25 4 8.1 5.6 6.5 7.75 6.5c1.3 0 2.56.6 3.25 1.54A4.16 4.16 0 0 1 14.25 6.5C16.4 6.5 18 8.1 18 10.25c0 3.14-3.14 5.99-5.9 10.05Z"/></svg>
-          </button>
-          ${chip}
-          <div class="absolute left-3 right-3 bottom-3 text-white">
-            ${rating}
-            <h3 class="text-[21px] font-extrabold leading-tight">${s.title}</h3>
-            <div class="mt-2 flex items-center gap-3 text-[13px]">${price}</div>
+              </div>
+            </transition>
           </div>
-        </article>
-      </li>`;
-    }
 
-    function renderSlidesFromData() {
-        track.innerHTML = slides.map(slideItem).join('');
-    }
+          <div class="relative"
+               @mouseenter="openDropdown('destinations')" @mouseleave="closeDropdown('destinations')">
+            <button class="nav-link flex items-center gap-1 hover:text-white"
+                    :class="(!scrolled && isHero) ? 'text-white' : 'text-black'">
+              Destinations
+              <svg class="h-4 w-4 opacity-80" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+            </button>
+            <transition name="dd-fade">
+              <div v-show="dropdown.destinations" class="mega mega-6 absolute left-1/2 -translate-x-1/2 top-full mt-2">
+                <div class="mega-panel grid grid-cols-6 gap-6">
+                  <div><h4 class="mega-title">Europe</h4><ul class="mega-list">
+                    <li><NuxtLink class="dd-item" to="/destinations/europe/italy">Italy</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/destinations/europe/sweden">Sweden</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/destinations/europe/romania">Romania</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/destinations/europe/iceland">Iceland</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/destinations/europe/spain">Spain</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/destinations/europe">All trips to Europe</NuxtLink></li>
+                  </ul></div>
+                  <div><h4 class="mega-title">Asia</h4><ul class="mega-list">
+                    <li><NuxtLink class="dd-item" to="/destinations/asia/indonesia">Indonesia</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/destinations/asia/vietnam">Vietnam</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/destinations/asia/thailand">Thailand</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/destinations/asia/kyrgyzstan">Kyrgyzstan</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/destinations/asia/sri-lanka">Sri Lanka</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/destinations/asia/japan">Japan</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/destinations/asia/maldives">Maldives</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/destinations/asia">All trips to Asia</NuxtLink></li>
+                  </ul></div>
+                  <div><h4 class="mega-title">Middle East</h4><ul class="mega-list">
+                    <li><NuxtLink class="dd-item" to="/destinations/middle-east/jordan">Jordan</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/destinations/middle-east/oman">Oman</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/destinations/middle-east/turkey">Turkey</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/destinations/middle-east">All trips to the Middle East</NuxtLink></li>
+                  </ul></div>
+                  <div><h4 class="mega-title">The Americas</h4><ul class="mega-list">
+                    <li><NuxtLink class="dd-item" to="/destinations/americas/usa">USA</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/destinations/americas/mexico">Mexico</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/destinations/americas/peru">Peru</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/destinations/americas/colombia">Colombia</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/destinations/americas">All trips to America</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/destinations/americas/south-america">All trips to South America</NuxtLink></li>
+                  </ul></div>
+                  <div><h4 class="mega-title">Africa</h4><ul class="mega-list">
+                    <li><NuxtLink class="dd-item" to="/destinations/africa/morocco">Morocco</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/destinations/africa/egypt">Egypt</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/destinations/africa/tanzania">Tanzania</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/destinations/africa">All trips to Africa</NuxtLink></li>
+                  </ul></div>
+                  <div>
+                    <h4 class="mega-title">Oceania</h4>
+                    <ul class="mega-list">
+                      <li><NuxtLink class="dd-item" to="/destinations/oceania">All trips to Oceania</NuxtLink></li>
+                    </ul>
+                    <h4 class="mega-title mt-3">All destinations</h4>
+                    <ul class="mega-list">
+                      <li><NuxtLink class="dd-item" to="/destinations">All destinations</NuxtLink></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </transition>
+          </div>
 
-    /* ---------- СЛАЙДЕР-ЛОГИКА (как было у тебя) ---------- */
-    let page = 0,
-        pages = 1,
-        gap = 24;
+          <div class="relative"
+               @mouseenter="openDropdown('triptypes')" @mouseleave="closeDropdown('triptypes')">
+            <button class="nav-link flex items-center gap-1 hover:text-white"
+                    :class="(!scrolled && isHero) ? 'text-white' : 'text-black'">
+              Trip Types
+              <svg class="h-4 w-4 opacity-80" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+            </button>
+            <transition name="dd-fade">
+              <div v-show="dropdown.triptypes" class="mega mega-3 absolute left-1/2 -translate-x-1/2 top-full mt-2">
+                <div class="mega-panel grid grid-cols-3 gap-6">
+                  <div><h4 class="mega-title">Trip Types</h4><ul class="mega-list">
+                    <li><NuxtLink class="dd-item" to="/types/360">360°</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/types/beach-life">Beach Life</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/types/city-escape">City Escape</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/types/road-trips">Road Trips</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/types/safari">Safari</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/types/expedition">Expedition</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/types/express">Express</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/types/multi-country">Multi Country</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/types/northern-lights">Northern Lights</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/types/events">Special events</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/types/collection">Collection</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/types/art-culture">Art & culture</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/types/food-wine">Food & Wine</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/types">All trip types</NuxtLink></li>
+                  </ul></div>
+                  <div><h4 class="mega-title">Active</h4><ul class="mega-list">
+                    <li><NuxtLink class="dd-item" to="/trip-types/trekking">Trekking & Hiking</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/trip-types/ski_holiday">Ski & Snowboard</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/trip-types/all_active">All Active trips</NuxtLink></li>
+                  </ul></div>
+                  <div><h4 class="mega-title">Trending</h4><ul class="mega-list">
+                    <li><NuxtLink class="dd-item" to="/trending/new-itineraries">New itineraries</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/trending/top-sellers">Our top sellers</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/trending/bucket-list">Bucket list</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/quiz">Trip Finder Quiz</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/trending/first-trip">Your first WeRoad</NuxtLink></li>
+                  </ul></div>
+                </div>
+              </div>
+            </transition>
+          </div>
 
-    function cardW() {
-        const first = track.children[0];
-        if (!first) return 0;
-        return first.getBoundingClientRect().width;
-    }
+          <div class="relative"
+               @mouseenter="openDropdown('deals')" @mouseleave="closeDropdown('deals')">
+            <button class="nav-link flex items-center gap-1 hover:text-white"
+                    :class="(!scrolled && isHero) ? 'text-white' : 'text-black'">
+              Deals
+              <svg class="h-4 w-4 opacity-80" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+            </button>
+            <transition name="dd-fade">
+              <div v-show="dropdown.deals" class="mega mega-2 absolute left-1/2 -translate-x-1/2 top-full mt-2">
+                <div class="mega-panel grid grid-cols-2 gap-6">
+                  <div><h4 class="mega-title">Travel Deals</h4><ul class="mega-list">
+                    <li><NuxtLink class="dd-item" to="/deals/last-minute">Last Minute Deals</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/deals/private-room">Private Room included</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/deals/refer">Refer a friend</NuxtLink></li>
+                  </ul></div>
+                  <div><h4 class="mega-title">Other Deals</h4><ul class="mega-list">
+                    <li><NuxtLink class="dd-item" to="/deals/benefits">Benefits for WeRoaders</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/deals/student">Student Discounts</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/deals/company">Company & Employee Discounts</NuxtLink></li>
+                  </ul></div>
+                </div>
+              </div>
+            </transition>
+          </div>
 
-    function viewportW() { return track.parentElement.getBoundingClientRect().width; }
+          <div class="relative"
+               @mouseenter="openDropdown('events')" @mouseleave="closeDropdown('events')">
+            <button class="nav-link flex items-center gap-1 hover:text-white"
+                    :class="(!scrolled && isHero) ? 'text-white' : 'text-black'">
+              Events & Community
+              <svg class="h-4 w-4 opacity-80" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+            </button>
+            <transition name="dd-fade">
+              <div v-show="dropdown.events" class="mega mega-2 absolute left-1/2 -translate-x-1/2 top-full mt-2">
+                <div class="mega-panel grid grid-cols-2 gap-6">
+                  <div><h4 class="mega-title">WeRoad Events</h4><ul class="mega-list">
+                    <li><NuxtLink class="dd-item" to="/events/wemeet">Join a WeMeet – download the app!</NuxtLink></li>
+                  </ul></div>
+                  <div><h4 class="mega-title">Community</h4><ul class="mega-list">
+                    <li><NuxtLink class="dd-item" to="/community/facebook">Join our Facebook group!</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/community/coordinators">Our Travel Coordinators</NuxtLink></li>
+                    <li><NuxtLink class="dd-item" to="/community/instagram-live">Instagram Live</NuxtLink></li>
+                  </ul></div>
+                </div>
+              </div>
+            </transition>
+          </div>
 
-    function compute() {
-        const cW = cardW();
-        const vW = viewportW();
-        const perView = Math.max(1, Math.floor((vW + gap) / (cW + gap)));
-        const total = track.children.length;
-        pages = Math.max(1, total - perView + 1);
-        page = ((page % pages) + pages) % pages;
-        renderDots();
-        move(false);
-    }
+          <div class="relative"
+               @mouseenter="openDropdown('info')" @mouseleave="closeDropdown('info')">
+            <button class="nav-link flex items-center gap-1 hover:text-white"
+                    :class="(!scrolled && isHero) ? 'text-white' : 'text-black'">
+              Info
+              <svg class="h-4 w-4 opacity-80" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+            </button>
+            <transition name="dd-fade">
+              <div v-show="dropdown.info" class="mega mega-1 absolute left-1/2 -translate-x-1/2 top-full mt-2">
+                <div class="mega-panel grid grid-cols-1 gap-1 w-[260px]">
+                  <NuxtLink class="dd-item" to="/info/how-it-works">How it works</NuxtLink>
+                  <NuxtLink class="dd-item" to="/info/about-us">About us</NuxtLink>
+                  <NuxtLink class="dd-item" to="/info/cancellation">Cancellation policy</NuxtLink>
+                  <NuxtLink class="dd-item" to="/info/shared-room">Shared room, how does it work?</NuxtLink>
+                  <NuxtLink class="dd-item" to="/info/flight-support">Flight support</NuxtLink>
+                  <NuxtLink class="dd-item" to="/info/faq">FAQ</NuxtLink>
+                </div>
+              </div>
+            </transition>
+          </div>
+        </nav>
 
-    function offsetForPage(p) { return -((cardW() + gap) * p); }
+        <!-- Мобильная бургер-кнопка -->
+        <div class="flex lg:hidden items-center gap-3 relative z-50">
+          <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white">
+            <svg v-if="!mobileMenuOpen" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <svg v-else class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
 
-    function move(animate = true) {
-        track.style.transition = animate ? 'transform 380ms ease' : 'none';
-        track.style.transform = `translateX(${offsetForPage(page)}px)`;
-        highlightDot();
-    }
+        <div class="hidden lg:flex items-center gap-3">
+          <div class="relative"
+               @mouseenter="openDropdown('user')" @mouseleave="closeDropdown('user')">
+            <button class="flex items-center gap-2 hover:text-white"
+                    :class="(!scrolled && isHero) ? 'text-white' : 'text-black'">
+              <template v-if="auth.user.value">
+                <img v-if="auth.user.value?.avatar"
+                     :src="auth.user.value.avatar" alt="avatar"
+                     class="h-8 w-8 rounded-full object-cover ring-2 ring-white/50" />
+                <div v-else class="h-8 w-8 rounded-full bg-indigo-600 text-white grid place-items-center text-xs font-semibold">
+                  {{ initials }}
+                </div>
+              </template>
+              <div v-else class="h-8 w-8 rounded-full bg-gray-200 text-gray-700 grid place-items-center">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              </div>
+              <svg class="h-4 w-4 opacity-80" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/>
+              </svg>
+            </button>
+            <transition name="dd-fade">
+              <div v-show="dropdown.user" class="absolute right-0 top-full mt-2 w-56 rounded-xl border border-base-300 bg-base-100 p-2 shadow-xl">
+                <template v-if="auth.user.value">
+                  <NuxtLink class="dd-item" to="/dashboard/">My account</NuxtLink>
+                  <NuxtLink class="dd-item" to="/account/bookings">My bookings</NuxtLink>
+                  <button class="dd-item w-full text-left" @click="logout">Log out</button>
+                </template>
+                <template v-else>
+                  <NuxtLink to="/accounts/login" class="dd-item">Sign in</NuxtLink>
+                  <NuxtLink to="/accounts/register" class="dd-item">Sign up</NuxtLink>
+                </template>
+              </div>
+            </transition>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    function nextPage() {
-        page = (page + 1) % pages;
-        move();
-    }
+    <!-- Мобильное меню -->
+    <transition name="slide-down">
+      <div
+        v-show="mobileMenuOpen"
+        class="fixed inset-0 z-40 bg-white lg:hidden"
+        @click.self="mobileMenuOpen = false"
+      >
+        <div class="flex flex-col h-full overflow-y-auto p-6"
+             :class="{ 'pt-20': !scrolled, 'pt-6': scrolled }">
 
-    function prevPage() {
-        page = (page - 1 + pages) % pages;
-        move();
-    }
 
-    function renderDots() {
-        dotsWrap.innerHTML = '';
-        for (let i = 0; i < pages; i++) {
-            const b = document.createElement('button');
-            b.className = 'dot' + (i === page ? ' dot-active' : '');
-            b.setAttribute('aria-label', `Go to page ${i + 1}`);
-            b.addEventListener('click', () => {
-                page = i;
-                move();
-            });
-            dotsWrap.appendChild(b);
-        }
-    }
+          <div class="space-y-5">
+            <!-- Departures -->
+            <div>
+              <button @click="openDropdown('departures')" class="flex justify-between items-center w-full text-left py-2 font-medium text-black">
+                Departures
+                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/>
+                </svg>
+              </button>
+              <div v-show="dropdown.departures" class="pl-4 space-y-1.5 mt-2">
+                <NuxtLink
+                  v-for="to in ['/months/october','/months/november','/months/december','/months/january','/months/february','/months/march','/months/april','/months/may','/months/june','/months/july','/months/august','/months/september','/deals/last-minute','/departures/holidays','/themes/autumn-escapes','/themes/half-term','/departures/thanksgiving','/departures/christmas-new-year','/spring-2026','/summer-2026','/departures/all','/departures/2026']"
+                  :key="to"
+                  class="block py-1 text-black"
+                  :to="to"
+                  @click.stop="mobileMenuOpen = false; dropdown.departures = false;"
+                >
+                  {{ to.split('/').pop()?.replace(/-/g, ' ') }}
+                </NuxtLink>
+              </div>
+            </div>
 
-    function highlightDot() {
-        [...dotsWrap.children].forEach((d, i) => d.classList.toggle('dot-active', i === page));
-    }
+            <!-- Destinations -->
+            <div>
+              <button @click="openDropdown('destinations')" class="flex justify-between items-center w-full text-left py-2 font-medium text-black">
+                Destinations
+                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/>
+                </svg>
+              </button>
+              <div v-show="dropdown.destinations" class="pl-4 space-y-1.5 mt-2">
+                <NuxtLink
+                  v-for="to in [
+                    '/destinations/europe/italy',
+                    '/destinations/europe/sweden',
+                    '/destinations/europe/romania',
+                    '/destinations/europe/iceland',
+                    '/destinations/europe/spain',
+                    '/destinations/europe',
+                    '/destinations/asia/indonesia',
+                    '/destinations/asia/vietnam',
+                    '/destinations/asia/thailand',
+                    '/destinations/asia/kyrgyzstan',
+                    '/destinations/asia/sri-lanka',
+                    '/destinations/asia/japan',
+                    '/destinations/asia/maldives',
+                    '/destinations/asia',
+                    '/destinations/middle-east/jordan',
+                    '/destinations/middle-east/oman',
+                    '/destinations/middle-east/turkey',
+                    '/destinations/middle-east',
+                    '/destinations/americas/usa',
+                    '/destinations/americas/mexico',
+                    '/destinations/americas/peru',
+                    '/destinations/americas/colombia',
+                    '/destinations/americas',
+                    '/destinations/americas/south-america',
+                    '/destinations/africa/morocco',
+                    '/destinations/africa/egypt',
+                    '/destinations/africa/tanzania',
+                    '/destinations/africa',
+                    '/destinations/oceania',
+                    '/destinations'
+                  ]"
+                  :key="to"
+                  class="block py-1 text-black"
+                  :to="to"
+                  @click.stop="mobileMenuOpen = false; dropdown.destinations = false;"
+                >
+                  {{ to.split('/').pop()?.replace(/-/g, ' ') }}
+                </NuxtLink>
+              </div>
+            </div>
 
-    prev.addEventListener('click', prevPage);
-    next.addEventListener('click', nextPage);
-    window.addEventListener('resize', compute);
+            <!-- Trip Types -->
+            <div>
+              <button @click="openDropdown('triptypes')" class="flex justify-between items-center w-full text-left py-2 font-medium text-black">
+                Trip Types
+                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/>
+                </svg>
+              </button>
+              <div v-show="dropdown.triptypes" class="pl-4 space-y-1.5 mt-2">
+                <NuxtLink
+                  v-for="to in [
+                    '/types/360',
+                    '/types/beach-life',
+                    '/types/city-escape',
+                    '/types/road-trips',
+                    '/types/safari',
+                    '/types/expedition',
+                    '/types/express',
+                    '/types/multi-country',
+                    '/types/northern-lights',
+                    '/types/events',
+                    '/types/collection',
+                    '/types/art-culture',
+                    '/types/food-wine',
+                    '/types',
+                    '/active/trekking',
+                    '/active/ski',
+                    '/active',
+                    '/trending/new-itineraries',
+                    '/trending/top-sellers',
+                    '/trending/bucket-list',
+                    '/quiz',
+                    '/trending/first-trip'
+                  ]"
+                  :key="to"
+                  class="block py-1 text-black"
+                  :to="to"
+                  @click.stop="mobileMenuOpen = false; dropdown.triptypes = false;"
+                >
+                  {{ to.split('/').pop()?.replace(/-/g, ' ') }}
+                </NuxtLink>
+              </div>
+            </div>
 
-    /* ---------- РЕНДЕР СЛАЙДОВ И СТАРТ ---------- */
-    renderSlidesFromData();
-    compute();
+            <!-- Deals -->
+            <div>
+              <button @click="openDropdown('deals')" class="flex justify-between items-center w-full text-left py-2 font-medium text-black">
+                Deals
+                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/>
+                </svg>
+              </button>
+              <div v-show="dropdown.deals" class="pl-4 space-y-1.5 mt-2">
+                <NuxtLink
+                  v-for="to in [
+                    '/deals/last-minute',
+                    '/deals/private-room',
+                    '/deals/refer',
+                    '/deals/benefits',
+                    '/deals/student',
+                    '/deals/company'
+                  ]"
+                  :key="to"
+                  class="block py-1 text-black"
+                  :to="to"
+                  @click.stop="mobileMenuOpen = false; dropdown.deals = false;"
+                >
+                  {{ to.split('/').pop()?.replace(/-/g, ' ') }}
+                </NuxtLink>
+              </div>
+            </div>
 
-    /* ---------- Связываем сердечки с модалкой ---------- */
-    const modal = document.getElementById('modal');
-    const closeModal = document.getElementById('closeModal');
-    const tripName = document.getElementById('tripName');
-    const tripDays = document.getElementById('tripDays');
-    const email = document.getElementById('email');
+            <!-- Events & Community -->
+            <div>
+              <button @click="openDropdown('events')" class="flex justify-between items-center w-full text-left py-2 font-medium text-black">
+                Events & Community
+                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/>
+                </svg>
+              </button>
+              <div v-show="dropdown.events" class="pl-4 space-y-1.5 mt-2">
+                <NuxtLink
+                  v-for="to in [
+                    '/events/wemeet',
+                    '/community/facebook',
+                    '/community/coordinators',
+                    '/community/instagram-live'
+                  ]"
+                  :key="to"
+                  class="block py-1 text-black"
+                  :to="to"
+                  @click.stop="mobileMenuOpen = false; dropdown.events = false;"
+                >
+                  {{ to.split('/').pop()?.replace(/-/g, ' ') }}
+                </NuxtLink>
+              </div>
+            </div>
 
-    function bindHeartHandlers() {
-        document.querySelectorAll('.heart').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                tripName.textContent = btn.dataset.trip || 'Trip';
-                tripDays.textContent = btn.dataset.days || '';
-                modal.classList.remove('hidden');
-                setTimeout(() => email && email.focus(), 50);
-            });
-        });
-    }
-    bindHeartHandlers();
+            <!-- Info -->
+            <div>
+              <button @click="openDropdown('info')" class="flex justify-between items-center w-full text-left py-2 font-medium text-black">
+                Info
+                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/>
+                </svg>
+              </button>
+              <div v-show="dropdown.info" class="pl-4 space-y-1.5 mt-2">
+                <NuxtLink
+                  v-for="to in [
+                    '/info/how-it-works',
+                    '/info/about-us',
+                    '/info/cancellation',
+                    '/info/shared-room',
+                    '/info/flight-support',
+                    '/info/faq'
+                  ]"
+                  :key="to"
+                  class="block py-1 text-black"
+                  :to="to"
+                  @click.stop="mobileMenuOpen = false; dropdown.info = false;"
+                >
+                  {{ to.split('/').pop()?.replace(/-/g, ' ') }}
+                </NuxtLink>
+              </div>
+            </div>
 
-    closeModal.addEventListener('click', () => modal.classList.add('hidden'));
-    modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.add('hidden'); });
-    document.getElementById('submitWish').addEventListener('click', () => {
-        modal.classList.add('hidden');
-    });
+            <!-- Auth -->
+            <div class="pt-4 border-t border-gray-200">
+              <template v-if="auth.user.value">
+                <NuxtLink class="block py-2 text-black" to="/account" @click.stop="mobileMenuOpen = false">My account</NuxtLink>
+                <NuxtLink class="block py-2 text-black" to="/account/bookings" @click.stop="mobileMenuOpen = false">My bookings</NuxtLink>
+                <button @click.stop="() => { logout(); mobileMenuOpen = false; }" class="block w-full text-left py-2 text-black">Log out</button>
+              </template>
+              <template v-else>
+                <button @click.stop="() => { showAuthModal = true; mobileMenuOpen = false; }" class="block w-full text-left py-2 text-black">Sign in</button>
+                <NuxtLink to="/register" class="block py-2 text-black" @click.stop="mobileMenuOpen = false">Sign up</NuxtLink>
+              </template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
 
-    /* ---------- Swipe ---------- */
-    let startX = 0,
-        deltaX = 0,
-        isTouching = false;
-    const threshold = 50;
-    track.addEventListener('touchstart', (e) => {
-        isTouching = true;
-        startX = e.touches[0].clientX;
-        deltaX = 0;
-        track.style.transition = 'none';
-    }, { passive: true });
-    track.addEventListener('touchmove', (e) => {
-        if (!isTouching) return;
-        deltaX = e.touches[0].clientX - startX;
-        track.style.transform = `translateX(${offsetForPage(page) + deltaX}px)`;
-    }, { passive: true });
-    track.addEventListener('touchend', () => {
-        if (!isTouching) return;
-        isTouching = false;
-        if (Math.abs(deltaX) > threshold) {
-            if (deltaX < 0) nextPage();
-            else prevPage();
-        } else move();
-    });
-    </script>
-</body>
+  </header>
+</template>
 
-</html>
+<style scoped>
+/* Подчёркивание чуть ниже текста */
+.nav-link {
+  @apply relative inline-flex items-center text-sm font-medium leading-none text-inherit;
+}
+.nav-link::after {
+  content: '';
+  @apply absolute left-0 w-0 h-0.5 bg-current transition-all duration-200 ease-in-out;
+  bottom: -4px;
+}
+.nav-link:hover::after {
+  @apply w-full;
+}
+
+/* оболочка мега-меню */
+.mega {
+  @apply absolute left-1/2 -translate-x-1/2 top-full z-50;
+  min-width: 260px;
+}
+.mega-1 .mega-panel { width: 260px; }
+.mega-2 .mega-panel { width: 680px; }
+.mega-3 .mega-panel { width: 900px; }
+.mega-6 .mega-panel { width: 1040px; }
+
+.mega-panel {
+  @apply rounded-xl border border-gray-200 bg-white shadow-lg p-5;
+}
+
+.mega-title {
+  @apply text-xs font-semibold text-gray-800 mb-2 uppercase tracking-wider;
+}
+.mega-list {
+  @apply space-y-1;
+}
+.dd-item {
+  @apply block rounded px-2.5 py-1.5 text-sm text-gray-700 hover:bg-gray-50;
+}
+
+.dd-fade-enter-active, .dd-fade-leave-active {
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.dd-fade-enter-from, .dd-fade-leave-to {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+.slide-down-enter-active, .slide-down-leave-active {
+  transition: transform 0.3s ease;
+}
+.slide-down-enter-from { transform: translateY(-100%); }
+.slide-down-leave-to { transform: translateY(-100%); }
+</style>
