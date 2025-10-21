@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WeRoad-like — Footer (responsive)</title>
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root{
+      --bg:#0f0f10;
+      --ink:#ffffff;
+      --cta:#ff4b57;
+      --link:#ABC323; /* был #ff4b57, заменил на ABC323 */
+      --border:#1d1d1f;
+      --trust:#00b67a;
+      --trust2:#73cf11;
+    }
+
+    html,body{height:100%}
+    body{
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto;
+      background:var(--bg); color:var(--ink)
+    }
+
+    .footlink{color:var(--link)}
+    .footlink:hover{text-decoration:underline}
+    .caption{color:#b5b5b7}
+    .sep{height:1px;background:var(--border)}
+    .invert-if-dark{filter:invert(1) saturate(0) brightness(100%);opacity:.92}
+
+    /* Соц-иконки */
+    .ico{width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;border-radius:9999px;background:#1a1a1c}
+    .ico img{display:block;max-width:100%;max-height:100%;object-fit:contain}
+    .ico:hover{background:#242428}
+    @media (min-width:768px){.ico{width:32px;height:32px}}
+
+    /* Trustpilot tiles */
+    .tp-bar{display:flex;gap:2px;align-items:center}
+    .tp-tile{
+      width:24px;height:20px;display:flex;align-items:center;justify-content:center;
+      border-radius:3px;background:var(--trust);box-shadow:0 0 0 1px rgba(0,0,0,.06) inset;
+    }
+    .tp-tile.alt{background:var(--trust2)}
+    @media (min-width:768px){.tp-tile{width:28px;height:24px}}
+
+    /* ===== MOBILE точная подгонка ===== */
+    @media (max-width:430px){
+      footer{padding-top:16px;padding-bottom:26px}
+      .email-field{width:268px}
+      .email-btn{font-size:12px;padding:.40rem .66rem}
+      .social-row{display:flex;gap:6px;justify-content:center}
+      .social-row .ico{width:20px;height:20px}
+      .caption{font-size:9.5px;line-height:1.45}
+      .tp-head{font-size:11px}
+      .tp-tile{width:20px;height:16px}
+      .tp-bar svg{width:9px;height:9px}
+      img[alt="Certification"]{height:40px}
+      img[alt="ABTA"]{height:40px}
+      .pay-row{gap:8px}
+      .pay-row img{height:18px}
+    }
+    @media (max-width:360px){
+      .email-field{width:240px}
+      .social-row .ico{width:18px;height:18px}
+      .tp-tile{width:18px;height:14px}
+      .tp-bar svg{width:8px;height:8px}
+      .pay-row img{height:16px}
+      img[alt="Certification"], img[alt="ABTA"]{height:36px}
+    }
+
+    /* Триггер как у WeRoad — тонкие линии по бокам */
+    .ft-trigger{
+      width:100%;
+      color:#fff; opacity:.9;
+      font-size:12px;
+      padding:8px 0;
+    }
+    .ft-trigger .bar{height:1px;background:var(--border)}
+    .ft-trigger .label{white-space:nowrap}
+    .ft-collapsible{
+      overflow:hidden;
+      max-height:0;
+      opacity:0;
+      transition:max-height .35s ease, opacity .2s ease;
+    }
+    @media (min-width:768px){
+      .ft-collapsible{max-height:none !important;opacity:1 !important;overflow:visible}
+    }
+  </style>
+</head>
+
+<body>
+    <!-- ===== FOOTER ===== -->
+    <footer class="pt-6 md:pt-8 pb-12 md:pb-14">
+        <div class="max-w-6xl mx-auto px-3 sm:px-6">
+            <!-- Logo -->
+            <div class="flex items-center gap-3 mb-4 md:mb-5">
+                <img src="https://www.weroad.io/images/logo-wired.svg" alt="WeRoad" class="h-6 md:h-7 invert-if-dark select-none">
+            </div>
+            <!-- subscribe + socials -->
+            <div class="relative w-full mx-auto">
+                <form class="mx-auto w-fit flex items-stretch" onsubmit="event.preventDefault();">
+                    <input type="email" required placeholder="Email" class="email-field w-[260px] sm:w-[300px] md:w-[340px]
+            bg-white text-gray-900 placeholder-gray-500 px-3 py-2
+            rounded-l-md outline-none ring-1 ring-white/0
+            focus:ring-2 focus:ring-black/10">
+                    <button type="submit" class="email-btn -ml-px px-3.5 md:px-4 py-2 bg-[var(--cta)] text-white font-semibold text-[12px] md:text-[13px]
+            rounded-r-md hover:brightness-110 active:brightness-95 transition
+            shadow-[0_6px_16px_rgba(255,75,87,.28)]">
+                        Subscribe now
+                    </button>
+                </form>
+                <!-- socials (desktop right) -->
+                <div class="hidden md:flex items-center gap-2 absolute right-0 top-[30%] -translate-y-1/2">
+                    <a href="#" class="ico" aria-label="Share"><img src="https://i.imgur.com/9Zxg6bG.png" alt="Share"></a>
+                    <a href="#" class="ico" aria-label="People"><img src="https://i.imgur.com/7g6hQzC.png" alt="People"></a>
+                    <a href="#" class="ico" aria-label="Facebook"><img src="https://i.imgur.com/6bX4r3q.png" alt="Facebook"></a>
+                    <a href="#" class="ico" aria-label="Instagram"><img src="https://i.imgur.com/0m9e2G1.png" alt="Instagram"></a>
+                </div>
+                <!-- socials (mobile) -->
+                <div class="md:hidden mt-2 social-row">
+                    <a href="https://example.com/share" class="ico" aria-label="Share">
+                        <img src="https://i.imgur.com/9Zxg6bG.png" alt="Share" width="16" height="14" loading="lazy">
+                    </a>
+                    <a href="https://example.com/people" class="ico" aria-label="People">
+                        <img src="https://i.imgur.com/7g6hQzC.png" alt="People" width="16" height="14" loading="lazy">
+                    </a>
+                    <a href="https://www.facebook.com/groups/963298767843213" class="ico" aria-label="Facebook">
+                        <img src="https://i.imgur.com/6bX4r3q.png" alt="Facebook" width="16" height="14" loading="lazy">
+                    </a>
+                    <a href="https://www.instagram.com/weroad" class="ico" aria-label="Instagram">
+                        <img src="https://i.imgur.com/0m9e2G1.png" alt="Instagram" width="16" height="14" loading="lazy">
+                    </a>
+                </div>
+                <!-- legal note -->
+                <div class="mt-2 md:mt-3 text-center caption text-[9.5px] md:text-[10.5px] leading-relaxed">
+                    We’ll use this email to create your WeRoad account if you don’t have one yet. By proceeding, you declare that you have read the
+                    <a href="#" class="underline">Privacy Policy</a> and accept the
+                    <a href="#" class="underline">Terms and Conditions</a> of the website.
+                    <div class="mt-0.5">(Unsubscribe whenever, but we promise not to be annoying)</div>
+                </div>
+            </div>
+            <div class="mt-4 md:mt-5 mb-3 md:mb-4 sep"></div>
+            <!-- MOBILE trigger (как у WeRoad) -->
+            <button id="ft-toggle" class="md:hidden ft-trigger select-none" aria-expanded="false" aria-controls="ft-collapsible">
+                <div class="flex items-center gap-2">
+                    <span class="bar flex-1"></span>
+                    <span id="ft-toggle-label" class="label">Discover WeRoad and our tours</span>
+                    <svg id="ft-toggle-caret" class="ml-1 transition-transform" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M7 10l5 5 5-5H7z" />
+                    </svg>
+                    <span class="bar flex-1"></span>
+                </div>
+            </button>
+            <!-- COLLAPSIBLE CONTENT -->
+            <div id="ft-collapsible" class="ft-collapsible md:block">
+                <!-- links grid -->
+                <div class="mt-3 md:mt-4 grid grid-cols-2 md:grid-cols-5 gap-x-6 md:gap-x-8 gap-y-6 md:gap-y-8 text-[11px] md:text-[12px] leading-[1.5]">
+                    <div>
+                        <h4 class="text-[9px] md:text-[10px] font-extrabold tracking-widest uppercase text-white/80 mb-1.5 md:mb-2">Destinations</h4>
+                        <ul class="space-y-1">
+                            <li><a class="footlink" href="#">Group trips to Europe</a></li>
+                            <li><a class="footlink" href="#">Group trips to Asia</a></li>
+                            <li><a class="footlink" href="#">Group trips to Africa</a></li>
+                            <li><a class="footlink" href="#">Group trips to North America</a></li>
+                            <li><a class="footlink" href="#">Group trips to Latin America</a></li>
+                            <li><a class="footlink" href="#">Group trips to Middle East</a></li>
+                            <li><a class="footlink" href="#">Group trips to Oceania</a></li>
+                            <li><a class="footlink" href="#">All destinations</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-[9px] md:text-[10px] font-extrabold tracking-widest uppercase text-white/80 mb-1.5 md:mb-2">WeRoad World</h4>
+                        <ul class="space-y-1">
+                            <li><a class="footlink" href="#">How it works</a></li>
+                            <li><a class="footlink" href="#">About us</a></li>
+                            <li><a class="footlink" href="#">The Good WeRoader</a></li>
+                            <li><a class="footlink" href="#">Trustpilot Reviews</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-[9px] md:text-[10px] font-extrabold tracking-widest uppercase text-white/80 mb-1.5 md:mb-2">Community & Social</h4>
+                        <ul class="space-y-1">
+                            <li><a class="footlink" href="#">Instagram</a></li>
+                            <li><a class="footlink" href="#">Tik Tok</a></li>
+                            <li><a class="footlink" href="#">YouTube</a></li>
+                            <li><a class="footlink" href="#">Facebook Group</a></li>
+                            <li><a class="footlink" href="#">Blog (nice stories!)</a></li>
+                            <li><a class="footlink" href="#">Share your travel pics!</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-[9px] md:text-[10px] font-extrabold tracking-widest uppercase text-white/80 mb-1.5 md:mb-2">WeRoad Travel Coordinators</h4>
+                        <ul class="space-y-1">
+                            <li><a class="footlink" href="#">Our Travel Coordinators</a></li>
+                            <li><a class="footlink" href="#">Become a Travel Coordinator</a></li>
+                            <li><a class="footlink" href="#">Coordinators – Login</a></li>
+                            <li><a class="footlink" href="#">Bootcamp – Terms & Conditions</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-[9px] md:text-[10px] font-extrabold tracking-widest uppercase text-white/80 mb-1.5 md:mb-2">Useful info (hopefully)</h4>
+                        <ul class="space-y-1">
+                            <li><a class="footlink" href="#">Contacts</a></li>
+                            <li><a class="footlink" href="#">FAQ</a></li>
+                            <li><a class="footlink" href="#">Manage Booking</a></li>
+                            <li><a class="footlink" href="#">Cancellation Policy</a></li>
+                            <li><a class="footlink" href="#">Terms & Conditions</a></li>
+                            <li><a class="footlink" href="#">Standard Information Form</a></li>
+                            <li><a class="footlink" href="#">Privacy Policy</a></li>
+                            <li><a class="footlink" href="#">Cookie Policy</a></li>
+                            <li><a class="footlink" href="#">Security</a></li>
+                            <li><a class="footlink" href="#">Whistleblowing Reports</a></li>
+                            <li><a class="footlink" href="#">Sitemap</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- second row -->
+                <div class="mt-6 md:mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 text-[11px] md:text-[12px] leading-[1.5]">
+                    <div>
+                        <h4 class="text-[9px] md:text-[10px] font-extrabold tracking-widest uppercase text-white/80 mb-1.5 md:mb-2">Corporate info</h4>
+                        <ul class="space-y-1">
+                            <li><a class="footlink" href="#">Careers</a></li>
+                            <li><a class="footlink" href="#">Tech jobs at WeRoad</a></li>
+                            <li><a class="footlink" href="#">Corporate Website</a></li>
+                            <li><a class="footlink" href="#">LinkedIn</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-[9px] md:text-[10px] font-extrabold tracking-widest uppercase text-white/80 mb-1.5 md:mb-2">Travel partners</h4>
+                        <ul class="space-y-1">
+                            <li><a class="footlink" href="#">TOs and DMCs</a></li>
+                            <li><a class="footlink" href="#">Travel Advisors</a></li>
+                            <li><a class="footlink" href="#">Affiliate Program</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- bottom: trustpilot / ABTA / payments -->
+            <div class="mt-5 md:mt-6 sep"></div>
+            <section class="py-6 md:py-8 text-center">
+                <div class="flex flex-col items-center">
+                    <div class="tp-head flex items-center gap-1 text-white font-semibold text-xs md:text-sm">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M12 2l2.9 6.8 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7L2 9.4l7.1-.6L12 2z" />
+                        </svg>
+                        <span>Trustpilot</span>
+                    </div>
+                    <div class="tp-bar mt-1.5">
+                        <span class="tp-tile" aria-hidden="true"><svg viewBox="0 0 24 24" width="12" height="12" fill="#fff">
+                                <path d="M12 2l2.9 6.8 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7L2 9.4l7.1-.6L12 2z" /></svg></span>
+                        <span class="tp-tile" aria-hidden="true"><svg viewBox="0 0 24 24" width="12" height="12" fill="#fff">
+                                <path d="M12 2l2.9 6.8 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7L2 9.4l7.1-.6L12 2z" /></svg></span>
+                        <span class="tp-tile" aria-hidden="true"><svg viewBox="0 0 24 24" width="12" height="12" fill="#fff">
+                                <path d="M12 2l2.9 6.8 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7L2 9.4l7.1-.6L12 2z" /></svg></span>
+                        <span class="tp-tile" aria-hidden="true"><svg viewBox="0 0 24 24" width="12" height="12" fill="#fff">
+                                <path d="M12 2l2.9 6.8 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7L2 9.4l7.1-.6L12 2z" /></svg></span>
+                        <span class="tp-tile alt" aria-label="4.7 out of 5"><svg viewBox="0 0 24 24" width="12" height="12" fill="#fff">
+                                <path d="M12 2l2.9 6.8 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7L2 9.4l7.1-.6L12 2z" /></svg></span>
+                    </div>
+                    <div class="caption text-[10px] md:text-xs mt-1">
+                        TrustScore <span class="text-white font-semibold">4.7</span> | <span class="text-white font-semibold">905</span> reviews
+                    </div>
+                    <div class="mt-3">
+                        <img src="https://strapi-imaginary.weroad.it/resource/webp-large/17610/.webp" alt="Certification" class="h-9 md:h-12 mx-auto opacity-90" loading="lazy">
+                    </div>
+                    <div class="mt-3 md:mt-4">
+                        <img src="https://strapi-imaginary.weroad.it/resource/webp-large/44171/.webp" alt="ABTA" class="h-9 md:h-12 mx-auto opacity-90" loading="lazy">
+                    </div>
+                </div>
+                <div class="mt-5">
+                    <a href="#" class="text-[12px] md:text-[13px] footlink">Customize your cookie settings</a>
+                </div>
+                <div class="mt-3 caption text-[10px] md:text-[11px] leading-relaxed max-w-4xl mx-auto">
+                    This site is owned by WeRoad SPA • Viale Cassala 30 - 20143 Milano (MI) • VAT 10380820968
+                </div>
+                <div class="mt-1.5 md:mt-2 caption text-[10px] md:text-[11px] leading-relaxed max-w-4xl mx-auto">
+                    The price will be converted to show the approximate cost in your chosen currency. Please note, you will pay in EUR or GBP,
+                    based on the home address expressed in the checkout; the exchange rate may change before final payment.
+                </div>
+                <div class="pay-row mt-4 md:mt-5 flex flex-wrap justify-center items-center gap-2.5 md:gap-3">
+                    <img src="https://strapi-imaginary.weroad.it/resource/large/26669/icon-card-visa.svg" alt="Visa" class="h-5 md:h-6">
+                    <img src="https://strapi-imaginary.weroad.it/resource/large/26671/icon-card-mastercard.svg" alt="Mastercard" class="h-5 md:h-6">
+                    <img src="https://strapi-imaginary.weroad.it/resource/large/26672/icon-card-amex.svg" alt="American Express" class="h-5 md:h-6">
+                    <img src="https://strapi-imaginary.weroad.it/resource/webp-large/125457/.webp" alt="Payment 1" class="h-5 md:h-6">
+                    <img src="https://strapi-imaginary.weroad.it/resource/webp-large/129423/.webp" alt="Payment 2" class="h-5 md:h-6">
+                    <img src="https://strapi-imaginary.weroad.it/resource/webp-large/196815/.webp" alt="Payment 3" class="h-5 md:h-6">
+                </div>
+            </section>
+            <div class="mt-1.5 md:mt-2 text-center text-[9.5px] md:text-[10.5px] caption">
+                © <span id="y"></span> WeRoad — All rights reserved.
+            </div>
+        </div>
+    </footer>
+    <script>
+    // год
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    const toggleBtn = document.getElementById('ft-toggle');
+    const toggleLabel = document.getElementById('ft-toggle-label');
+    const toggleCaret = document.getElementById('ft-toggle-caret');
+    const collapsible = document.getElementById('ft-collapsible');
+
+    const isDesktop = () => window.matchMedia('(min-width: 768px)').matches;
+
+    function setOpen(open) {
+        if (isDesktop()) {
+            // На десктопе всегда открыто и кнопка скрыта
+            collapsible.style.maxHeight = 'none';
+            collapsible.style.opacity = 1;
+            toggleBtn.setAttribute('aria-expanded', 'true');
+            return;
+        }
+        toggleBtn.setAttribute('aria-expanded', String(open));
+        if (open) {
+            collapsible.style.maxHeight = collapsible.scrollHeight + 'px';
+            collapsible.style.opacity = 1;
+            toggleLabel.textContent = 'Less content';
+            toggleCaret.style.transform = 'rotate(180deg)';
+        } else {
+            collapsible.style.maxHeight = '0px';
+            collapsible.style.opacity = 0;
+            toggleLabel.textContent = 'Discover WeRoad and our tours';
+            toggleCaret.style.transform = 'rotate(0deg)';
+        }
+    }
+
+    // Стартовое состояние: закрыто на мобиле, открыто на десктопе
+    function bootstrapState() {
+        if (isDesktop()) {
+            setOpen(true);
+        } else {
+            setOpen(false);
+        }
+    }
+    bootstrapState();
+
+    // Переключатель
+    toggleBtn.addEventListener('click', () => {
+        const openNow = toggleBtn.getAttribute('aria-expanded') === 'true';
+        setOpen(!openNow);
+    });
+    // Доступность с клавиатуры
+    toggleBtn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            toggleBtn.click();
+        }
+    });
+
+    // Реакция на ресайз (меняем режимы мобайл/десктоп)
+    window.addEventListener('resize', () => {
+        bootstrapState();
+    });
+    </script>
+</body>
+
+</html>
